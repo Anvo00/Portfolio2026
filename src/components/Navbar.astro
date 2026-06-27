@@ -1,0 +1,90 @@
+---
+/**
+ * Navbar — fixed black "pill" at the top of the page.
+ * Layout: logo (left) · nav links (centre) · CONTATTAMI CTA (right).
+ * On small screens the links collapse behind a hamburger toggle.
+ */
+import "../styles/navbar.css";
+
+const links = [
+  { label: "HOME", href: "#home" },
+  { label: "ABOUT", href: "#about" },
+  { label: "PROGETTI", href: "#progetti" },
+];
+---
+
+<header class="nav">
+  <div class="container nav_container">
+    <nav class="navbar" aria-label="Navigazione principale">
+      <!-- LOGO (current monogram — will be swapped for the new Logo.svg) -->
+      <a href="#home" class="nav_logo" aria-label="Torna alla home">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="47"
+          viewBox="0 0 48 56"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M47.9997 31.1151V36.3212C47.9997 36.4617 47.8861 36.5751 47.7454 36.5751H32.698L27.9568 39.4194L27.8491 39.4846L27.7237 39.5591L15.1667 47.094L11.4157 49.3449L10.0492 50.1652L0.387128 55.9622C0.151468 56.1036 -0.109623 55.8234 0.048049 55.599L7.4298 45.0717L13.3874 36.5751L15.3905 33.7181L16.2925 32.4314L16.0568 32.2892L13.6731 30.8611L13.5375 30.7807L13.1297 30.536L8.90394 28.0041L0.154011 22.7616C-0.0672378 22.6287 0.0268565 22.2901 0.284556 22.2901H23.4038L26.3029 18.1548L26.5038 17.8687L26.5759 17.7654L33.6965 7.60967L38.9557 0.108634C39.0981 -0.0945313 39.4185 0.00620484 39.4185 0.254236V27.7501C39.4185 27.8907 39.3049 28.0041 39.1642 28.0041H33.9508C33.8101 28.0041 33.6965 27.8907 33.6965 27.7501V18.104C33.6965 17.9381 33.4829 17.8712 33.388 18.0067L30.7644 21.7491L30.7059 21.8321L30.3846 22.2892L26.3784 28.0032H20.6369C20.4648 28.0032 20.4021 28.2293 20.5496 28.3173L24.499 30.6842L24.3753 30.8603L23.3741 32.2883L22.3722 33.7173L21.2091 35.3765L20.3699 36.5743L19.941 37.1855C19.8358 37.3353 20.0105 37.5215 20.1673 37.4276L21.5889 36.5743L22.3984 36.0884L24.4931 34.8321L24.9008 34.5866L26.3512 33.7173L27.9559 32.7548L28.7316 32.2883L31.1128 30.8603H47.7454C47.8861 30.8603 47.9997 30.9737 47.9997 31.1142V31.1151Z"
+            fill="var(--white)"></path>
+        </svg>
+      </a>
+
+      <!-- DESKTOP LINKS (centred) -->
+      <ul class="nav_links" id="nav-links">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+        <!-- CTA appears here only in the mobile dropdown -->
+        <li class="nav_links-cta">
+          <a href="#contatti" class="nav_cta nav_cta--mobile">CONTATTAMI</a>
+        </li>
+      </ul>
+
+      <!-- DESKTOP CTA -->
+      <a href="#contatti" class="nav_cta nav_cta--desktop">CONTATTAMI</a>
+
+      <!-- MOBILE TOGGLE -->
+      <button
+        class="nav_toggle"
+        aria-label="Apri il menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle (no animation library — plain class flip).
+  const toggle = document.querySelector(".nav_toggle");
+  const links = document.getElementById("nav-links");
+  const navbar = document.querySelector(".navbar");
+
+  if (toggle && links && navbar) {
+    const close = () => {
+      navbar.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Apri il menu");
+    };
+
+    toggle.addEventListener("click", () => {
+      const open = navbar.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
+    });
+
+    // Close after picking a destination.
+    links.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+  }
+</script>

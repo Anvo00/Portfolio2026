@@ -1,0 +1,63 @@
+---
+/**
+ * Hero — first viewport.
+ * Big "PORTFOLIO" wordmark with playful illustrations layered on top,
+ * a scroll cue, and a meta row pinned to the bottom. Tiled monogram
+ * pattern fills the background.
+ */
+import "../../styles/hero.css";
+---
+
+<section class="hero section" id="home">
+  <!-- Tiled monogram background -->
+  <div class="hero_bg" aria-hidden="true"></div>
+
+  <div class="container hero_inner">
+    <!-- Wordmark + decorations -->
+    <h1 class="hero_title">
+      <span class="sr-only">Portfolio</span>
+      <span class="hero_stage" aria-hidden="true">
+        <img
+          class="hero_title-img"
+          src="/images/portfolio_title.svg"
+          alt=""
+          width="1288"
+          height="473"
+        />
+        <img class="hero_deco hero_deco--cat" src="/images/cat_jump.png" alt="" />
+        <img
+          class="hero_deco hero_deco--pointer"
+          src="/images/mouse_pointer.png"
+          alt=""
+        />
+        <img
+          class="hero_deco hero_deco--audio"
+          src="/images/earphone.png"
+          alt=""
+        />
+      </span>
+    </h1>
+
+    <!-- Scroll cue -->
+    <a href="#about" class="hero_scroll" aria-label="Scorri per conoscermi">
+      <span class="hero_scroll-label">SCORRI PER CONOSCERMI</span>
+      <span class="hero_scroll-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" stroke="currentColor" stroke-width="1.5"></circle>
+          <path
+            d="M24 15V33M24 33L18 27M24 33L30 27"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </span>
+    </a>
+  </div>
+
+  <!-- Meta row pinned to the bottom of the hero -->
+  <div class="container hero_meta">
+    <span class="hero_meta-left">Portfolio @2026</span>
+    <span class="hero_meta-right">Vito Giacobelli</span>
+  </div>
+</section>

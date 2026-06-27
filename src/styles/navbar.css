@@ -1,0 +1,160 @@
+/* =========================================================
+   NAVBAR
+   Fixed black pill: logo · links · CONTATTAMI CTA.
+   ========================================================= */
+
+.nav {
+  position: fixed;
+  inset-block-start: var(--space-4); /* 24px from the top */
+  inset-inline: 0;
+  z-index: 100;
+}
+
+.nav_container {
+  /* uses .container width cap + margins */
+}
+
+.navbar {
+  position: relative;
+  background: var(--black);
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  color: var(--white);
+}
+
+/* ---------- Logo ---------- */
+.nav_logo {
+  display: flex;
+  flex: 0 0 auto;
+  padding-inline: var(--space-2);
+}
+.nav_logo svg {
+  height: 32px;
+  width: auto;
+}
+
+/* ---------- Desktop links (absolutely centred) ---------- */
+.nav_links {
+  display: flex;
+  gap: var(--space-7); /* 64px between links (per design spec) */
+  font-weight: 500;
+  font-size: var(--fs-nav);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav_links a {
+  transition: color 0.18s ease;
+}
+.nav_links a:hover,
+.nav_links a:focus-visible {
+  color: var(--accent);
+}
+/* The CTA inside the list is only used in the mobile dropdown. */
+.nav_links-cta {
+  display: none;
+}
+
+/* ---------- CTA button ---------- */
+.nav_cta {
+  background: var(--accent);
+  color: var(--white);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  font-size: var(--fs-nav);
+  display: inline-flex;
+  align-items: center;
+  transition: filter 0.18s ease;
+}
+.nav_cta:hover,
+.nav_cta:focus-visible {
+  filter: brightness(1.12);
+}
+.nav_cta--desktop {
+  flex: 0 0 auto;
+}
+
+/* ---------- Mobile hamburger toggle ---------- */
+.nav_toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+}
+.nav_toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .nav {
+    inset-block-start: var(--space-3);
+  }
+
+  .navbar {
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+  }
+
+  /* Hide the desktop-only pieces, show the toggle. */
+  .nav_cta--desktop {
+    display: none;
+  }
+  .nav_toggle {
+    display: flex;
+  }
+
+  /* Collapse the links into a dropdown panel below the bar. */
+  .nav_links {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    /* hidden until .navbar.is-open */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+    padding: 0;
+  }
+
+  .navbar.is-open .nav_links {
+    max-height: 60vh;
+    opacity: 1;
+    pointer-events: auto;
+    padding-block: var(--space-4) var(--space-2);
+  }
+
+  /* Show the CTA inside the dropdown on mobile. */
+  .nav_links-cta {
+    display: block;
+  }
+
+  /* Turn the hamburger into an X when open. */
+  .navbar.is-open .nav_toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar.is-open .nav_toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar.is-open .nav_toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}

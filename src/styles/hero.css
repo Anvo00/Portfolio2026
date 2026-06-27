@@ -1,0 +1,156 @@
+/* =========================================================
+   HERO
+   Locked to a single viewport (100svh) so the bottom meta row is
+   always visible without scrolling. The wordmark + illustrations live
+   in one .hero_stage whose children are absolutely positioned in % —
+   the whole scene scales as a unit across devices.
+   ========================================================= */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh; /* avoids mobile URL-bar overflow where supported */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Tiled monogram pattern behind everything. */
+.hero_bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--white);
+  background-image: url("/images/hero-pattern.svg");
+  background-repeat: repeat;
+  background-size: 220px 220px;
+}
+
+/* Main content fills the space between navbar and meta row. */
+.hero_inner {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(20px, 3.5vh, 48px);
+  /* Position the wordmark ~1/3 down the viewport (matches the reference);
+     also clears the fixed navbar + the cat that sits above the title. */
+  padding-block-start: clamp(110px, 33vh, 270px);
+  text-align: center;
+}
+
+/* ---------- Wordmark + decorations ---------- */
+.hero_title {
+  width: 100%;
+  margin: 0;
+}
+
+/* The stage wraps the title; its size matches the reference (~69% of a
+   1440 canvas) and is also capped by viewport height so it never forces
+   the section past one screen. Illustrations are positioned against it. */
+.hero_stage {
+  position: relative;
+  display: block;
+  width: min(clamp(280px, 70vw, 990px), 120vh);
+  margin-inline: auto;
+}
+
+.hero_title-img {
+  width: 100%;
+  height: auto;
+}
+
+.hero_deco {
+  position: absolute;
+  pointer-events: none;
+  height: auto;
+}
+
+/* Cat leaping above the "OR" */
+.hero_deco--cat {
+  width: 22%;
+  top: -30%;
+  left: 23%;
+}
+
+/* Blue cursor on the lower-left of the first "O" */
+.hero_deco--pointer {
+  width: 7.5%;
+  top: 69%;
+  left: 8.5%;
+}
+
+/* Earphone + sun + music notes cluster over the final "LIO" */
+.hero_deco--audio {
+  width: 22%;
+  top: -24%;
+  right: -9%;
+}
+
+/* ---------- Scroll cue ---------- */
+.hero_scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--fg);
+  transition: color 0.2s ease;
+}
+.hero_scroll-label {
+  font-weight: 600;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.14em;
+}
+.hero_scroll-icon {
+  display: flex;
+  animation: hero-bounce 1.8s ease-in-out infinite;
+}
+.hero_scroll:hover,
+.hero_scroll:focus-visible {
+  color: var(--accent);
+}
+@keyframes hero-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- Meta row (pinned to the bottom of the viewport) ---------- */
+.hero_meta {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: clamp(12px, 2.2vh, 24px);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+}
+
+/* =========================================================
+   RESPONSIVE
+   Decoration offsets are in % of the stage, so they scale automatically.
+   On phones the stage widens to use the available space.
+   ========================================================= */
+@media (max-width: 768px) {
+  .hero_inner {
+    gap: clamp(16px, 3vh, 32px);
+    /* extra clearance so the cat above the title clears the mobile navbar */
+    padding-block-start: clamp(120px, 20vh, 175px);
+  }
+  .hero_stage {
+    width: min(92vw, 120vh);
+  }
+  .hero_scroll-label {
+    font-size: 12px;
+  }
+}

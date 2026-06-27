@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Livello_2" data-name="Livello 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 668.37 801.1">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0e0e0e;
+        stroke: #fffaf6;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-miterlimit: 10;
+        stroke-width: 2.35px;
+      }
+
+      .cls-3 {
+        fill: #0071ce;
+      }
+
+      .cls-2 {
+        fill: #fffaf6;
+        stroke: #0e0e0e;
+      }
+    </style>
+  </defs>
+  <g id="Animation">
+    <g id="Project_Folder">
+      <path id="Folder_Background" class="cls-3" d="M75.07,111.55h398.55c18.83,0,34.12,15.29,34.12,34.12v626.44H40.96V145.67c0-18.83,15.29-34.12,34.12-34.12Z" transform="translate(-58.22 41.98) rotate(-7.91)"/>
+      <rect id="Secondary_Photo" class="cls-1" x="241.69" y="19.72" width="150.81" height="213.41" transform="translate(-23.64 105.59) rotate(-18.24)"/>
+      <rect id="Tertiary_Photo" class="cls-1" x="461.69" y="350.16" width="155.53" height="406.78" transform="translate(160.57 -120.16) rotate(14.91)"/>
+      <rect id="Main_Photo" class="cls-1" x="194.43" y="168.63" width="356.05" height="503.86" transform="translate(6.85 -5.97) rotate(.93)"/>
+      <path id="Folder_UpPart" class="cls-3" d="M81.02,746.23l-32.18-226.69,277.76-43.88c13.78-2.18,27.83,1.83,38.38,10.95l34,29.38c8.27,7.15,13.82,16.94,15.7,27.71l36.12,207.05-362.16,50.34-7.63-54.87Z"/>
+      <rect id="Project_Details" class="cls-2" x="32.98" y="396.87" width="214.62" height="303.71" transform="translate(-120.48 45.95) rotate(-13.07)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+---
+/**
+ * About — full-frame (100svh) static section (no animation).
+ * Final composition: "HI, I [photo] VITO" with the portrait (on two fanned
+ * blue CSS cards) overlapping the centre, a tagline and the CTA.
+ */
+import "../../styles/about.css";
+
+const taglineLines = [
+  "Graphic Designer e Web Developer.",
+  "Il mio sogno? Ridare al mondo i suoi colori",
+];
+---
+
+<section class="about section" id="about">
+  <div class="about_inner">
+    <div class="about_stage">
+      <!-- One continuous wordmark; the photo overlaps its centre ("'M"). -->
+      <p class="about_headline" aria-label="Hi, I'm Vito">
+        <span class="about_htext" aria-hidden="true"
+          >HI,&nbsp;I<span class="about_pivot">’M</span>&nbsp;VITO</span
+        >
+      </p>
+
+      <figure class="about_photo" aria-hidden="true">
+        <span class="about_card about_card--left"></span>
+        <span class="about_card about_card--right"></span>
+        <span class="about_mask">
+          <img
+            src="/images/personal_photo.jpg"
+            alt="Ritratto di Vito Giacobelli"
+            width="360"
+            height="468"
+            loading="lazy"
+          />
+        </span>
+      </figure>
+    </div>
+
+    <p class="about_tagline">
+      {taglineLines.map((line, li) => (
+        <span class="about_line">{line}{li === 0 && <br />}</span>
+      ))}
+    </p>
+
+    <a href="#progetti" class="about_cta">SCOPRI DI PIÚ</a>
+  </div>
+</section>

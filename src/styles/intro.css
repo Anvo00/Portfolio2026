@@ -1,0 +1,60 @@
+/* =========================================================
+   INTRO PRELOADER
+   Black overlay with the monogram; lifts away to reveal page.
+   ========================================================= */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+  /* Lift the whole overlay up when finished. */
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+
+/* Final state applied by JS — slides the curtain up. */
+.intro.is-done {
+  transform: translateY(-100%);
+}
+
+.intro_logo {
+  /* Logo fades + lifts gently into place. */
+  animation: intro-logo-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.intro_logo svg {
+  width: clamp(72px, 12vw, 120px);
+  height: auto;
+}
+
+/* Just before the curtain lifts, the logo eases out. */
+.intro.is-leaving .intro_logo {
+  animation: intro-logo-out 0.4s ease forwards;
+}
+
+@keyframes intro-logo-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes intro-logo-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.04);
+  }
+}
+
+/* If the overlay was already removed (no-JS / reduced motion), hide it. */
+.intro[hidden] {
+  display: none;
+}

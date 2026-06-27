@@ -1,0 +1,115 @@
+/* =========================================================
+   FOOTER
+   Blue contact section + oversized CONTATTAMI wordmark.
+   ========================================================= */
+
+.footer {
+  /* Invert the palette: blue background, light text. */
+  background: var(--accent);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  padding-block-start: var(--section-gap);
+}
+
+.footer_inner {
+  position: relative;
+  z-index: 1;
+}
+
+.footer_top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--grid-gap);
+  align-items: start;
+}
+
+.footer_heading {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(16px, 1.4vw, 20px);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+}
+
+.footer_list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--fs-body);
+}
+.footer_list a:hover,
+.footer_list a:focus-visible {
+  text-decoration: underline;
+}
+
+/* Social icons */
+.footer_socials {
+  display: flex;
+  gap: var(--space-3);
+}
+.footer_socials a {
+  display: inline-flex;
+  transition: transform 0.18s ease;
+}
+.footer_socials a:hover,
+.footer_socials a:focus-visible {
+  transform: translateY(-3px);
+}
+.footer_socials img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Lying cat sits to the right, slightly overlapping the wordmark. */
+.footer_cat {
+  justify-self: end;
+  align-self: end;
+  width: clamp(180px, 22vw, 300px);
+}
+.footer_cat img {
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Oversized wordmark ---------- */
+.footer_big {
+  display: block;
+  position: relative;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(80px, 22vw, 320px);
+  line-height: 0.92;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--white);
+  /* Bleed the baseline off the bottom edge. */
+  margin-block-start: var(--space-4);
+  transform: translateY(12%);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .footer {
+    padding-block-start: var(--space-8);
+  }
+  .footer_top {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6) var(--grid-gap);
+  }
+  /* Cat moves to its own full-width row. */
+  .footer_cat {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer_top {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,32 @@
+---
+/**
+ * Home — composes the single-page site in order:
+ * Hero → About → Projects → Footer, behind the intro preloader.
+ */
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/home/Hero.astro";
+import About from "../components/home/About.astro";
+import Projects from "../components/home/Projects.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base>
+  <Intro />
+
+  <Navbar />
+
+  <main>
+    <Hero />
+    <About />
+    <Projects />
+  </main>
+
+  <Footer />
+
+  <script>
+    // Lock scrolling while the intro plays; intro.js releases it.
+    document.body.classList.add("intro-active");
+  </script>
+</Base>

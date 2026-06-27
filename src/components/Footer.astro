@@ -1,0 +1,57 @@
+---
+/**
+ * Footer — blue "contact" section.
+ * Contatti + social links + lying-cat illustration, with an oversized
+ * "CONTATTAMI" wordmark bleeding off the bottom edge.
+ *
+ * Social URLs are placeholders (#) until the real profiles are provided.
+ */
+import "../styles/footer.css";
+
+const socials = [
+  { label: "Instagram", href: "#", icon: "/images/instagram.svg" },
+  { label: "Behance", href: "#", icon: "/images/behance.svg" },
+  { label: "LinkedIn", href: "#", icon: "/images/linkedin.svg" },
+];
+---
+
+<footer class="footer section" id="contatti">
+  <div class="container footer_inner">
+    <div class="footer_top">
+      <!-- Contatti -->
+      <div class="footer_col">
+        <h2 class="footer_heading">Contatti</h2>
+        <ul class="footer_list">
+          <li><a href="tel:+393278968007">+39 3278968007</a></li>
+          <li><a href="mailto:giacobellivito@gmail.com">giacobellivito@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <!-- Social networks -->
+      <div class="footer_col">
+        <h2 class="footer_heading">Social Networks</h2>
+        <ul class="footer_socials">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
+                  <img src={s.icon} alt="" width="32" height="32" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Lying cat illustration -->
+      <div class="footer_cat" aria-hidden="true">
+        <img src="/images/cat_lie.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Oversized contact wordmark -->
+  <a href="mailto:giacobellivito@gmail.com" class="footer_big" aria-label="Contattami via email">
+    CONTATTAMI
+  </a>
+</footer>

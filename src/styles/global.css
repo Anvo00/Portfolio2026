@@ -1,0 +1,204 @@
+/* =========================================================
+   GLOBAL STYLES
+   Design tokens, font faces, reset and layout primitives.
+   Imported once via Base.astro so every page shares it.
+   ========================================================= */
+
+/* ---------- FONT FACES ----------
+   Files live in /public/fonts (served from the site root). */
+@font-face {
+  font-family: "Gobold";
+  src: url("/fonts/Gobold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/Sora-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/Sora-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/Sora-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/Sora-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- DESIGN TOKENS ---------- */
+:root {
+  /* Palette */
+  --white: #fffaf6;
+  --black: #0e0e0e;
+  --accent: #0071ce;
+  --pattern: #cfe3f7; /* tiled hero background tint */
+  --grey: #d8d8d8;    /* neutral used in project art */
+
+  /* Semantic colours (default = light page) */
+  --bg: var(--white);
+  --fg: var(--black);
+
+  /* Typography */
+  --font-display: "Gobold", sans-serif; /* big titles */
+  --font-body: "Sora", sans-serif;      /* everything else */
+
+  --fs-body: 14px;                        /* base body size (per brief) */
+  --fs-nav: 16px;
+  --fs-meta: 14px;
+  --fs-section: clamp(40px, 5vw, 72px);   /* ABOUT ME / PROGETTI */
+  --fs-mega: clamp(72px, 15vw, 220px);    /* PORTFOLIO / HI, I VITO / CONTATTAMI */
+
+  --lh-tight: 1.05;
+  --lh-body: 1.5;
+
+  /* Spacing — 8pt scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+
+  /* Gap between sections AND between a section title and its content */
+  --section-gap: 128px;
+
+  /* 12-column grid */
+  --maxw: 1440px;
+  --grid-cols: 12;
+  --grid-gap: 24px;
+  --grid-margin: 24px;
+
+  /* Radii */
+  --radius: 24px;
+  --radius-pill: 120px;
+}
+
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* NB: no CSS `scroll-behavior: smooth` here — it conflicts with GSAP
+   ScrollTrigger scrubbing (causes lag/jank). In-page anchor links are
+   smooth-scrolled via JS in Base.astro instead. */
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* While the intro preloader is on screen, lock scrolling */
+body.intro-active {
+  overflow: hidden;
+  height: 100vh;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ---------- LAYOUT PRIMITIVES ---------- */
+
+/* Centred page container capped at the 1440px design width. */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+
+/* 12-column grid helper (24px gutter). */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  gap: var(--grid-gap);
+}
+
+/* Vertical rhythm between the stacked page sections. */
+.section {
+  scroll-margin-top: var(--space-8); /* offset for the fixed navbar on anchor jumps */
+}
+
+/* Section heading shared style (Gobold, centred). */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-section);
+  line-height: var(--lh-tight);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* Visually-hidden but accessible to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

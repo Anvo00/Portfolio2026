@@ -1,0 +1,87 @@
+---
+/**
+ * Projects — "PROGETTI" heading + a turntable composition.
+ *
+ * The vinyl/tonearm/arrow/year-flip make up the visual "player"; the
+ * left slider shows the active project number and the right folder holds
+ * the project art + a "details" card.
+ *
+ * Data-driven: `projects` is an array so more entries drop in later. For
+ * this static build only the first project (nº 01) is rendered. The
+ * scroll-trigger that advances the slider number across projects is a
+ * deferred (GSAP) pass — see DONE.md.
+ */
+import "../../styles/projects.css";
+
+interface Project {
+  number: string; // zero-padded index shown in the slider
+  title: string;
+  year: "2025" | "2026";
+}
+
+const projects: Project[] = [
+  { number: "01", title: "Progetto 01", year: "2025" },
+];
+
+const active = projects[0];
+---
+
+<section class="projects section" id="progetti">
+  <div class="container projects_inner">
+    <h2 class="section-title">Progetti</h2>
+
+    <div class="projects_stage" data-active={active.number}>
+      <!-- LEFT: project-number slider -->
+      <div class="proj_slider" aria-hidden="true">
+        <svg viewBox="0 0 163.33 315.78" xmlns="http://www.w3.org/2000/svg" class="proj_slider-svg">
+          <g>
+            <!-- track -->
+            <rect class="proj_slider-track" x="14.97" y=".5" width="70.47" height="314.78" rx="2" ry="2" />
+            <!-- inner fill -->
+            <rect class="proj_slider-fill" x="37.91" y="30.93" width="24.58" height="253.91" rx="2" ry="2" />
+            <!-- handle -->
+            <rect class="proj_slider-handle" x=".5" y="40.72" width="100.43" height="32.31" rx=".76" ry=".76" />
+            <!-- active project number -->
+            <text class="proj_slider-num" x="114.94" y="68.4">{active.number}</text>
+          </g>
+        </svg>
+        <span class="sr-only">Progetto {active.number}</span>
+      </div>
+
+      <!-- CENTRE: turntable -->
+      <div class="proj_player">
+        <img class="proj_vinyl" src="/images/projects/vinyl_turntable.svg" alt="" aria-hidden="true" />
+        <img class="proj_arrow" src="/images/projects/arrow.svg" alt="" aria-hidden="true" />
+        <img class="proj_testina" src="/images/projects/testina.svg" alt="" aria-hidden="true" />
+
+        <!-- Year flip pair -->
+        <div class="proj_years" aria-hidden="true">
+          <img class="proj_year" src="/images/projects/button_2025.svg" alt="" />
+          <img class="proj_year" src="/images/projects/button_2026.svg" alt="" />
+        </div>
+      </div>
+
+      <!-- RIGHT: project folder + details card -->
+      <div class="proj_folder" aria-hidden="true">
+        <svg viewBox="0 0 668.37 801.1" xmlns="http://www.w3.org/2000/svg" class="proj_folder-svg">
+          <g>
+            <path class="pf-blue" d="M75.07,111.55h398.55c18.83,0,34.12,15.29,34.12,34.12v626.44H40.96V145.67c0-18.83,15.29-34.12,34.12-34.12Z" transform="translate(-58.22 41.98) rotate(-7.91)" />
+            <rect class="pf-photo" x="241.69" y="19.72" width="150.81" height="213.41" transform="translate(-23.64 105.59) rotate(-18.24)" />
+            <rect class="pf-photo" x="461.69" y="350.16" width="155.53" height="406.78" transform="translate(160.57 -120.16) rotate(14.91)" />
+            <rect class="pf-photo" x="194.43" y="168.63" width="356.05" height="503.86" transform="translate(6.85 -5.97) rotate(.93)" />
+            <path class="pf-blue" d="M81.02,746.23l-32.18-226.69,277.76-43.88c13.78-2.18,27.83,1.83,38.38,10.95l34,29.38c8.27,7.15,13.82,16.94,15.7,27.71l36.12,207.05-362.16,50.34-7.63-54.87Z" />
+            <!-- details card -->
+            <g transform="translate(-120.48 45.95) rotate(-13.07)">
+              <rect class="pf-card" x="32.98" y="396.87" width="214.62" height="303.71" />
+              <text class="pf-card-text" x="140.3" y="520" text-anchor="middle">
+                <tspan x="140.3" dy="0">DETAILS</tspan>
+                <tspan x="140.3" dy="34">OF THE</tspan>
+                <tspan x="140.3" dy="34">PROJECT</tspan>
+              </text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
