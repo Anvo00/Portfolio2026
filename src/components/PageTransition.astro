@@ -1,40 +1,17 @@
 ---
 /**
- * Intro — logo + "HI, I'm Vito" reveal (GSAP), copied from the old project.
- * Runs only on html[data-transition="full"] (fresh homepage open/refresh);
- * src/scripts/intro.js releases the scroll lock by setting data-transition
- * to "none" at the end.
+ * PageTransition — logo-only overlay shown on page-to-page navigations
+ * (the second part of the intro). Included on every page via Base.astro;
+ * CSS shows it only when html[data-transition="logo"]. The animation is the
+ * intro's logo part: stroke-draw → fill → scale-up reveal.
  */
-import "../styles/intro.css";
+import "../styles/transition.css";
 ---
 
-<div id="intro" class="intro">
-  <h1 class="intro_text">
-    <span class="phrase phrase1">
-      <span class="mask">
-        <!-- Maschera -->
-        <span class="mask_inner">HI</span>
-        <!-- Contenuto della maschera -->
-      </span>
-      <span class="mask rest">
-        <!-- Maschera -->
-        <span class="mask_inner">I&apos;m Vito</span>
-        <!-- Contenuto della maschera -->
-      </span>
-    </span>
-
-    <span class="guides" aria-hidden="true">
-      <span class="guide guide--top"></span>
-      <span class="guide guide--bottom"></span>
-      <span class="guide guide--left"></span>
-      <span class="guide guide--right"></span>
-    </span>
-  </h1>
-
-  <!-- LOGO -->
-  <svg id="logo" viewBox="0 0 566.24 661.53" xmlns="http://www.w3.org/2000/svg">
+<div id="page-transition" role="presentation">
+  <svg id="pt-logo" viewBox="0 0 566.24 661.53" xmlns="http://www.w3.org/2000/svg">
     <path
-      id="logo-outline"
+      id="pt-logo-outline"
       d="M4.57,661.08c-2.78,1.67-5.86-1.64-4-4.29l87.08-124.36,70.28-100.37,23.63-33.75,10.64-15.2-2.78-1.68-28.12-16.87-1.6-.95-4.81-2.89-49.85-29.91L1.82,268.88c-2.61-1.57-1.5-5.57,1.54-5.57h272.73l34.2-48.85,2.37-3.38.85-1.22,84-119.97L459.55,1.28c1.68-2.4,5.46-1.21,5.46,1.72v324.81c0,1.66-1.34,3-3,3h-61.5c-1.66,0-3-1.34-3-3v-113.95c0-1.96-2.52-2.75-3.64-1.15l-30.95,44.21-.69.98-3.79,5.4-47.26,67.5h-67.73c-2.03,0-2.77,2.67-1.03,3.71l46.59,27.96s-1.46,2.08-1.46,2.08l-11.81,16.87-11.82,16.88-13.72,19.6-9.9,14.15-5.06,7.22c-1.24,1.77.82,3.97,2.67,2.86l16.77-10.08,9.55-5.74,24.71-14.84,4.81-2.9,17.11-10.27,18.93-11.37,9.15-5.51,28.09-16.87h196.21c1.66,0,3,1.34,3,3L566.24,367.56v61.5c0,1.66-1.34,3-3,3h-177.51l-55.93,33.6-1.27.77-1.48.88-148.13,89.01-44.25,26.59-16.12,9.69Z"
       fill="none"
       stroke="var(--accent)"
@@ -42,7 +19,7 @@ import "../styles/intro.css";
       stroke-linejoin="round"
       stroke-linecap="round"></path>
     <path
-      id="logo-fill"
+      id="pt-logo-fill"
       fill="#fff"
       opacity="0"
       d="M4.57,661.08c-2.78,1.67-5.86-1.64-4-4.29l87.08-124.36,70.28-100.37,23.63-33.75,10.64-15.2-2.78-1.68-28.12-16.87-1.6-.95-4.81-2.89-49.85-29.91L1.82,268.88c-2.61-1.57-1.5-5.57,1.54-5.57h272.73l34.2-48.85,2.37-3.38.85-1.22,84-119.97L459.55,1.28c1.68-2.4,5.46-1.21,5.46,1.72v324.81c0,1.66-1.34,3-3,3h-61.5c-1.66,0-3-1.34-3-3v-113.95c0-1.96-2.52-2.75-3.64-1.15l-30.95,44.21-.69.98-3.79,5.4-47.26,67.5h-67.73c-2.03,0-2.77,2.67-1.03,3.71l46.59,27.96s-1.46,2.08-1.46,2.08l-11.81,16.87-11.82,16.88-13.72,19.6-9.9,14.15-5.06,7.22c-1.24,1.77.82,3.97,2.67,2.86l16.77-10.08,9.55-5.74,24.71-14.84,4.81-2.9,17.11-10.27,18.93-11.37,9.15-5.51,28.09-16.87h196.21c1.66,0,3,1.34,3,3L566.24,367.56v61.5c0,1.66-1.34,3-3,3h-177.51l-55.93,33.6-1.27.77-1.48.88-148.13,89.01-44.25,26.59-16.12,9.69Z"
@@ -51,5 +28,5 @@ import "../styles/intro.css";
 </div>
 
 <script>
-  import "../scripts/intro.js";
+  import "../scripts/page-transition.js";
 </script>

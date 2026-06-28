@@ -1,60 +1,98 @@
-/* =========================================================
-   INTRO PRELOADER
-   Black overlay with the monogram; lifts away to reveal page.
-   ========================================================= */
-
 .intro {
   position: fixed;
   inset: 0;
+  /* Above the navbar (z-index 100) so the navbar stays hidden during the
+     intro and only appears once the overlay clears. */
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Dark intro (this project's root --bg is light, so pin it explicitly). */
   background: var(--black);
-  /* Lift the whole overlay up when finished. */
-  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
-  will-change: transform;
+  display: grid;
+  place-items: center;
 }
 
-/* Final state applied by JS — slides the curtain up. */
-.intro.is-done {
-  transform: translateY(-100%);
+.intro_text {
+  position: relative;  /* per posizionare le linee */
+  display: inline-block; /* per adattarsi al testo */
+  color: var(--white);
+  font-family: var(--font-display);
+  --size-big: clamp(1rem, 12vw, 6rem);
+  --size-small: calc(var(--size-big) / 1.618);
+  font-size: var(--size-big);
+  line-height: 1;
+
+  /* per appoggiare le linee direttamente sul testo e non sulla box */
+  text-box: trim-both cap alphabetic;
+  padding-block: 0.08em;
 }
 
-.intro_logo {
-  /* Logo fades + lifts gently into place. */
-  animation: intro-logo-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+.phrase {
+  display: inline-flex;
+  align-items: baseline;
 }
 
-.intro_logo svg {
-  width: clamp(72px, 12vw, 120px);
+.phrase1 {
+  overflow: hidden;
+}
+
+
+.rest {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;  /* Per non spostare la linea di base */
+}
+
+.mask {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: baseline;
+}
+
+.mask_inner {
+  display: inline-block;
+}
+
+.guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.guide {
+  position: absolute;
+  opacity: 0;
+}
+
+.guide--top, .guide--bottom {
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  border-top: 1px dashed var(--accent);
+}
+.guide--top { top: 0;}
+.guide--bottom { bottom: 0;}
+
+.guide--left, .guide--right {
+  top: 50%;
+  height: 100vh;
+  transform: translateY(-50%);
+  border-left: 1px dashed var(--accent);
+}
+.guide--left { left: 0;}
+.guide--right { right: 0;}
+
+
+/* === LOGO === */
+.intro > .intro_text, .intro > #logo {
+  grid-area: 1 / 1;
+}
+
+#logo {
+  width: clamp(7rem, 24vw, 11rem);
   height: auto;
-}
-
-/* Just before the curtain lifts, the logo eases out. */
-.intro.is-leaving .intro_logo {
-  animation: intro-logo-out 0.4s ease forwards;
-}
-
-@keyframes intro-logo-in {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes intro-logo-out {
-  to {
-    opacity: 0;
-    transform: translateY(-12px) scale(1.04);
-  }
-}
-
-/* If the overlay was already removed (no-JS / reduced motion), hide it. */
-.intro[hidden] {
-  display: none;
+  overflow: visible;
+  opacity: 0;
+  place-self: center;
 }

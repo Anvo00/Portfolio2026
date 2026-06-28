@@ -1,0 +1,90 @@
+/* =========================================================
+   PROJECT PAGE — shared styles
+   Layout follows the homepage: 12-col / 24px gutter / 24px margins,
+   1440 max width. Section rhythm scales toward the 128px reference.
+   ========================================================= */
+
+.project {
+  background: var(--white);
+  color: var(--black);
+  /* 128px between each section (single gap, not doubled padding). */
+  display: flex;
+  flex-direction: column;
+  gap: clamp(72px, 9vw, 128px);
+}
+
+.psection {
+  scroll-margin-top: var(--space-8);
+}
+
+/* A section's title + content, stacked and centred. */
+.psection_inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* gap between the section title and its content */
+  gap: clamp(40px, 5vw, 80px);
+}
+
+/* ---------- Media placeholders (stand in for images) ---------- */
+.placeholder {
+  position: relative;
+  background: var(--black);
+  overflow: hidden;
+}
+.placeholder::after {
+  content: "PLACEHOLDER";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 250, 246, 0.45);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+/* ---------- Text blocks ---------- */
+/* Centred narrow column (Brief). */
+.ptext-narrow {
+  max-width: 54ch;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+
+/* Two columns (Concept / Conclusion). */
+.ptext-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+  width: 100%;
+  max-width: 980px;
+  margin-inline: auto;
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+.ptext-cols > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Caption beneath a media block. */
+.pcaption {
+  max-width: 60ch;
+  margin-inline: auto;
+  text-align: center;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .ptext-cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}

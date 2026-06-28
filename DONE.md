@@ -12,10 +12,22 @@ intro preloader. Italian copy. Design tokens from the Phase-1 brief.
 
 ## Stack
 - **Astro 6** (static output). No UI framework.
-- The intro is plain CSS keyframes + a tiny vanilla-JS orchestrator.
-- **GSAP** is installed but currently **unused** — the About scroll animation
-  was built then reverted to static at the client's request. Kept as a
-  dependency for likely future use (e.g. Projects).
+- **Intro / page transitions** are coordinated by an inline head script in
+  `Base.astro` that sets `html[data-transition]` before first paint:
+  - `full` → homepage fresh open / refresh → the GSAP **full intro**
+    (`Intro.astro` + `scripts/intro.js`, logo + "HI, I'm Vito").
+  - `logo` → any page→page navigation EXCEPT project→project → the **logo-only
+    transition** (`PageTransition.astro` + `scripts/page-transition.js`, the
+    intro's logo part: stroke-draw → fill → scale-up reveal).
+  - `none` → project→project (hero arrows) or a direct open/refresh of a
+    non-home page → no overlay.
+  CSS (`global.css`) shows the right overlay and locks scroll while it plays;
+  the playing script sets `data-transition="none"` at the end to unlock. Mode
+  detection uses navigation type + same-origin referrer (see the head script).
+  Intro background is pinned dark (this project's root `--bg` is light).
+- **GSAP** is a dependency (used by the intro; available for the project
+  carousel/animations later). The homepage About animation was built then
+  reverted to static at the client's request.
 - Fonts: **Gobold** (display) + **Sora** (body), self-hosted in `public/fonts`.
 
 ## Run it
@@ -35,18 +47,52 @@ public/
                              button_2025, button_2026,
                              project_slider, project_folder
 src/
-  layouts/Base.astro         <html>/<head>, global css, font preload
-  pages/index.astro          composes the page; adds body.intro-active
+  layouts/Base.astro         <html>/<head>, global css, font preload, JS anchor smooth-scroll
+  data/projects.js           the 7 projects (slug, name, media counts) — drives project pages
+  pages/
+    index.astro              homepage; adds body.intro-active
+    progetti/[slug].astro    project-page TEMPLATE (getStaticPaths → 7 static pages)
   components/
     Navbar.astro             fixed black pill; responsive hamburger (vanilla JS)
-    Intro.astro              logo curtain preloader
+    Intro.astro              GSAP logo + "HI, I'm Vito" intro (old-project version)
     Footer.astro             blue contact section + giant CONTATTAMI wordmark
     home/Hero.astro          PORTFOLIO wordmark + layered decorations + scroll cue
-    home/About.astro         "HI, I [photo] VITO" headline + tagline + CTA
+    home/About.astro         static "HI, I [photo] VITO" headline + tagline + CTA
     home/Projects.astro      turntable composition (data-driven, 1 project)
+    project/                 single-project sections:
+      ProjectHero · Brief · Research · Concept · Process · Output · Conclusion
   styles/                    one stylesheet per component + global.css
-  scripts/intro.js           intro timing / curtain lift / scroll unlock
+    project/                 base.css + one file per project section
+  scripts/intro.js           GSAP intro timeline (unlocks page at the end)
 ```
+
+## Project pages (`/progetti/<slug>`)
+- One shared template (`pages/progetti/[slug].astro`) generates all 7 pages
+  statically from `data/projects.js`. **Not yet linked from the homepage** (by
+  request) — reachable by URL only. Navbar + Footer are reused.
+- Order: Navbar · Hero · Brief · Research · Concept · Process · Output ·
+  Conclusion · Footer.
+- **Hero**: 100vh, inset 32px cover card (placeholder), "PROGETTO N" + project
+  name, a BACK link (→ `/`) and prev/next arrows that **cycle** through the
+  projects.
+- **Research/Process/Output** media counts are **variable** — set per project in
+  `data/projects.js` (`research`/`process`/`output`).
+  - **Research**: **black rectangular cards** (portrait 3/4, per mockup) over a
+    faded "RICERCA" wordmark; they start stacked and **spring out into a fan on
+    scroll-into-view** (GSAP + IntersectionObserver), hover lifts a card. Inline
+    transforms are the no-js fanned fallback.
+  - **Process**: curved **WebGL gallery** (`ogl`) — drag or wheel-over to scrub,
+    bends + loops. Ported to vanilla in `scripts/circular-gallery.js`,
+    lazy-initialised when in view. Wheel bound to the container (no page-scroll
+    hijack). The wave effect is **hover-driven** (`uHover` uniform) — no idle
+    loop. Images are placeholder SVG data-URIs.
+  - **Output**: Bento grid (24px gap) — columns **auto-fit to the container
+    width** (5 @1440, 4 @1000, 2 on mobile) with dense packing, so modules
+    reflow to adapt.
+- All images are **placeholders** (black boxes labelled PLACEHOLDER); all body
+  copy is **lorem-ipsum placeholder** — client adds real text/images per project.
+- Pending decisions (flag if wrong): BACK → `/`; URL pattern `/progetti/<slug>`;
+  hero title = project name; default media counts = 5.
 
 ## Design tokens (in `src/styles/global.css :root`)
 - Colours: `--white #FFFAF6`, `--black #0E0E0E`, `--accent #0071CE`,

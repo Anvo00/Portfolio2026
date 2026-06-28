@@ -1,0 +1,53 @@
+---
+/**
+ * Single-project page (template shared by all 7 projects).
+ * Generated statically from src/data/projects.js — accessible at
+ * /progetti/<slug>. Not yet linked from the homepage (by request).
+ *
+ * Order: Navbar · Hero · Brief · Research · Concept · Process · Output ·
+ * Conclusion · Footer.
+ */
+import Base from "../../layouts/Base.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import ProjectHero from "../../components/project/ProjectHero.astro";
+import Brief from "../../components/project/Brief.astro";
+import Research from "../../components/project/Research.astro";
+import Concept from "../../components/project/Concept.astro";
+import Process from "../../components/project/Process.astro";
+import Output from "../../components/project/Output.astro";
+import Conclusion from "../../components/project/Conclusion.astro";
+import { projects } from "../../data/projects.js";
+import "../../styles/project/base.css";
+
+export function getStaticPaths() {
+  const n = projects.length;
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      index: i + 1,
+      prev: projects[(i - 1 + n) % n].slug, // cyclic
+      next: projects[(i + 1) % n].slug,
+    },
+  }));
+}
+
+const { project, index, prev, next } = Astro.props;
+---
+
+<Base title={`${project.name} — Vito Giacobelli`}>
+  <Navbar />
+
+  <main class="project">
+    <ProjectHero project={project} index={index} prev={prev} next={next} />
+    <Brief />
+    <Research count={project.research} />
+    <Concept />
+    <Process count={project.process} />
+    <Output count={project.output} />
+    <Conclusion />
+  </main>
+
+  <Footer />
+</Base>

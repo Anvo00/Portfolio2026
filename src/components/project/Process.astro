@@ -1,0 +1,62 @@
+---
+/**
+ * Process ("PROCESSO") — curved WebGL gallery (ogl). Drag or wheel-over to
+ * scrub; it bends and loops seamlessly. Photo count is variable (`count`);
+ * images are placeholders for now.
+ */
+import "../../styles/project/process.css";
+
+interface Props {
+  count?: number;
+}
+const { count = 5 } = Astro.props;
+
+const ph =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.";
+---
+
+<section class="pprocess psection section" id="processo">
+  <div class="container psection_inner">
+    <h2 class="section-title">Processo</h2>
+
+    <div class="pprocess_gallery" data-count={count} role="img" aria-label="Galleria del processo (placeholder)"></div>
+
+    <p class="pcaption">{ph} <span class="pprocess_hint">— trascina o scorri per esplorare</span></p>
+  </div>
+</section>
+
+<script>
+  import { initCircularGallery } from "../../scripts/circular-gallery.js";
+
+  const el = document.querySelector<HTMLElement>(".pprocess_gallery");
+  if (el) {
+    const count = parseInt(el.dataset.count || "5", 10);
+
+    // Placeholder image (dark SVG with a number) until real photos are added.
+    const placeholder = (n: number) =>
+      "data:image/svg+xml;utf8," +
+      encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'>` +
+          `<rect width='100%' height='100%' fill='#0e0e0e'/>` +
+          `<text x='50%' y='50%' fill='#fffaf6' fill-opacity='0.4' font-family='sans-serif' ` +
+          `font-size='44' text-anchor='middle' dominant-baseline='middle'>0${n}</text></svg>`,
+      );
+
+    const items = Array.from({ length: count }, (_, i) => ({
+      image: placeholder(i + 1),
+      text: `0${i + 1}`,
+    }));
+
+    // Init lazily when the gallery is near the viewport (saves the WebGL loop).
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          initCircularGallery(el, { items, bend: 3, borderRadius: 0.05, scrollEase: 0.05 });
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+  }
+</script>

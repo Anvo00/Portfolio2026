@@ -117,10 +117,31 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* While the intro preloader is on screen, lock scrolling */
-body.intro-active {
+/* =========================================================
+   INTRO / PAGE-TRANSITION coordination
+   `data-transition` is set on <html> (inline head script in Base.astro):
+     full → homepage first-open / refresh  → run the full intro (#intro)
+     logo → page-to-page navigation        → run the logo transition (#page-transition)
+     none → project→project or direct open → no overlay
+   Lock scroll while an overlay is playing; show only the relevant overlay
+   (set from the head script before paint, so there's no flash).
+   ========================================================= */
+html[data-transition="full"],
+html[data-transition="logo"] {
   overflow: hidden;
-  height: 100vh;
+}
+
+/* #intro (full intro) shows only on "full". */
+html[data-transition="logo"] #intro,
+html[data-transition="none"] #intro {
+  display: none !important;
+}
+
+/* #page-transition (logo overlay) shows only on "logo". */
+html[data-transition="full"] #page-transition,
+html[data-transition="none"] #page-transition,
+html:not([data-transition]) #page-transition {
+  display: none !important;
 }
 
 img,

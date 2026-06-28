@@ -1,0 +1,50 @@
+/* =========================================================
+   OUTPUT — Bento grid (24px gap)
+   Columns auto-fit to the container width, so modules reflow/repack to
+   adapt as the viewport changes (dense packing fills the holes).
+   ========================================================= */
+
+.poutput_grid {
+  display: grid;
+  /* number of columns adapts to the available width */
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 17vw, 230px), 1fr));
+  grid-auto-rows: clamp(120px, 13vw, 190px);
+  grid-auto-flow: dense; /* backfill gaps so the grid stays full */
+  gap: 24px; /* fixed 24px per spec */
+  width: 100%;
+}
+
+.poutput_mod {
+  border-radius: 8px;
+}
+
+/* Bento spans */
+.is-2x2 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.is-1x2 {
+  grid-row: span 2;
+}
+.is-2x1 {
+  grid-column: span 2;
+}
+.is-1x1 {
+  /* default 1×1 */
+}
+
+/* On narrow screens force 2 columns and flatten tall/wide spans so nothing
+   overflows the track. */
+@media (max-width: 560px) {
+  .poutput_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .is-2x2,
+  .is-2x1 {
+    grid-column: span 2;
+  }
+  .is-2x2,
+  .is-1x2 {
+    grid-row: span 1;
+  }
+}

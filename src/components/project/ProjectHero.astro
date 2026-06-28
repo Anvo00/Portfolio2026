@@ -1,0 +1,46 @@
+---
+/**
+ * Project hero — full-frame (100vh) cover card inset by 32px.
+ * Holds: a BACK link, prev/next arrows that cycle through the projects,
+ * the "PROGETTO N" label and the project title.
+ * Cover image is a placeholder for now.
+ */
+import "../../styles/project/hero.css";
+
+interface Props {
+  project: { slug: string; name: string };
+  index: number;
+  prev: string;
+  next: string;
+}
+const { project, index, prev, next } = Astro.props;
+---
+
+<section class="phero">
+  <!-- Back to the homepage (link target may change once pages are wired up) -->
+  <a class="phero_back" href="/">
+    <span aria-hidden="true">✕</span> BACK
+  </a>
+
+  <!-- Prev / next project -->
+  <a class="phero_arrow phero_arrow--prev" href={`/progetti/${prev}`} aria-label="Progetto precedente">
+    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" aria-hidden="true">
+      <path d="M15 5L8 12l7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </a>
+  <a class="phero_arrow phero_arrow--next" href={`/progetti/${next}`} aria-label="Progetto successivo">
+    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" aria-hidden="true">
+      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </a>
+
+  <div class="phero_card">
+    <!-- Cover image placeholder -->
+    <div class="phero_cover placeholder" aria-hidden="true"></div>
+
+    <div class="phero_caption">
+      <span class="phero_index">PROGETTO {index}</span>
+      <h1 class="phero_title">{project.name}</h1>
+    </div>
+  </div>
+</section>

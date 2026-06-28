@@ -1,0 +1,77 @@
+/* =========================================================
+   RESEARCH ("RICERCA") — fanned card reveal
+   ========================================================= */
+
+.presearch {
+  overflow: hidden; /* clip the oversized title + fan bleed */
+}
+
+.presearch_inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 80px);
+}
+
+/* Title (behind) + cards (in front) stacked in the same cell. */
+.presearch_stage {
+  position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  min-height: clamp(260px, 30vw, 400px);
+}
+
+/* Oversized faded blue wordmark behind the cards. */
+.presearch_title {
+  grid-area: 1 / 1;
+  z-index: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(80px, 17vw, 250px);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.5;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Cards container — also centres its children (they start stacked). */
+.presearch_cards {
+  grid-area: 1 / 1;
+  z-index: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.presearch_card {
+  grid-area: 1 / 1; /* all start centred; inline transform fans them out */
+  width: clamp(110px, 11vw, 160px);
+  aspect-ratio: 3 / 4; /* rectangular, portrait (per mockup) */
+  /* will-change is applied by JS only for the duration of the reveal tween,
+     then cleared — keeping it on permanently pins a GPU layer per card. */
+}
+.presearch_card:hover {
+  z-index: 50;
+}
+
+/* Black rectangular card (placeholder); lifts on hover. */
+.presearch_card-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.presearch_card:hover .presearch_card-inner {
+  transform: translateY(-12px);
+}
+
+@media (max-width: 768px) {
+  /* Scale the whole fan down so it fits narrow screens. */
+  .presearch_cards {
+    transform: scale(0.62);
+  }
+}

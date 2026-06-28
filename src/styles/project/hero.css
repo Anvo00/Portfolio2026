@@ -1,0 +1,120 @@
+/* =========================================================
+   PROJECT HERO
+   100vh, inset by 32px. Cover card + overlaid controls/caption.
+   ========================================================= */
+
+.phero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  padding: 32px;
+}
+
+/* The cover card fills the inset frame. */
+.phero_card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.phero_cover {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* Caption at the bottom-centre, over the cover. */
+.phero_caption {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--white);
+  padding-block-end: clamp(32px, 6vh, 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+.phero_index {
+  font-weight: 600;
+  font-size: clamp(13px, 1vw, 16px);
+  letter-spacing: 0.18em;
+}
+.phero_title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 7vw, 104px);
+  line-height: var(--lh-tight);
+  text-transform: uppercase;
+}
+
+/* ---------- Controls ---------- */
+.phero_back {
+  position: absolute;
+  /* clears the fixed navbar */
+  top: clamp(96px, 12vh, 120px);
+  left: clamp(32px, 4vw, 56px);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: var(--fs-nav);
+  letter-spacing: 0.08em;
+  color: var(--white);
+  mix-blend-mode: difference; /* stays legible over any cover */
+  transition: opacity 0.18s ease;
+}
+.phero_back:hover,
+.phero_back:focus-visible {
+  opacity: 0.7;
+}
+
+.phero_arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  color: var(--black);
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+.phero_arrow:hover,
+.phero_arrow:focus-visible {
+  color: var(--accent);
+}
+.phero_arrow--prev {
+  left: 0;
+}
+.phero_arrow--prev:hover {
+  transform: translateY(-50%) translateX(-3px);
+}
+.phero_arrow--next {
+  right: 0;
+}
+.phero_arrow--next:hover {
+  transform: translateY(-50%) translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .phero {
+    padding: 16px;
+  }
+  .phero_back {
+    top: 88px;
+    left: 24px;
+  }
+  .phero_arrow {
+    width: 40px;
+    height: 40px;
+  }
+}

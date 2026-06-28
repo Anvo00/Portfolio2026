@@ -1,0 +1,31 @@
+---
+/**
+ * Output — caption + a Bento grid of placeholder modules (24px gap).
+ * Module count is variable (`count`); sizes cycle through a pattern so the
+ * grid stays balanced for any number.
+ */
+import "../../styles/project/output.css";
+
+interface Props {
+  count?: number;
+}
+const { count = 5 } = Astro.props;
+
+// Repeating size pattern for a bento rhythm.
+const pattern = ["is-2x2", "is-1x2", "is-1x1", "is-2x1", "is-1x1", "is-1x1"];
+const modules = Array.from({ length: count }, (_, i) => pattern[i % pattern.length]);
+
+const ph =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
+---
+
+<section class="poutput psection section" id="output">
+  <div class="container psection_inner">
+    <h2 class="section-title">Output</h2>
+    <p class="pcaption">{ph}</p>
+
+    <div class="poutput_grid">
+      {modules.map((size) => <div class={`poutput_mod placeholder ${size}`} />)}
+    </div>
+  </div>
+</section>

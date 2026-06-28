@@ -1,0 +1,20 @@
+/* =========================================================
+   PAGE TRANSITION OVERLAY (logo)
+   Visibility is controlled by html[data-transition] in global.css.
+   ========================================================= */
+
+#page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 1000; /* above the navbar (z-index 100) */
+  background: var(--black);
+  display: grid;
+  place-items: center;
+}
+
+#pt-logo {
+  width: clamp(7rem, 24vw, 11rem);
+  height: auto;
+  overflow: visible;
+  place-self: center;
+}
