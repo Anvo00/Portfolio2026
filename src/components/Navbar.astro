@@ -2,18 +2,46 @@
 /**
  * Navbar — fixed black "pill" at the top of the page.
  * Layout: logo (left) · nav links (centre) · CONTATTAMI CTA (right).
- * On small screens the links collapse behind a hamburger toggle.
+ *
+ * Scroll behaviour: after a short scroll the pill collapses (on desktop AND
+ * mobile) to a single morphing button fixed in the top-right corner. That
+ * button toggles the fullscreen "index" overlay below. The button also acts as
+ * the menu's close control (hamburger ↔ X morph).
+ *
+ * The index overlay slides DOWN from the top, full 100vw/100vh, and is built
+ * like a piano: decorative key-bars on the left, three menu rows on the right.
+ * Hovering a row fills the whole band with the blue monogram pattern.
  */
 import "../styles/navbar.css";
 
+// Centre links shown in the full pill (top of page).
 const links = [
   { label: "HOME", href: "#home" },
   { label: "ABOUT", href: "#about" },
   { label: "PROGETTI", href: "#progetti" },
 ];
+
+// Index rows (per the reference). Absolute targets so they work from any page.
+const menu = [
+  { label: "HOME", href: "/" },
+  { label: "PROGETTI", href: "/#progetti" },
+  { label: "ABOUT", href: "/#about" },
+];
+
+// Decorative piano-key bars (left third). `b` = filled (black) vs gap; `f` = flex ratio.
+// All black keys share the same size; the cream gaps give the piano rhythm.
+const keys = [
+  { b: true, f: 12 },
+  { b: false, f: 6 },
+  { b: true, f: 12 },
+  { b: false, f: 20 },
+  { b: true, f: 12 },
+  { b: false, f: 18 },
+  { b: true, f: 12 },
+];
 ---
 
-<header class="nav">
+<header class="nav" data-nav>
   <div class="container nav_container">
     <nav class="navbar" aria-label="Navigazione principale">
       <!-- LOGO (current monogram — will be swapped for the new Logo.svg) -->
@@ -33,58 +61,102 @@ const links = [
       </a>
 
       <!-- DESKTOP LINKS (centred) -->
-      <ul class="nav_links" id="nav-links">
-        {
-          links.map((l) => (
-            <li>
-              <a href={l.href}>{l.label}</a>
-            </li>
-          ))
-        }
-        <!-- CTA appears here only in the mobile dropdown -->
-        <li class="nav_links-cta">
-          <a href="#contatti" class="nav_cta nav_cta--mobile">CONTATTAMI</a>
-        </li>
+      <ul class="nav_links">
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
       </ul>
 
       <!-- DESKTOP CTA -->
       <a href="#contatti" class="nav_cta nav_cta--desktop">CONTATTAMI</a>
 
-      <!-- MOBILE TOGGLE -->
+      <!-- COLLAPSED TOGGLE — as the pill shrinks to the right it becomes this
+           square button (morphing hamburger ↔ X). Also closes the open index. -->
       <button
-        class="nav_toggle"
+        class="nav_menu-btn"
         aria-label="Apri il menu"
         aria-expanded="false"
-        aria-controls="nav-links"
+        aria-controls="menu-index"
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        <svg
+          class="menu-icon"
+          viewBox="0 0 32 32"
+          width="32"
+          height="32"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            class="menu-icon_morph"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+          ></path>
+          <path d="M7 16 27 16"></path>
+        </svg>
       </button>
     </nav>
   </div>
 </header>
 
-<script>
-  // Mobile menu toggle (no animation library — plain class flip).
-  const toggle = document.querySelector(".nav_toggle");
-  const links = document.getElementById("nav-links");
-  const navbar = document.querySelector(".navbar");
+<!-- FULLSCREEN INDEX OVERLAY (slides down from the top) -->
+<div id="menu-index" class="menu" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
+  <!-- Left: decorative piano-key bars (behind the rows). -->
+  <div class="menu_keys" aria-hidden="true">
+    {keys.map((k) => (
+      <span class={`menu_key${k.b ? " is-black" : ""}`} style={`flex:${k.f}`}></span>
+    ))}
+  </div>
 
-  if (toggle && links && navbar) {
-    const close = () => {
-      navbar.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Apri il menu");
+  <!-- Right: the three menu rows. -->
+  <nav class="menu_rows" aria-label="Indice del sito">
+    {menu.map((m) => (
+      <a class="menu_row" href={m.href}>
+        <span class="menu_label">{m.label}</span>
+      </a>
+    ))}
+  </nav>
+</div>
+
+<script>
+  const SCROLL_THRESHOLD = 70; // px scrolled before the pill collapses
+  const root = document.documentElement;
+  const btn = document.querySelector<HTMLButtonElement>(".nav_menu-btn");
+  const overlay = document.getElementById("menu-index");
+
+  /* ---- Collapse the pill into the corner button on scroll ----
+     State lives on <html> (`nav-compact`) so the button — which sits outside
+     the navbar's stacking context — can react to it too. */
+  let compact = false;
+  const onScroll = () => {
+    const next = window.scrollY > SCROLL_THRESHOLD;
+    if (next !== compact) {
+      compact = next;
+      root.classList.toggle("nav-compact", compact);
+    }
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* ---- Open / close the fullscreen index ---- */
+  if (btn && overlay) {
+    const setOpen = (open: boolean) => {
+      root.classList.toggle("menu-open", open);
+      overlay.setAttribute("aria-hidden", String(!open));
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
     };
 
-    toggle.addEventListener("click", () => {
-      const open = navbar.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
+    btn.addEventListener("click", () => setOpen(!root.classList.contains("menu-open")));
+
+    // Close on Escape.
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && root.classList.contains("menu-open")) setOpen(false);
     });
 
-    // Close after picking a destination.
-    links.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+    // Close when a destination is picked (navigation then proceeds).
+    overlay.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
   }
 </script>

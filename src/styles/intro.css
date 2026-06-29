@@ -54,6 +54,14 @@
   display: inline-block;
 }
 
+/* Start "HI" hidden (matches intro.js's reveal) so it doesn't flash full-size
+   for a frame before GSAP initialises. */
+.phrase1 .mask_inner {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-origin: center center;
+}
+
 .guides {
   position: absolute;
   inset: 0;

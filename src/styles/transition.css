@@ -17,4 +17,7 @@
   height: auto;
   overflow: visible;
   place-self: center;
+  /* Start hidden so the full outline doesn't flash for a frame before
+     page-transition.js sets the stroke-dash and reveals it. */
+  opacity: 0;
 }

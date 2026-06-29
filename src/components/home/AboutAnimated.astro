@@ -1,0 +1,183 @@
+---
+/**
+ * AboutAnimated — scroll-pinned "HI, I'M VITO" reveal.
+ *
+ * A self-contained block: drop it anywhere on a page and it pins itself
+ * full-frame and scrubs the animation to the scroll position (stop
+ * scrolling → animation stops). It builds up to the resting "HI, I'M VITO"
+ * composition.
+ *
+ * Animation (GSAP + ScrollTrigger, see <script> below):
+ *   1. the portrait rises up from the bottom, revealed through its frame
+ *   2. two blue cards slide out from behind the photo (subtle fan) while the
+ *      wordmark rises up from under a mask, small, below the photo
+ *   3. that small label grows into the mega headline that wraps the photo
+ *   4. only once the headline is big, the tagline reveals word-by-word
+ *   5. the "SCOPRI DI PIÚ" CTA fades in
+ *
+ * Reduced-motion users get the static resting composition (no pin/scrub).
+ */
+import "../../styles/about-animated.css";
+
+const taglineLines = [
+  "Graphic Designer e Web Developer.",
+  "Il mio sogno? Ridare al mondo i suoi colori",
+];
+// Split each line into words so each can be revealed individually.
+const taglineWords = taglineLines.map((line) => line.split(" "));
+---
+
+<section class="abouta section" id="about" data-about-animated>
+  <div class="abouta_inner">
+    <div class="abouta_stage">
+      <!-- One continuous wordmark; the photo overlaps its centre ("'M").
+           Wrapped in a mask so it can be revealed sliding up from below. -->
+      <p class="abouta_headline" aria-label="Hi, I'm Vito">
+        <span class="abouta_htext-mask" aria-hidden="true">
+          <span class="abouta_htext"
+            >HI,&nbsp;I<span class="abouta_pivot">’M</span>&nbsp;VITO</span
+          >
+        </span>
+      </p>
+
+      <figure class="abouta_photo" aria-hidden="true">
+        <span class="abouta_card abouta_card--left"></span>
+        <span class="abouta_card abouta_card--right"></span>
+        <span class="abouta_mask">
+          <!-- eager + async decode so the large image is ready before the
+               user scrolls here, keeping the scrubbed animation smooth. -->
+          <img
+            src="/images/personal_photo_about.jpg"
+            alt="Ritratto di Vito Giacobelli"
+            width="1200"
+            height="1800"
+            loading="eager"
+            decoding="async"
+          />
+        </span>
+      </figure>
+    </div>
+
+    <!-- aria-label carries the full text; the per-word spans are decorative. -->
+    <p class="abouta_tagline" aria-label={taglineLines.join(" ")}>
+      {
+        taglineWords.map((words, li) => (
+          <>
+            {words.map((word, wi) => (
+              <>
+                <span class="abouta_word" aria-hidden="true">{word}</span>
+                {wi < words.length - 1 ? " " : ""}
+              </>
+            ))}
+            {li === 0 && <br />}
+          </>
+        ))
+      }
+    </p>
+
+    <a href="/info" class="abouta_cta">SCOPRI DI PIÚ</a>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Track contexts so we can tear everything down on hot reload — otherwise
+  // dev HMR stacks a fresh timeline on top of the old one and you see two
+  // animations running over each other.
+  const contexts: ReturnType<typeof gsap.context>[] = [];
+
+  /** Build the pinned, scrubbed timeline for one AboutAnimated section. */
+  function build(section: HTMLElement) {
+    const ctx = gsap.context(() => {
+      const photoImg = section.querySelector<HTMLElement>(".abouta_mask img");
+      const photo = section.querySelector<HTMLElement>(".abouta_photo");
+      const htextMask = section.querySelector<HTMLElement>(".abouta_htext-mask");
+      const htext = section.querySelector<HTMLElement>(".abouta_htext");
+      const cardL = section.querySelector<HTMLElement>(".abouta_card--left");
+      const cardR = section.querySelector<HTMLElement>(".abouta_card--right");
+      const words = section.querySelectorAll<HTMLElement>(".abouta_word");
+      const cta = section.querySelector<HTMLElement>(".abouta_cta");
+
+      if (!photoImg || !photo || !htextMask || !htext || !cardL || !cardR || !cta) {
+        return;
+      }
+
+      // matchMedia handles the reduced-motion fork: only the no-preference
+      // branch animates, so reduced-motion users keep the static CSS layout.
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // ----- Intro (pre-scroll) states -----
+        gsap.set(photo, { transformOrigin: "center center" });
+        gsap.set(photoImg, { yPercent: 110 }); // below its frame, hidden by mask
+        gsap.set([cardL, cardR], { autoAlpha: 0, xPercent: 0, yPercent: 0, rotate: 0 });
+        gsap.set(htextMask, {
+          scale: 0.26, // small label…
+          y: () => photo.offsetHeight * 0.72, // …sitting well below the photo
+          transformOrigin: "center center",
+        });
+        gsap.set(htext, { yPercent: 125 }); // below its mask, hidden
+        gsap.set(words, { autoAlpha: 0 }); // fully hidden until the very end
+        gsap.set(cta, { autoAlpha: 0, y: 28 });
+
+        // ----- Master timeline, scrubbed to the scroll -----
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=300%", // scroll distance the scene is stretched over
+            pin: true,
+            scrub: 0.6, // smooth, but still stops when the scroll stops
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // 1 — portrait rises up from the bottom, revealed by its frame
+        tl.to(photoImg, { yPercent: 0, duration: 1.0, ease: "power2.out" }, 0);
+
+        // 2 — blue cards slide out from behind the photo (subtle fan) AND the
+        //     wordmark rises up from under its mask (still small, below photo)
+        tl.to(cardL, { autoAlpha: 1, xPercent: -7, yPercent: -4, rotate: -5, duration: 0.8, ease: "power2.out" }, 0.9);
+        tl.to(cardR, { autoAlpha: 1, xPercent: 7, yPercent: 4, rotate: 5, duration: 0.8, ease: "power2.out" }, 0.95);
+        tl.to(htext, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 1.0);
+
+        // 3 — the small label grows into the mega headline wrapping the photo,
+        //     while the photo+cards group eases down a touch in scale
+        tl.to(htextMask, { scale: 1, y: 0, duration: 1.3, ease: "power2.out" }, 2.0);
+        tl.to(photo, { scale: 0.86, duration: 1.3, ease: "power2.out" }, 2.0);
+
+        // 4 — only now (headline is big) does the tagline reveal word-by-word
+        tl.to(words, { autoAlpha: 1, duration: 1.2, stagger: { each: 0.05 } }, 3.4);
+
+        // 5 — CTA fades in as the final beat
+        tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.5 }, 4.7);
+      });
+    }, section);
+
+    contexts.push(ctx);
+  }
+
+  // Initialise every AboutAnimated block on the page (once each).
+  document.querySelectorAll<HTMLElement>("[data-about-animated]").forEach((section) => {
+    if (section.dataset.aboutInit) return;
+    section.dataset.aboutInit = "1";
+    build(section);
+  });
+
+  // Tear down cleanly on hot reload so timelines/ScrollTriggers never stack.
+  if (import.meta.hot) {
+    import.meta.hot.dispose(() => {
+      contexts.forEach((c) => c.revert());
+      contexts.length = 0;
+      document
+        .querySelectorAll<HTMLElement>("[data-about-animated]")
+        .forEach((s) => delete s.dataset.aboutInit);
+    });
+  }
+</script>

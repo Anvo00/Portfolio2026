@@ -27,12 +27,13 @@ if (root.dataset.transition !== "full") {
 
   // === STEP 1 - HI ===
 
-  /* .from() dice "parti da questo stato e arriva al normale"*/
-  tl.from(
-    " .phrase1 .mask_inner",
+  /* The start state (scale 0.6 / opacity 0) lives in intro.css so "HI" never
+     flashes before GSAP runs; here we just animate it to its natural state. */
+  tl.to(
+    ".phrase1 .mask_inner",
     {
-      scale: 0.6,
-      opacity: 0,
+      scale: 1,
+      opacity: 1,
       duration: d,
       transformOrigin: "center center",
     },

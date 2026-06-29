@@ -1,0 +1,100 @@
+---
+/**
+ * Info — static, full-frame "about / info" page reached from the About
+ * animation's "SCOPRI DI PIÚ" CTA. The LAYOUT mirrors the supplied reference;
+ * the palette, fonts and photo are the portfolio's own.
+ *
+ * NOTE: the copy below (lead/body, status, and especially the skills lists)
+ * is placeholder content — swap it for Vito's real details.
+ */
+import Base from "../layouts/Base.astro";
+import "../styles/info.css";
+
+// Placeholder skill groups — edit freely (titles + items).
+const skills = [
+  { title: "Frontend", items: ["HTML / CSS", "JavaScript", "TypeScript", "Astro", "React"] },
+  { title: "Animazione", items: ["GSAP", "Lenis", "Framer Motion", "CSS Animations"] },
+  { title: "Design", items: ["Figma", "Illustrator", "Photoshop", "InDesign", "After Effects"] },
+  { title: "Strumenti", items: ["Git", "Node.js", "Vite", "Netlify"] },
+];
+---
+
+<Base title="Info — Vito Giacobelli">
+  <main class="info">
+    <div class="info_grid">
+      <!-- ============ LEFT COLUMN ============ -->
+      <aside class="info_aside">
+        <h1 class="info_title">Info</h1>
+
+        <figure class="info_photo">
+          <img
+            src="/images/personal_photo_about.jpg"
+            alt="Ritratto di Vito Giacobelli"
+            width="1200"
+            height="1800"
+          />
+          <span class="info_corner info_corner--tl"></span>
+          <span class="info_corner info_corner--tr"></span>
+          <span class="info_corner info_corner--bl"></span>
+          <span class="info_corner info_corner--br"></span>
+        </figure>
+
+        <div class="info_asideFoot">
+          <dl class="info_meta">
+            <div class="info_metaRow">
+              <dt class="info_metaLabel">Based in</dt>
+              <dd class="info_metaValue">Firenze, Italia</dd>
+            </div>
+            <div class="info_metaRow">
+              <dt class="info_metaLabel">Status</dt>
+              <dd class="info_metaValue">In cerca di un tirocinio</dd>
+            </div>
+          </dl>
+
+          <a class="info_email" href="mailto:vitogiacobelli@accademiaitaliana.it">
+            vitogiacobelli@accademiaitaliana.it
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ RIGHT COLUMN ============ -->
+      <section class="info_main">
+        <a class="info_back" href="/">Indietro</a>
+
+        <div class="info_about">
+          <p class="info_eyebrow">Chi sono</p>
+          <h2 class="info_name">Vito Giacobelli.</h2>
+          <p class="info_lead">
+            Graphic Designer &amp; Web Developer, specializzato nel web design.
+          </p>
+          <p class="info_body">
+            Creo esperienze su misura dove la precisione tecnica incontra
+            l&rsquo;emozione. Appassionato di animazione, interazione e
+            <em>dettaglio</em>, cerco sempre la simbiosi tra arte e informazione.
+          </p>
+        </div>
+
+        <div class="info_mainFoot">
+          <hr class="info_divider" />
+
+          <div class="info_skills">
+            {
+              skills.map((col) => (
+                <div class="info_skillCol">
+                  <p class="info_skillTitle">{col.title}</p>
+                  <ul class="info_skillList">
+                    {col.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+
+          <p class="info_version">&rarr; V1.0</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</Base>

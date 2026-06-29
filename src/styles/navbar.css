@@ -1,6 +1,9 @@
 /* =========================================================
    NAVBAR
-   Fixed black pill: logo · links · CONTATTAMI CTA.
+   Fixed black pill (logo · links · CTA) that, on scroll, SHRINKS to the
+   right and becomes a single morphing button (hamburger ↔ X). The pill box
+   itself never fades — it just contracts; only its inner content fades out
+   and the icon fades in. That button opens the fullscreen index overlay.
    ========================================================= */
 
 .nav {
@@ -8,21 +11,33 @@
   inset-block-start: var(--space-4); /* 24px from the top */
   inset-inline: 0;
   z-index: 100;
+  pointer-events: none; /* wrapper never catches clicks — only the pill does */
 }
-
-.nav_container {
-  /* uses .container width cap + margins */
+/* While the index is open, lift the navbar above the overlay so the corner
+   button keeps working as the close (X) control. */
+html.menu-open .nav {
+  z-index: 600;
 }
 
 .navbar {
   position: relative;
+  width: 100%;
+  height: 56px;
+  margin-inline-start: auto; /* anchored right, so it collapses rightward */
   background: var(--black);
   border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-2) var(--space-4);
+  padding-inline: var(--space-4);
   color: var(--white);
+  overflow: hidden; /* clip the inner content while the pill shrinks */
+  pointer-events: auto;
+  transition:
+    width 0.72s cubic-bezier(0.7, 0, 0.2, 1),
+    padding 0.72s cubic-bezier(0.7, 0, 0.2, 1),
+    border-radius 0.72s cubic-bezier(0.7, 0, 0.2, 1),
+    background-color 0.3s ease;
 }
 
 /* ---------- Logo ---------- */
@@ -30,6 +45,7 @@
   display: flex;
   flex: 0 0 auto;
   padding-inline: var(--space-2);
+  transition: opacity 0.2s ease;
 }
 .nav_logo svg {
   height: 32px;
@@ -45,6 +61,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  transition: opacity 0.4s ease;
 }
 .nav_links a {
   transition: color 0.18s ease;
@@ -52,10 +69,6 @@
 .nav_links a:hover,
 .nav_links a:focus-visible {
   color: var(--accent);
-}
-/* The CTA inside the list is only used in the mobile dropdown. */
-.nav_links-cta {
-  display: none;
 }
 
 /* ---------- CTA button ---------- */
@@ -68,33 +81,189 @@
   font-size: var(--fs-nav);
   display: inline-flex;
   align-items: center;
-  transition: filter 0.18s ease;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  transition: filter 0.18s ease, opacity 0.4s ease;
 }
 .nav_cta:hover,
 .nav_cta:focus-visible {
   filter: brightness(1.12);
 }
-.nav_cta--desktop {
-  flex: 0 0 auto;
+
+/* ---------- Morphing corner button (lives inside the pill, pinned right) ---------- */
+.nav_menu-btn {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: inherit; /* white, inherited from the pill */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease 0.12s, color 0.4s ease;
+}
+.nav_menu-btn .menu-icon {
+  width: 30px;
+  height: 30px;
 }
 
-/* ---------- Mobile hamburger toggle ---------- */
-.nav_toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
+/* Morphing icon (ported from the provided SVG: dash-array morph + rotate). */
+.menu-icon {
+  transition: transform 500ms ease-in-out;
 }
-.nav_toggle span {
-  display: block;
-  height: 2px;
-  width: 100%;
+.menu-icon_morph {
+  stroke-dasharray: 12 63;
+  transition: stroke-dasharray 500ms ease-in-out, stroke-dashoffset 500ms ease-in-out;
+}
+
+/* =========================================================
+   COLLAPSED STATE
+   Applied when scrolled (html.nav-compact) or when the index is open.
+   The pill contracts to a 56px square; its content fades out; the icon in.
+   ========================================================= */
+html.nav-compact .navbar,
+html.menu-open .navbar {
+  width: 56px;
+  padding-inline: 0;
+  border-radius: 16px;
+}
+html.nav-compact .nav_logo,
+html.nav-compact .nav_links,
+html.nav-compact .nav_cta--desktop,
+html.menu-open .nav_logo,
+html.menu-open .nav_links,
+html.menu-open .nav_cta--desktop {
+  opacity: 0;
+  pointer-events: none;
+}
+html.nav-compact .nav_menu-btn,
+html.menu-open .nav_menu-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* When the index is open the corner button becomes the close control:
+   light-grey square + dark icon (per the reference). */
+html.menu-open .navbar {
+  background: rgba(14, 14, 14, 0.08);
+}
+html.menu-open .nav_menu-btn {
+  color: var(--black);
+}
+html.menu-open .menu-icon {
+  transform: rotate(-45deg);
+}
+html.menu-open .menu-icon_morph {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42px;
+}
+
+/* =========================================================
+   FULLSCREEN INDEX OVERLAY (slides down from the top)
+   ========================================================= */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
   background: var(--white);
-  border-radius: 2px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  display: flex; /* keys + rows */
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.7s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s linear 0.6s;
+  /* Width of the decorative key column / left inset for the labels. */
+  --keys-width: clamp(150px, 33vw, 680px);
+}
+html.menu-open .menu {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s;
+}
+
+/* ---------- Right: the three menu rows (the background layer) ---------- */
+.menu_rows {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu_row {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Centre the label within the area to the RIGHT of the key column. */
+  padding-inline-start: var(--keys-width);
+  background-color: transparent;
+  transition: background-color 0.35s ease;
+  overflow: hidden;
+}
+.menu_row + .menu_row {
+  border-block-start: 1px solid rgba(14, 14, 14, 0.14);
+}
+
+/* Blue monogram pattern, faded in on hover (sits over the accent fill). */
+.menu_row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/menu-pattern.svg");
+  background-size: 200px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.menu_label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(40px, 8vw, 110px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--black);
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+/* Hover (or keyboard focus) — fill the whole band blue + bold white label.
+   The key column sits ABOVE this fill (see below), so the black keys stay
+   black and only the cream gaps + the right side turn blue. */
+.menu_row:hover,
+.menu_row:focus-visible {
+  background-color: var(--accent);
+}
+.menu_row:hover::before,
+.menu_row:focus-visible::before {
+  opacity: 1;
+}
+.menu_row:hover .menu_label,
+.menu_row:focus-visible .menu_label {
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* ---------- Left: piano-key bars (rendered ABOVE the row fills) ---------- */
+.menu_keys {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--keys-width);
+  display: flex;
+  flex-direction: column;
+  z-index: 2; /* above the row hover background */
+  pointer-events: none; /* let hovers pass through to the row beneath */
+}
+.menu_key {
+  width: 100%;
+}
+.menu_key.is-black {
+  background: var(--black);
 }
 
 /* =========================================================
@@ -105,56 +274,30 @@
     inset-block-start: var(--space-3);
   }
 
+  /* On mobile the pill never fits the links — keep it permanently collapsed. */
   .navbar {
-    border-radius: var(--radius);
-    flex-wrap: wrap;
+    width: 50px;
+    height: 50px;
+    padding-inline: 0;
+    border-radius: 16px;
   }
-
-  /* Hide the desktop-only pieces, show the toggle. */
+  .nav_logo,
+  .nav_links,
   .nav_cta--desktop {
-    display: none;
-  }
-  .nav_toggle {
-    display: flex;
-  }
-
-  /* Collapse the links into a dropdown panel below the bar. */
-  .nav_links {
-    position: static;
-    transform: none;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    width: 100%;
-    /* hidden until .navbar.is-open */
-    max-height: 0;
-    overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
-    padding: 0;
   }
-
-  .navbar.is-open .nav_links {
-    max-height: 60vh;
+  .nav_menu-btn {
+    width: 50px;
+    height: 50px;
     opacity: 1;
     pointer-events: auto;
-    padding-block: var(--space-4) var(--space-2);
   }
+}
 
-  /* Show the CTA inside the dropdown on mobile. */
-  .nav_links-cta {
-    display: block;
-  }
-
-  /* Turn the hamburger into an X when open. */
-  .navbar.is-open .nav_toggle span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .navbar.is-open .nav_toggle span:nth-child(2) {
-    opacity: 0;
-  }
-  .navbar.is-open .nav_toggle span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+/* Respect reduced-motion: no slide, just appear. */
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    transition: visibility 0s;
   }
 }
