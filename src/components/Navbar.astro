@@ -1,17 +1,4 @@
 ---
-/**
- * Navbar — fixed black "pill" at the top of the page.
- * Layout: logo (left) · nav links (centre) · CONTATTAMI CTA (right).
- *
- * Scroll behaviour: after a short scroll the pill collapses (on desktop AND
- * mobile) to a single morphing button fixed in the top-right corner. That
- * button toggles the fullscreen "index" overlay below. The button also acts as
- * the menu's close control (hamburger ↔ X morph).
- *
- * The index overlay slides DOWN from the top, full 100vw/100vh, and is built
- * like a piano: decorative key-bars on the left, three menu rows on the right.
- * Hovering a row fills the whole band with the blue monogram pattern.
- */
 import "../styles/navbar.css";
 
 // Centre links shown in the full pill (top of page).
@@ -131,6 +118,7 @@ const keys = [
      the navbar's stacking context — can react to it too. */
   let compact = false;
   const onScroll = () => {
+    if (root.dataset.transition === "full") return; // intro playing — stay expanded
     const next = window.scrollY > SCROLL_THRESHOLD;
     if (next !== compact) {
       compact = next;

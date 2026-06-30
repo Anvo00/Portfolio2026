@@ -11,6 +11,10 @@ if (root.dataset.transition !== "full") {
   const intro = document.getElementById("intro");
   if (intro) intro.style.display = "none";
 } else {
+  // Prevent the browser from restoring a non-zero scroll position when
+  // overflow:hidden is released at the end of the intro.
+  if (history.scrollRestoration) history.scrollRestoration = "manual";
+  window.scrollTo(0, 0);
   const tl = gsap.timeline();
   const d = 0.7,
     ease = "power3.out";
@@ -76,12 +80,13 @@ if (root.dataset.transition !== "full") {
 
   // === TRANSIZIONE ===
   tl.addLabel("toHome", "+=0.15");
-  tl.to("#logo", { scale: 32, transformOrigin: "center center", duration: 0.6, ease: "power2.inOut" }, "toHome");
+  tl.to("#logo", { scale: 32, transformOrigin: "center center", duration: 0.65, ease: "power2.inOut" }, "toHome");
   tl.to("#intro", { backgroundColor: "rgba(14,14,14,0)", duration: 0.6, ease: "power2.inOut" }, "toHome");
-  tl.to("#logo", { autoAlpha: 0, duration: 0.6, ease: "power2.inOut" }, "toHome");
+  tl.to("#logo", { autoAlpha: 0, duration: 0.65, ease: "power2.inOut" }, "toHome");
   tl.set("#intro", { display: "none" }); // Per rimuovere l'overlay
   tl.call(() => {
-    root.dataset.transition = "none"; // release the scroll lock
+    window.scrollTo(0, 0); // ensure scroll is at top before releasing overflow lock
+    root.dataset.transition = "none";
   });
 
   // === TIME MANAGEMENT ===

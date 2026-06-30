@@ -12,6 +12,8 @@
   inset-inline: 0;
   z-index: 100;
   pointer-events: none; /* wrapper never catches clicks — only the pill does */
+  display: flex;
+  justify-content: center;
 }
 /* While the index is open, lift the navbar above the overlay so the corner
    button keeps working as the close (X) control. */
@@ -21,20 +23,25 @@ html.menu-open .nav {
 
 .navbar {
   position: relative;
-  width: 100%;
-  height: 56px;
-  margin-inline-start: auto; /* anchored right, so it collapses rightward */
+  width: 80%;
+  height: 64px;
+  /* Concrete % values instead of `auto` so CSS can interpolate the transition.
+     (100% − 80%) / 2 = 10% → centred. `auto` is not interpolable in CSS. */
+  margin-inline-start: 10%;
+  margin-inline-end: 10%;
   background: var(--black);
   border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-inline: var(--space-4);
+  padding-inline: var(--space-3);
   color: var(--white);
-  overflow: hidden; /* clip the inner content while the pill shrinks */
+  overflow: hidden;
   pointer-events: auto;
   transition:
     width 0.72s cubic-bezier(0.7, 0, 0.2, 1),
+    margin-inline-start 0.72s cubic-bezier(0.7, 0, 0.2, 1),
+    margin-inline-end 0.72s cubic-bezier(0.7, 0, 0.2, 1),
     padding 0.72s cubic-bezier(0.7, 0, 0.2, 1),
     border-radius 0.72s cubic-bezier(0.7, 0, 0.2, 1),
     background-color 0.3s ease;
@@ -95,8 +102,8 @@ html.menu-open .nav {
   position: absolute;
   inset-block: 0;
   inset-inline-end: 0;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: grid;
   place-items: center;
   color: inherit; /* white, inherited from the pill */
@@ -105,8 +112,8 @@ html.menu-open .nav {
   transition: opacity 0.25s ease 0.12s, color 0.4s ease;
 }
 .nav_menu-btn .menu-icon {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
 }
 
 /* Morphing icon (ported from the provided SVG: dash-array morph + rotate). */
@@ -118,14 +125,12 @@ html.menu-open .nav {
   transition: stroke-dasharray 500ms ease-in-out, stroke-dashoffset 500ms ease-in-out;
 }
 
-/* =========================================================
-   COLLAPSED STATE
-   Applied when scrolled (html.nav-compact) or when the index is open.
-   The pill contracts to a 56px square; its content fades out; the icon in.
-   ========================================================= */
+/* === COLLAPSED STATE === */
 html.nav-compact .navbar,
 html.menu-open .navbar {
-  width: 56px;
+  width: 64px;
+  margin-inline-start: calc(100% - 64px);
+  margin-inline-end: 0;
   padding-inline: 0;
   border-radius: 16px;
 }
@@ -278,6 +283,8 @@ html.menu-open .menu {
   .navbar {
     width: 50px;
     height: 50px;
+    margin-inline-start: calc(100% - 50px);
+    margin-inline-end: 0;
     padding-inline: 0;
     border-radius: 16px;
   }

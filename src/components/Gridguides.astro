@@ -1,0 +1,41 @@
+---
+// Overlay di debug: mostra le 12 colonne con gap 24px.
+// Si attiva/disattiva premendo il tasto "G".
+---
+<div id="grid-guides" class="grid-guides" aria-hidden="true">
+  <div class="container">
+    <div class="grid grid-guides_grid">
+      {Array.from({ length: 12 }).map(() => <span class="grid-guides_col"></span>)}
+    </div>
+  </div>
+</div>
+
+<style>
+  .grid-guides {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;              /* nascosto di default */
+    transition: opacity 0.15s ease;
+  }
+  .grid-guides.is-visible { opacity: 1; }
+
+  .grid-guides .container,
+  .grid-guides_grid { height: 100%; }
+
+  .grid-guides_col {
+    height: 100%;
+    background: rgba(0, 113, 206, 0.12);
+    border-inline: 1px solid rgba(0, 113, 206, 0.25);
+  }
+</style>
+
+<script>
+  // Toggle con il tasto "G"
+  document.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() === "g") {
+      document.getElementById("grid-guides")?.classList.toggle("is-visible");
+    }
+  });
+</script>
