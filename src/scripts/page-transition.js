@@ -27,16 +27,18 @@ if (overlay) {
     tl.set(logo, { opacity: 1 });
 
     // Draw the logo, fill it.
-    tl.to(outline, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" });
-    tl.to(fill, { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.05");
-    tl.to(outline, { opacity: 0, duration: 0.35, ease: "power2.out" }, "<0.4");
+    tl.to(outline, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" });
+    tl.to(fill, { opacity: 1, duration: 0.6, ease: "power2.out" }, "+=0.01");
+    tl.to(outline, { opacity: 0, duration: 0.4, ease: "power2.out" }, "<0.5");
 
     // Scale up + fade the curtain to reveal the page.
     tl.addLabel("out", "+=0.1");
-    tl.to(logo, { scale: 32, transformOrigin: "center center", duration: 0.6, ease: "power2.inOut" }, "out");
-    tl.to(overlay, { backgroundColor: "rgba(14,14,14,0)", duration: 0.6, ease: "power2.inOut" }, "out");
-    tl.to(logo, { autoAlpha: 0, duration: 0.6, ease: "power2.inOut" }, "out");
+    tl.to(logo, { scale: 32, transformOrigin: "center center", duration: 0.65, ease: "power2.inOut" }, "out");
+    tl.to(overlay, { backgroundColor: "rgba(14,14,14,0)", duration: 0.65, ease: "power2.inOut" }, "out");
+    tl.to(logo, { autoAlpha: 0, duration: 0.65, ease: "power2.inOut" }, "out");
     tl.set(overlay, { display: "none" });
     tl.call(unlock);
   }
+
+  tl.timeScale(0.75);
 }

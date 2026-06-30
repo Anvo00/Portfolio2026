@@ -112,6 +112,7 @@
   object-position: center 22%; /* bias the crop upward so the head isn't cut */
   display: block;
   will-change: transform;
+  border-radius: 12px;
 }
 
 /* Two accent cards, a subtle fan behind the photo. GSAP slides them out from

@@ -288,6 +288,13 @@ html.menu-open .menu {
     padding-inline: 0;
     border-radius: 16px;
   }
+
+  html.nav-compact .navbar,
+  html.menu-open .navbar {
+    width: 50px;
+    margin-inline-start: calc(100% - 50px);
+  }
+
   .nav_logo,
   .nav_links,
   .nav_cta--desktop {

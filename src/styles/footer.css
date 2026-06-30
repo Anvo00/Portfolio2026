@@ -63,16 +63,18 @@
 
 /* Lying cat sits to the right, slightly overlapping the wordmark. */
 .footer_cat {
-  justify-self: end;
+  justify-self: center;
   align-self: end;
   width: clamp(180px, 22vw, 300px);
+  z-index: 2;
+  margin-bottom: -80px;
 }
 .footer_cat img {
   width: 100%;
   height: auto;
 }
 
-/* ---------- Oversized wordmark ---------- */
+/* --- TEXT "CONTATTAMI" --- */
 .footer_big {
   display: block;
   position: relative;
@@ -85,9 +87,8 @@
   text-align: center;
   white-space: nowrap;
   color: var(--white);
-  /* Bleed the baseline off the bottom edge. */
-  margin-block-start: var(--space-4);
   transform: translateY(12%);
+  transform: translateX(-0.6%);
 }
 
 /* =========================================================
@@ -99,12 +100,13 @@
   }
   .footer_top {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-6) var(--grid-gap);
+    gap: var(--space-5) var(--grid-gap);
   }
   /* Cat moves to its own full-width row. */
   .footer_cat {
     grid-column: 1 / -1;
-    justify-self: center;
+    justify-self: end;
+    margin-bottom: -58px;
   }
 }
 
