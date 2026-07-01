@@ -10,7 +10,7 @@ import "../../styles/project/research.css";
 
 interface Props {
   count?: number;
-  project?: { researchCaption?: string };
+  project?: { researchCaption?: string | string[] };
 }
 const { count = 5, project } = Astro.props;
 

@@ -60,6 +60,14 @@ const {
           mode = "none";
         }
         document.documentElement.dataset.transition = mode;
+
+        // Browsers auto-restore the previous scroll position on reload (and on
+        // fresh loads of a URL visited before). Disable that except on real
+        // back/forward navigation, where restoring scroll is expected.
+        if (history.scrollRestoration) {
+          history.scrollRestoration = navType === "back_forward" ? "auto" : "manual";
+        }
+        if (navType !== "back_forward") window.scrollTo(0, 0);
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

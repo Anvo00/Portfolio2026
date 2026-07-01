@@ -1,13 +1,9 @@
-/* =========================================================
-   CONCLUSION ("CONCLUSIONI") — blue section
-   ========================================================= */
-
 .pconclusion {
-  background: var(--accent);
-  color: var(--white);
+  color: var(--accent);
+  padding-bottom: var(--section-gap);
 }
 .pconclusion .section-title {
-  color: var(--white);
+  color: var(--accent);
 }
 
 .pconclusion_head {

@@ -1,7 +1,3 @@
-/* =========================================================
-   RESEARCH ("RICERCA") — fanned card reveal
-   ========================================================= */
-
 .presearch {
   overflow: hidden; /* clip the oversized title + fan bleed */
 }
@@ -29,7 +25,7 @@
   text-align: center;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(80px, 17vw, 250px);
+  font-size: clamp(80px, 22vw, 300px);
   line-height: 1;
   text-transform: uppercase;
   color: var(--accent);
@@ -45,6 +41,7 @@
   position: relative;
   display: grid;
   place-items: center;
+  transform: translateY(50%);
 }
 
 .presearch_card {

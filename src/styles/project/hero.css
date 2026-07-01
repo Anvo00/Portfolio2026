@@ -26,6 +26,27 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
+  object-fit: cover;
+  object-position: center;
+}
+
+.phero_card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.65) 0%,
+            rgba(0,0,0,.45) 25%,
+            rgba(0,0,0,.15) 55%,
+            rgba(0,0,0,0) 100%
+        );
+
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 /* Caption at the bottom-centre, over the cover. */
@@ -42,7 +63,7 @@
 }
 .phero_index {
   font-weight: 600;
-  font-size: clamp(13px, 1vw, 16px);
+  font-size: clamp(13px, 4vw, 24px);
   letter-spacing: 0.18em;
 }
 .phero_title {
@@ -56,18 +77,17 @@
 /* ---------- Controls ---------- */
 .phero_back {
   position: absolute;
-  /* clears the fixed navbar */
-  top: clamp(96px, 12vh, 120px);
-  left: clamp(32px, 4vw, 56px);
+  top: clamp(96px, 16vh, 120px);
+  left: clamp(32px, 4vw, 64px);
   z-index: 5;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-weight: 600;
-  font-size: var(--fs-nav);
+  font-size: clamp(13px, 2vw, 20px);
   letter-spacing: 0.08em;
   color: var(--white);
-  mix-blend-mode: difference; /* stays legible over any cover */
+  /*mix-blend-mode: difference; /* stays legible over any cover */
   transition: opacity 0.18s ease;
 }
 .phero_back:hover,
@@ -83,10 +103,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 92px;
   color: var(--black);
   transition: transform 0.18s ease, color 0.18s ease;
+  background-color: var(--white);
+  border-radius: 20%;
 }
 .phero_arrow:hover,
 .phero_arrow:focus-visible {

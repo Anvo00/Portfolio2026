@@ -208,8 +208,8 @@ html.menu-open .menu {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/menu-pattern.svg");
-  background-size: 200px;
+  background-image: url("/projects/monogram/Monogram_Pattern_LowOpacity.svg");
+  background-size: cover;
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;

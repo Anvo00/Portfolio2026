@@ -1,21 +1,3 @@
-/* =========================================================
-   INFO PAGE
-   Static, full-frame (100vw × 100svh, no scroll). Layout only is borrowed
-   from the reference; colours, fonts and image are the portfolio's own.
-
-   Structure:
-     ┌───────────────────────────────────────────────┐
-     │ Info (title)                          BACK     │
-     │ ┌─────────┐   eyebrow                          │
-     │ │ photo + │   NAME.                            │
-     │ │ corners │   lead paragraph                   │
-     │ └─────────┘   body paragraph                   │
-     │  Based in     ───────────────────────────────  │
-     │  Status       Frontend  Animaz.  Design  Tools │
-     │  email                                   V1.0  │
-     └───────────────────────────────────────────────┘
-   ========================================================= */
-
 .info {
   width: 100vw;
   height: 100vh;

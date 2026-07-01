@@ -403,7 +403,7 @@ class App {
   }
 
   onEnter() {
-    this.hoverTarget = 1;
+    this.hoverTarget = 0.1;
     this.wake();
   }
 
