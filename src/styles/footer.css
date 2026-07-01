@@ -1,11 +1,8 @@
-/* =========================================================
-   FOOTER
-   Blue contact section + oversized CONTATTAMI wordmark.
-   ========================================================= */
-
 .footer {
   /* Invert the palette: blue background, light text. */
-  background: var(--accent);
+  background-color: var(--accent);
+  background-image: url("/projects/monogram/Monogram_Pattern_LowOpacity.svg");
+  background-size: cover;
   color: var(--white);
   position: relative;
   overflow: hidden;

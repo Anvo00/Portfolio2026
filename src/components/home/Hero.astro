@@ -1,15 +1,13 @@
 ---
-/**
- * Hero — first viewport.
- * Big "PORTFOLIO" wordmark with playful illustrations layered on top,
- * a scroll cue, and a meta row pinned to the bottom. Tiled monogram
- * pattern fills the background.
- */
 import "../../styles/hero.css";
+import { Image } from "astro:assets";
+import catJump from "../../assets/cat_jump.png";
+import mousePointer from "../../assets/mouse_pointer.png";
+import earphone from "../../assets/earphone.png";
 ---
 
 <section class="hero section" id="home">
-  <!-- Tiled monogram background -->
+  <!-- Monogram background -->
   <div class="hero_bg" aria-hidden="true"></div>
 
   <div class="container hero_inner">
@@ -23,22 +21,36 @@ import "../../styles/hero.css";
           alt=""
           width="1288"
           height="473"
+          fetchpriority="high"
+          decoding="async"
         />
-        <img class="hero_deco hero_deco--cat" src="/images/cat_jump.png" alt="" />
-        <img
+        <!-- Decoration images: imported for Astro's WebP + resize pipeline.
+             width= is the 2× rendered size so retina screens get sharp edges. -->
+        <Image
+          class="hero_deco hero_deco--cat"
+          src={catJump}
+          alt=""
+          width={436}
+          loading="eager"
+        />
+        <Image
           class="hero_deco hero_deco--pointer"
-          src="/images/mouse_pointer.png"
+          src={mousePointer}
           alt=""
+          width={148}
+          loading="eager"
         />
-        <img
+        <Image
           class="hero_deco hero_deco--audio"
-          src="/images/earphone.png"
+          src={earphone}
           alt=""
+          width={436}
+          loading="eager"
         />
       </span>
     </h1>
 
-    <!-- Scroll cue -->
+    <!-- "Scorri per conoscermi" -->
     <a href="#about" class="hero_scroll" aria-label="Scorri per conoscermi">
       <span class="hero_scroll-label">SCORRI PER CONOSCERMI</span>
       <span class="hero_scroll-icon" aria-hidden="true">
@@ -55,7 +67,7 @@ import "../../styles/hero.css";
     </a>
   </div>
 
-  <!-- Meta row pinned to the bottom of the hero -->
+  <!-- Pie di pagina -->
   <div class="container hero_meta">
     <span class="hero_meta-left">Portfolio @2026</span>
     <span class="hero_meta-right">Vito Giacobelli</span>

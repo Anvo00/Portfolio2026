@@ -51,11 +51,11 @@ html.menu-open .nav {
 .nav_logo {
   display: flex;
   flex: 0 0 auto;
-  padding-inline: var(--space-2);
+  padding-inline: var(--space-3);
   transition: opacity 0.2s ease;
 }
 .nav_logo svg {
-  height: 32px;
+  height: 42px;
   width: auto;
 }
 

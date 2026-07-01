@@ -7,6 +7,8 @@
  * Social URLs are placeholders (#) until the real profiles are provided.
  */
 import "../styles/footer.css";
+import { Image } from "astro:assets";
+import catLie from "../assets/cat_lie.png";
 
 const socials = [
   { label: "Instagram", href: "#", icon: "/images/instagram.svg" },
@@ -45,7 +47,7 @@ const socials = [
 
       <!-- Lying cat illustration -->
       <div class="footer_cat" aria-hidden="true">
-        <img src="/images/cat_lie.png" alt="" />
+        <Image src={catLie} alt="" width={600} loading="lazy" />
       </div>
     </div>
   </div>
