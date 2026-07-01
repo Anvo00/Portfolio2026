@@ -41,12 +41,12 @@ const { project, index, prev, next } = Astro.props;
 
   <main class="project">
     <ProjectHero project={project} index={index} prev={prev} next={next} />
-    <Brief />
-    <Research count={project.research} />
-    <Concept />
-    <Process count={project.process} />
-    <Output count={project.output} />
-    <Conclusion />
+    <Brief project={project} />
+    <Research count={project.research} project={project} />
+    <Concept project={project} />
+    <Process count={project.process} project={project} />
+    <Output count={project.output} project={project} />
+    <Conclusion project={project} />
   </main>
 
   <Footer />

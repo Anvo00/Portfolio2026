@@ -10,10 +10,10 @@ import "../../styles/project/research.css";
 
 interface Props {
   count?: number;
+  project?: { researchCaption?: string };
 }
-const { count = 5 } = Astro.props;
+const { count = 5, project } = Astro.props;
 
-// Per-card fanned target, computed from its offset to the centre.
 const mid = (count - 1) / 2;
 const spacing = 150;
 const cards = Array.from({ length: count }, (_, i) => {
@@ -26,6 +26,8 @@ const cards = Array.from({ length: count }, (_, i) => {
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
+
+const caption = project?.researchCaption || ph;
 ---
 
 <section class="presearch psection section" id="ricerca">
@@ -50,7 +52,7 @@ const ph =
       </div>
     </div>
 
-    <p class="pcaption container">{ph}</p>
+    <p class="pcaption container">{caption}</p>
   </div>
 </section>
 
@@ -63,22 +65,20 @@ const ph =
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (!reduce && cards.length) {
-      // Start stacked at the centre, hidden.
       gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 0.85, opacity: 0 });
 
       const io = new IntersectionObserver(
         (entries) => {
           if (entries.some((e) => e.isIntersecting)) {
-            // Promote to a GPU layer only for the reveal, then release it.
             gsap.set(cards, { willChange: "transform, opacity" });
             gsap.to(cards, {
-              x: (i, t) => Number((t as HTMLElement).dataset.dx),
-              y: (i, t) => Number((t as HTMLElement).dataset.dy),
-              rotation: (i, t) => Number((t as HTMLElement).dataset.dr),
+              x: (_i, t) => Number((t as HTMLElement).dataset.dx),
+              y: (_i, t) => Number((t as HTMLElement).dataset.dy),
+              rotation: (_i, t) => Number((t as HTMLElement).dataset.dr),
               scale: 1,
               opacity: 1,
               duration: 0.9,
-              ease: "back.out(1.6)", // spring-like
+              ease: "back.out(1.6)",
               stagger: 0.12,
               onComplete: () => gsap.set(cards, { clearProps: "willChange" }),
             });

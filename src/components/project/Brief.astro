@@ -1,17 +1,20 @@
 ---
-/**
- * Brief — centred title + short intro copy (placeholder text).
- */
+interface Props {
+  project?: { brief?: string[] };
+}
+const { project } = Astro.props;
+
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.";
+
+const paragraphs = project?.brief?.length ? project.brief : [ph, ph];
 ---
 
 <section class="pbrief psection section" id="brief">
   <div class="container psection_inner">
     <h2 class="section-title">Brief</h2>
     <div class="ptext-narrow">
-      <p>{ph}</p>
-      <p>{ph}</p>
+      {paragraphs.map((p) => <p>{p}</p>)}
     </div>
   </div>
 </section>

@@ -1,12 +1,15 @@
 ---
-/**
- * Conclusion ("CONCLUSIONI") — blue section, white text. Title + subtitle
- * + two text columns (placeholder). Flows into the (also blue) Footer.
- */
 import "../../styles/project/conclusion.css";
+
+interface Props {
+  project?: { conclusion?: string[] };
+}
+const { project } = Astro.props;
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
+
+const cols = project?.conclusion?.length ? project.conclusion : [ph, ph];
 ---
 
 <section class="pconclusion psection section" id="conclusioni">
@@ -16,8 +19,7 @@ const ph =
       <p class="pconclusion_sub">Cosa ho imparato? Cosa posso migliorare?</p>
     </div>
     <div class="ptext-cols">
-      <div><p>{ph}</p></div>
-      <div><p>{ph}</p></div>
+      {cols.map((c) => <div><p>{c}</p></div>)}
     </div>
   </div>
 </section>

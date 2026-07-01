@@ -21,15 +21,31 @@
   overflow: hidden;
 }
 
-/* Content fills the frame and is vertically centred. */
+/* Content fills the frame. The stage (photo + headline) is the only in-flow
+   child, so it centres in the viewport; the tagline + CTA are pinned to the
+   bottom (see .abouta_bottom) and therefore don't pull the stage upward. */
 .abouta_inner {
+  position: relative;
   height: 100vh;
   height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(40px, 6.5vh, 88px);
+  padding-inline: var(--grid-margin);
+}
+
+/* Tagline + CTA, anchored to the lower third of the frame, centred. Sits just
+   below the (lifted) photo so the two read as one connected composition. */
+.abouta_bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(40px, 12vh, 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3.5vh, 40px);
   padding-inline: var(--grid-margin);
 }
 

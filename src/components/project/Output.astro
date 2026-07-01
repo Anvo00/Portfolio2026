@@ -8,21 +8,23 @@ import "../../styles/project/output.css";
 
 interface Props {
   count?: number;
+  project?: { outputCaption?: string };
 }
-const { count = 5 } = Astro.props;
+const { count = 5, project } = Astro.props;
 
-// Repeating size pattern for a bento rhythm.
 const pattern = ["is-2x2", "is-1x2", "is-1x1", "is-2x1", "is-1x1", "is-1x1"];
 const modules = Array.from({ length: count }, (_, i) => pattern[i % pattern.length]);
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
+
+const caption = project?.outputCaption || ph;
 ---
 
 <section class="poutput psection section" id="output">
   <div class="container psection_inner">
     <h2 class="section-title">Output</h2>
-    <p class="pcaption">{ph}</p>
+    <p class="pcaption">{caption}</p>
 
     <div class="poutput_grid">
       {modules.map((size) => <div class={`poutput_mod placeholder ${size}`} />)}

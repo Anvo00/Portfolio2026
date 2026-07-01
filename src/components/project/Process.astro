@@ -8,11 +8,14 @@ import "../../styles/project/process.css";
 
 interface Props {
   count?: number;
+  project?: { processCaption?: string };
 }
-const { count = 5 } = Astro.props;
+const { count = 5, project } = Astro.props;
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.";
+
+const caption = project?.processCaption || ph;
 ---
 
 <section class="pprocess psection section" id="processo">
@@ -21,7 +24,7 @@ const ph =
 
     <div class="pprocess_gallery" data-count={count} role="img" aria-label="Galleria del processo (placeholder)"></div>
 
-    <p class="pcaption">{ph} <span class="pprocess_hint">— trascina o scorri per esplorare</span></p>
+    <p class="pcaption">{caption} <span class="pprocess_hint">— trascina o scorri per esplorare</span></p>
   </div>
 </section>
 
@@ -32,7 +35,6 @@ const ph =
   if (el) {
     const count = parseInt(el.dataset.count || "5", 10);
 
-    // Placeholder image (dark SVG with a number) until real photos are added.
     const placeholder = (n: number) =>
       "data:image/svg+xml;utf8," +
       encodeURIComponent(
@@ -47,7 +49,6 @@ const ph =
       text: `0${i + 1}`,
     }));
 
-    // Init lazily when the gallery is near the viewport (saves the WebGL loop).
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {

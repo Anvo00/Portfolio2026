@@ -1,17 +1,20 @@
 ---
-/**
- * Concept — centred title + two text columns (placeholder text).
- */
+interface Props {
+  project?: { concept?: string[] };
+}
+const { project } = Astro.props;
+
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.";
+
+const cols = project?.concept?.length ? project.concept : [ph, ph];
 ---
 
 <section class="pconcept psection section" id="concept">
   <div class="container psection_inner">
     <h2 class="section-title">Concept</h2>
     <div class="ptext-cols">
-      <div><p>{ph}</p></div>
-      <div><p>{ph}</p></div>
+      {cols.map((c) => <div><p>{c}</p></div>)}
     </div>
   </div>
 </section>

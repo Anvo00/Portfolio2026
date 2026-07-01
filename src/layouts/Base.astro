@@ -92,17 +92,31 @@ const {
     <slot />
 
     <script>
-      // Smooth-scroll for in-page anchors. Done in JS (not CSS
-      // scroll-behavior) so it doesn't interfere with ScrollTrigger scrubbing.
+      // Smooth-scroll for in-page anchors. Done in JS (not CSS scroll-behavior)
+      // so it doesn't interfere with ScrollTrigger scrubbing. Handles both bare
+      // "#id" and absolute "/#id" / "/" links: if they resolve to the CURRENT
+      // page we scroll smoothly; links to a different page navigate normally
+      // (so nav links work from project pages too).
       document.addEventListener("click", (e) => {
-        const link = (e.target as HTMLElement).closest('a[href^="#"]');
-        if (!link) return;
-        const id = link.getAttribute("href");
-        if (!id || id.length < 2) return;
-        const target = document.querySelector(id);
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
+        if (!link || link.target === "_blank") return;
+        const href = link.getAttribute("href");
+        if (!href) return;
+        const url = new URL(href, location.href);
+        // Different page → let the browser navigate.
+        if (url.pathname !== location.pathname || url.search !== location.search) return;
+
+        if (url.hash.length > 1) {
+          const target = document.querySelector(url.hash);
+          if (!target) return; // anchor not on this page — leave it to the browser
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.pushState(null, "", url.hash);
+        } else if (!url.hash) {
+          // Same page, no anchor (e.g. logo / "HOME" → "/") → scroll to top.
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       });
     </script>
   </body>

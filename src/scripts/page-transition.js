@@ -38,7 +38,7 @@ if (overlay) {
     tl.to(logo, { autoAlpha: 0, duration: 0.65, ease: "power2.inOut" }, "out");
     tl.set(overlay, { display: "none" });
     tl.call(unlock);
-  }
 
-  tl.timeScale(0.75);
+    tl.timeScale(0.75);
+  }
 }

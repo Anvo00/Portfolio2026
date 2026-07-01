@@ -1,38 +1,42 @@
 ---
 import "../styles/navbar.css";
 
-// Centre links shown in the full pill (top of page).
+// Centre links shown in the full pill (top of page). Absolute targets so they
+// work from any page (in-page ones smooth-scroll on the homepage — see Base).
+// ABOUT points to the static /info page, not the homepage section.
 const links = [
-  { label: "HOME", href: "#home" },
-  { label: "ABOUT", href: "#about" },
-  { label: "PROGETTI", href: "#progetti" },
+  { label: "HOME", href: "/" },
+  { label: "ABOUT", href: "/info" },
+  { label: "PROGETTI", href: "/#progetti" },
 ];
 
 // Index rows (per the reference). Absolute targets so they work from any page.
 const menu = [
   { label: "HOME", href: "/" },
   { label: "PROGETTI", href: "/#progetti" },
-  { label: "ABOUT", href: "/#about" },
+  { label: "ABOUT", href: "/info" },
 ];
 
-// Decorative piano-key bars (left third). `b` = filled (black) vs gap; `f` = flex ratio.
-// All black keys share the same size; the cream gaps give the piano rhythm.
-const keys = [
-  { b: true, f: 12 },
-  { b: false, f: 6 },
-  { b: true, f: 12 },
-  { b: false, f: 20 },
-  { b: true, f: 12 },
-  { b: false, f: 18 },
-  { b: true, f: 12 },
-];
+// Decorative piano-key bars (left column). One black key sits centred on each
+// line BETWEEN the white-key rows (plus a half-key on the top & bottom edges),
+// so the cream gaps land over the row labels. `b` = black key vs cream gap;
+// `f` = flex ratio (share of the column height). Generated from the row count so
+// it always stays aligned if rows are added/removed.
+const ROW_F = 30; // one white-key row's height
+const KEY_F = 15; // a full black key's thickness (≈ half a row)
+const keys = [];
+for (let i = 0; i <= menu.length; i++) {
+  const edge = i === 0 || i === menu.length;
+  keys.push({ b: true, f: edge ? KEY_F / 2 : KEY_F }); // black key ON the row line
+  if (i < menu.length) keys.push({ b: false, f: ROW_F - KEY_F }); // cream gap over the label
+}
 ---
 
 <header class="nav" data-nav>
   <div class="container nav_container">
     <nav class="navbar" aria-label="Navigazione principale">
       <!-- LOGO (current monogram — will be swapped for the new Logo.svg) -->
-      <a href="#home" class="nav_logo" aria-label="Torna alla home">
+      <a href="/" class="nav_logo" aria-label="Torna alla home">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
