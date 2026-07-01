@@ -1,50 +1,58 @@
 /* =========================================================
-   OUTPUT — Bento grid (24px gap)
-   Columns auto-fit to the container width, so modules reflow/repack to
-   adapt as the viewport changes (dense packing fills the holes).
+   OUTPUT — simple inline carousel (single row, horizontal scroll)
+   Each photo keeps its natural ratio (fixed row height, width auto)
+   instead of being cropped into a fixed cell.
    ========================================================= */
 
 .poutput_grid {
-  display: grid;
-  /* number of columns adapts to the available width */
-  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 17vw, 230px), 1fr));
-  grid-auto-rows: clamp(120px, 13vw, 190px);
-  grid-auto-flow: dense; /* backfill gaps so the grid stays full */
-  gap: 24px; /* fixed 24px per spec */
+  display: flex;
+  /* "safe" keeps normal left-aligned/scrollable behaviour once the row
+     overflows; when the photos don't fill the width, it centres the group
+     instead of leaving them stuck to the left. */
+  justify-content: safe center;
+  gap: 24px;
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px; /* room for the scrollbar so it doesn't hug the photos */
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
 }
 
 .poutput_mod {
+  display: block;
+  flex: 0 0 auto;
+  height: clamp(200px, 30vw, 420px);
+  border: none;
+  padding: 0;
+  background: none;
   border-radius: 8px;
+  overflow: hidden;
+  cursor: zoom-in;
+  scroll-snap-align: start;
 }
 
-/* Bento spans */
-.is-2x2 {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-.is-1x2 {
-  grid-row: span 2;
-}
-.is-2x1 {
-  grid-column: span 2;
-}
-.is-1x1 {
-  /* default 1×1 */
+.poutput_mod.placeholder {
+  width: clamp(160px, 24vw, 320px);
+  cursor: default;
 }
 
-/* On narrow screens force 2 columns and flatten tall/wide spans so nothing
-   overflows the track. */
-@media (max-width: 560px) {
-  .poutput_grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .is-2x2,
-  .is-2x1 {
-    grid-column: span 2;
-  }
-  .is-2x2,
-  .is-1x2 {
-    grid-row: span 1;
-  }
+.poutput_mod img {
+  display: block;
+  height: 100%;
+  width: auto;
+  border-radius: inherit;
+  transition: transform 0.3s ease;
+}
+
+.poutput_mod:hover img {
+  transform: scale(1.02);
+}
+
+.poutput_grid::-webkit-scrollbar {
+  height: 6px;
+}
+.poutput_grid::-webkit-scrollbar-thumb {
+  background: rgba(14, 14, 14, 0.2);
+  border-radius: 3px;
 }

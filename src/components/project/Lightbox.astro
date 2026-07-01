@@ -1,0 +1,56 @@
+---
+/**
+ * Shared full-view lightbox for the Research / Process / Output photos.
+ * Mounted once per project page. Other components open it by dispatching
+ * a "project-lightbox:open" CustomEvent on document with { src } detail —
+ * no direct references needed between components.
+ */
+import "../../styles/project/lightbox.css";
+---
+
+<div class="plightbox" data-lightbox hidden>
+  <button type="button" class="plightbox_close" data-lightbox-close aria-label="Chiudi">
+    <span aria-hidden="true">✕</span>
+  </button>
+  <img class="plightbox_img" data-lightbox-img src="" alt="" />
+</div>
+
+<script>
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
+  const lightboxImg = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-img]");
+  const closeBtn = lightbox?.querySelector<HTMLElement>("[data-lightbox-close]");
+
+  // Move the lightbox to be a direct child of <body>. Keeping it nested
+  // inside a section risks an ancestor establishing a containing block
+  // (transform/filter/contain) that would break `position: fixed` and
+  // misplace it instead of centring it in the viewport.
+  if (lightbox && lightbox.parentElement !== document.body) {
+    document.body.appendChild(lightbox);
+  }
+
+  function open(src: string) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightbox.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function close() {
+    if (!lightbox || !lightboxImg) return;
+    lightbox.hidden = true;
+    lightboxImg.src = "";
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("project-lightbox:open", (e) => {
+    const src = (e as CustomEvent<{ src: string }>).detail?.src;
+    if (src) open(src);
+  });
+  closeBtn?.addEventListener("click", close);
+  lightbox?.addEventListener("click", (e) => {
+    if (e.target === lightbox) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+</script>

@@ -10,15 +10,24 @@
  *   heroImage     — full-frame cover image on the project page (optional)
  *   brief         — array of paragraph strings for the Brief section
  *   researchCaption — caption under the research cards
- *   research      — number of research cards
+ *   research      — number of research cards (used only as a fallback when researchImages is empty)
+ *   researchImages  — ordered array of image paths for the research cards (optional)
  *   concept       — array of two column strings for the Concept section
  *   processCaption  — caption under the process gallery
- *   process       — number of process gallery items
+ *   process       — number of process gallery items (fallback when processImages is empty)
+ *   processImages   — ordered array of image paths for the process gallery (optional)
  *   outputCaption   — caption above the output bento grid
- *   output        — number of output bento modules
+ *   output        — number of output bento modules (fallback when outputImages is empty)
+ *   outputImages    — ordered array of image paths for the output bento grid (optional)
  *   conclusion    — array of two column strings for the Conclusion section
+ *
+ * Image arrays: when present, their length determines how many cards/items/modules
+ * render (overriding the plain count field) and images are placed in array order.
+ * Paths are relative to /public, e.g. "/projects/icebreaker_brief/WhyAreYouHere_01.jpg".
+ * Leave the array out (or empty) to keep showing placeholders for that section.
  */
 export const projects = [
+  // Icebreaker
   {
     slug: "icebreaker",
     name: "Icebreaker",
@@ -32,6 +41,13 @@ export const projects = [
     researchCaption:
       "La ricerca è stata basata su immagini in grado di rappresentare la mia visione, verso un output illustrato con un background realistico.",
     research: 5,
+    researchImages: [
+      "/projects/icebreaker_brief/Ref_01.jpg",
+      "/projects/icebreaker_brief/Ref_02.jpg",
+      "/projects/icebreaker_brief/Ref_03.jpg",
+      "/projects/icebreaker_brief/Ref_04.jpg",
+      "/projects/icebreaker_brief/Ref_05.jpg",
+    ],
     concept: [
       "Il mondo, al giorno d’oggi, sembra così grigio, piatto, freddo, senza uno scopo. E se si riuscisse a dare un obiettivo a tutto ciò che ci circonda? Se si riuscisse a ridare vita e colore alle opere artistiche e architettoniche, riattivando quella ricerca del bello che pian piano si sta perdendo per dar spazio al minimalismo? L’arte, il design, non devono solamente servire a dimostrare la propria creatività ma devono essere anche strumento per rendere tutto più piacevole visivamente.",
       "Il mio obiettivo, per questo corso, è imparare le tecniche del buon design che mi possano permettere di dare un contributo colorato e artistico a tutto ciò che ci circonda, studiando e mettendo in pratica le nozioni e le tecniche del mondo del graphic design.Desidero, quindi, riuscire a comprendere i meccanismi ed i principi alla base di ogni singolo design e modellare il mio pensiero al fine di riuscire a sfruttarli per trasformare le mie idee in progetti chiari e innovativi.",
@@ -39,14 +55,29 @@ export const projects = [
     processCaption:
       "Per questo progetto non ho avuto bisogno di superare diverse fasi di generazione delle idee in quanto sono partito da una foto scattata agli Uffizi di Firenze, poiché ho voluto creare un collegamento con il luogo in cui studio. Ci sono state alcune bozze che hanno riguardato la realizzazione del personaggio, decidendo la posizione, le dimensioni e l’espressione, per poi giungere all’output finale.",
     process: 5,
+    processImages: [
+      "/projects/icebreaker_brief/Process-01.png",
+      "/projects/icebreaker_brief/Process-02.png",
+      "/projects/icebreaker_brief/Process-03.png",
+      "/projects/icebreaker_brief/Process-04.png",
+      "/projects/icebreaker_brief/Process-05.png",
+    ],
     outputCaption:
       "La scelta dell’output è ricaduta su un formato poster da appendere nella bacheca della mia camera accanto ad altri poster ed elementi che hanno definito la mia persona.",
-    output: 5,
+    output: 4,
+    outputImages: [
+      "/projects/icebreaker_brief/WhyAreYouHere_Digital.jpg",
+      "/projects/icebreaker_brief/WhyAreYouHere_01.jpg",
+      "/projects/icebreaker_brief/WhyAreYouHere_02_Detail.jpg",
+      "/projects/icebreaker_brief/WhyAreYouHere_03.jpg",
+    ],
     conclusion: [
       "Questo progetto mi ha insegnato l’importanza di tradurre la vulnerabilità e le aspettative personali in un impatto visivo concreto, dimostrando che dubbi e desideri possono diventare un motore creativo se incanalati nel modo giusto. Sperimentare con la fusione tra la fotografia storica e l'irruenza di un'illustrazione pop mi ha fatto comprendere che il design non deve per forza essere convenzionale, ma può rompere gli schemi visivi per trasmettere un messaggio forte.",
       "Guardando il lavoro oggi con maggiore maturità critica, riconosco diverse aree di miglioramento, in particolare nella gestione spaziale e nel layout. Se dovessi rifarlo, lavorerei per integrare la scritta tipografica facendola interagire anziché lasciarla semplicemente sovrapposta nel cielo, dove si fa fatica a vederla.",
     ],
   },
+
+  // Monogramma e pattern
   {
     slug: "monogramma-e-pattern",
     name: "Monogramma e pattern",
@@ -56,15 +87,40 @@ export const projects = [
     brief: ["L’obiettivo principale di questo progetto è stato lo sviluppo del mio marchio personale attraverso la progettazione di un monogramma basato sulle mie iniziali. Il brief richiedeva la creazione di un simbolo che fosse al tempo stesso semplice, scalabile e memorabile, capace di condensare la mia identità, i miei valori e il mio stile visivo di designer.", 
       "Il sistema visivo doveva dimostrare la sua efficacia non solo in contesti istituzionali e digitali, ma anche in applicazioni reali e stagionali, come la possibile realizzazione di biglietti d'auguri e/o carta da regalo personalizzata."],
     researchCaption: "La fase di ricerca ha riguardato l’analisi dei competitor per comprendere come altri designer hanno tradotto due lettere in un monogramma in grado di trasmettere i valori, gli obiettivi e la personalità di una persona. L'analisi, dunque, si è concentrata sulla straordinaria capacità di questo strumento di sintetizzare la complessità di un individuo in un unico segno istantaneo.",
-    research: 5,
+    research: 3,
+    researchImages: [
+      "/projects/monogram/Logo_Ref_01.jpg",
+      "/projects/monogram/Logo_Ref_02.jpg",
+      "/projects/monogram/Logo_Ref_03.jpg",
+    ],
     concept: ["Il concept nasce dall'esplorazione della mia dualità interiore, divisa tra un lato razionale definito da precisione e organizzazione e un lato emotivo in cui la creatività e le emozioni danno forma e colore ai pensieri. Dall'unione geometrica delle mie iniziali, V e G, emerge una stella centrale che simboleggia l'esplosione delle emozioni e l'ambizione verso gli obiettivi futuri. Per controbilanciare la forza di questa forma, ho scelto di arrotondare tutti gli angoli del monogramma,", "infondendo un senso di gentilezza e tranquillità capace di trasmettere anche la possibilità di instaurare un rapporto di fiducia professionale. Un dettaglio chiave è la linea orizzontale della lettera G che non si chiude all'interno del marchio, ma si estende deliberatamente verso l'esterno superando i confini grafici: una scelta che simboleggia la costante volontà di superare i limiti, aprirsi a nuovi percorsi e guardare al futuro. "],
     processCaption: "Lo sviluppo del progetto ha richiesto uno studio approfondito delle proporzioni per integrare la stella nel monogramma senza compromettere la leggibilità. Una volta stabilito il marchio, la linea sporgente della G è stata utilizzata come modulo generativo per un pattern ottico continuo, in cui l'incastro grafico crea un moto ondulatorio che simboleggia la linea della vita, fatta di alti e bassi in cui ogni azione è collegata alla successiva. Per i lock-up d'identità, la scelta tipografica è ricaduta sul font Gobold come carattere primario, un condensed solido la cui lettera R presenta un'inclinazione e uno spazio negativo interno che richiamano perfettamente le diagonali del monogramma. Come carattere secondario è stato selezionato il font Sora, scelto per la precisione geometrica dei suoi incroci interni che riprendono sottilmente le terminazioni appuntite della stella del logo. Infine, l'utilizzo di un blu vibrante a contrasto con il bianco ha permesso di dare un'impronta fortemente contemporanea all’intero ecosistema, richiamando anche un periodo in cui ha caratterizzato la mia vita in ogni istante.",
-    process: 5,
+    process: 8,
+    processImages: [
+      "/projects/monogram/Process-01.png",
+      "/projects/monogram/Process-02.png",
+      "/projects/monogram/Process-03.png",
+      "/projects/monogram/Process-04.png",
+      "/projects/monogram/Process-05.png",
+      "/projects/monogram/Process-06.png",
+      "/projects/monogram/Process-07.png",
+      "/projects/monogram/Process-08.png",
+    ],
     outputCaption: "L'output finale si traduce in un monogramma definitivo, declinato in un sistema di loghi flessibili per i diversi utilizzi professionali. L'estensione del brand ha visto la realizzazione del pattern geometrico ripetibile, applicato concretamente sui supporti stagionali richiesti: una carta regalo, dove l’etichetta è caratterizzata dal monogramma realizzato.",
-    output: 5,
+    output: 6,
+    outputImages: [
+      "/projects/monogram/Monogram_Pattern-05.png",
+      "/projects/monogram/Logo-01.png",
+      "/projects/monogram/Logo-02.png",
+      "/projects/monogram/Logo-03.png",
+      "/projects/monogram/Logo-04.png",
+      "/projects/monogram/Wrapped Gift Mockup.png",
+    ],
     conclusion: ["Progettare la propria identità visiva rappresenta una delle sfide più complesse per un designer e questo percorso mi ha insegnato a guardarmi dentro con oggettività, traducendo tratti caratteriali intimi e contrastanti in scelte grafiche geometriche e razionali. Ho compreso il valore profondo della scalabilità e della versatilità di un marchio, scoprendo come un singolo dettaglio strutturale di un logo possa evolvere e trasformarsi in un elemento di design autonomo e flessibile come un pattern ottico.",
       "Analizzando l'output attuale con maggiore maturità critica, vedo la possibilità di migliorare il monogramma, forse modificandolo, poiché comprendo il concept solido, ma lo trovo in parte distaccato dall’output realizzato. Dal punto di vista tipografico, sebbene l'accostamento tra Gobold e Sora risponda a precise analogie strutturali con il monogramma, in futuro vorrei trovare un’alternativa al font Gobold poiché disponibile per uso commerciale solo a pagamento."],
   },
+
+  // Materia prima
   {
     slug: "materia-prima",
     name: "Materia prima",
@@ -74,16 +130,44 @@ export const projects = [
     brief: ["L’opportunità progettuale è nata dall'invito da parte del Materia Prima Festival di Firenze, per l'edizione 2026, a realizzare una serie di cartoline promozionali e da collezione legate alle rappresentazioni teatrali in cartellone.",
       "Il brief richiedeva l'analisi approfondita dei syllabus di due specifiche opere assegnate, \"Foresto\" e \"Primo Amore\", con l'obiettivo di sintetizzare l’essenza narrativa e la carica drammatica di ciascuna pièce in un formato cartaceo tascabile destinato al pubblico in sala. Le cartoline dovevano presentare un fronte fortemente artistico e interpretativo, controbilanciato da un retro standardizzato e funzionale, appositamente progettato per ospitare i dettagli dell’evento e una sintesi descrittiva dello spettacolo."],
     researchCaption: "La fase di ricerca si è mossa su due binari paralleli per assecondare le nature concettualmente opposte delle due produzioni teatrali. Per   \"Primo Amore\", l'indagine si è focalizzata sui temi della nostalgia, del rimpianto e della rielaborazione del passato, esplorando l'estetica degli ambienti scolastici primari intesi come archetipo del primo incontro, della giovinezza e dell'innocenza perduta. Per \"Foresto\", l'analisi si è incentrata, invece, sui linguaggi non convenzionali e sull'ibridazione culturale, studiando i codici visivi della Lingua dei Segni Italiana (LIS) in combinazione con l'espressività cruda dei dialetti locali, ponendo un'attenzione particolare al concetto antropologico di \"straniero\" e di barriera linguistica all'interno di una comunità.",
-    research: 5,
+    research: 4,
+    researchImages: [
+      "/projects/materia_prima/Ref_01.jpg",
+      "/projects/materia_prima/Ref_02.png",
+      "/projects/materia_prima/Ref_03.jpg",
+      "/projects/materia_prima/Ref_04.jpg",
+    ],
     concept: ["In \"Primo Amore\", che mette in scena il drammatico e inaspettato ricongiungimento tra due uomini che si erano amati segretamente durante l'infanzia, ho scelto l'estetica della lavagna e del gessetto come simbolo della memoria elementare e della fragilità dei ricordi che si cancellano col tempo. Al centro della composizione si colloca il cuore del protagonista, un organo visivamente luminoso e pulsante ma profondamente segnato dalle ferite di un amore non più reciproco; una forma frammentata e percorsa da crepe che tuttavia rimane integra, simboleggiando la dolorosa ma necessaria volontà di superare il dolore.",
       "In \"Foresto\", opera caratterizzata dall'uso simultaneo della LIS e del dialetto veronese, il concept punta sulla massima sintesi visiva per evidenziare la natura inclusiva dello spettacolo. La grafica fonde il titolo tipografico con l’illustrazione dettagliata della lettera iniziale nella lingua dei segni, mentre nello spazio tra i caratteri è stata inserita la frase chiave \"Siamo tutti più o meno stranieri\". Questa disposizione frammentata costringe lo spettatore a una lettura attiva, non lineare e, metaforicamente, \"tra le righe\", traducendo visivamente il significato stesso della parola foresto. "],
     processCaption: "Il processo di sviluppo ha richiesto la gestione di due linguaggi visivi antitetici all'interno del medesimo formato cartaceo. Per \"Primo Amore\", ho lavorato sulla creazione digitale di un fondo materico scuro capace di emulare la porosità delle lavagne, sul quale ho applicato una tipografia dal tratto graffiato e polveroso tipico del gesso, concentrando poi la sperimentazione sulla resa luminosa delle fratture del cuore per accentuare il contrasto tra il buio del passato e la luce del sentimento ancora attivo. Per \"Foresto\", il processo è stato improntato al minimalismo grafico e alla precisione vettoriale, partendo dallo studio anatomico delle mani per l'illustrazione della lettera in LIS. La sfida principale ha riguardato la gerarchia tipografica: ho dovuto calibrare la disposizione apparentemente casuale della citazione affinché fluttuasse in modo armonioso e leggibile attorno alle lettere imponenti del titolo.",
-    process: 5,
+    process: 7,
+    processImages: [
+      "/projects/materia_prima/Process_01.png",
+      "/projects/materia_prima/Process_04.png",
+      "/projects/materia_prima/Process_02.png",
+      "/projects/materia_prima/Process_05.png",
+      "/projects/materia_prima/Process_03.png",
+      "/projects/materia_prima/Process_06.jpg",
+      "/projects/materia_prima/Process_07.jpg",
+    ],
     outputCaption: "L’output finale si compone di una serie coordinata di postcard bifacciali distribuite direttamente agli spettatori del festival. Il fronte di ciascuna cartolina si configura come un vero e proprio artwork autonomo e da collezione, capace di evocare l'atmosfera e la chiave di lettura della rispettiva rappresentazione ancor prima dell'apertura del sipario. Il retro, progettato in modo identico per l'intera linea, ristabilisce l'equilibrio istituzionale del supporto, offrendo uno spazio di informazione chiaro e ordinato che accoglie il syllabus semplificato e i crediti del Materia Prima Festival, integrando perfettamente sperimentazione visiva e utilità comunicativa. ",
-    output: 5,
+    output: 9,
+    outputImages: [
+      "/projects/materia_prima/MateriaPrima_01.jpg",
+      "/projects/materia_prima/MateriaPrima_02.jpg",
+      "/projects/materia_prima/MateriaPrima_03.jpg",
+      "/projects/materia_prima/MateriaPrima_04_Detail.jpg",
+      "/projects/materia_prima/MateriaPrima_05_Detail.jpg",
+      "/projects/materia_prima/MateriaPrima_Foresto_Digital.jpg",
+      "/projects/materia_prima/MateriaPrima_Foresto.jpg",
+      "/projects/materia_prima/MateriaPrima_PrimoAmore_Digital.jpg",
+      "/projects/materia_prima/MateriaPrima_PrimoAmore.jpg",
+    ],
     conclusion: ["Questo progetto mi ha offerto l'opportunità di misurarmi con la committenza culturale e con il primo cliente reale, insegnandomi a decodificare un testo teatrale per estrarne frammenti visivi dall'alto valore simbolico. Di certo, è stata un’opportunità che ha cambiato il mio approccio alla progettazione artistica e al modo in cui un’opera d’arte riesca a trasmettere un messaggio molto più grande e importante di quanto si pensi.",
       "Esaminando le cartoline con maggiore maturità critica, vedo la possibilità di spingere ancora oltre la ricerca sui materiali e sulle tecniche di nobilitazione tipografica in fase di stampa. Per \"Primo Amore\", ad esempio, l'effetto lavagna trarrebbe un enorme beneficio dall'utilizzo di una carta usomano non patinata ad alta porosità o dall'applicazione di una vernice serigrafica opaca e spessorata, capace di restituire fisicamente al tatto la sensazione della polvere di gesso."],
   },
+
+  // Maschera di Steinberg
   {
     slug: "maschera-di-steinberg",
     name: "Maschera di Steinberg",
@@ -94,15 +178,34 @@ export const projects = [
       "Utilizzando come supporto una busta per il pane, la sfida è stata quella di individuare un tema contemporaneo legato alla mistificazione dell'identità, traducendolo in un artefatto visivo capace di raccontare il confine tra il personaggio pubblico e l'essere umano."],
     researchCaption: "La fase di ricerca si è focalizzata sulla celebre serie di scatti antropologici e satirici realizzati da Steinberg a partire dagli anni Cinquanta, in cui l'artista disegnava volti geometrici su sacchetti di carta poi indossati da amici e modelle per le fotografie di Inge Morath. Ho analizzato come l'uso del sacchetto di carta azzeri i tratti somatici reali dell'individuo per sostituirli con maschere-tipo, specchio di ruoli sociali, stereotipi e rigide convenzioni borghesi. Questa indagine mi ha permesso di riflettere sul design della maschera non come mero elemento decorativo, ma come filtro socio-culturale e corazza psicologica contro la vulnerabilità della propria intimità.",
     research: 5,
+    researchImages: [
+      "/projects/maschera/Ref_04.jpg",
+      "/projects/maschera/Ref_02.jpg",
+      "/projects/maschera/Ref_03.jpg",
+      "/projects/maschera/Ref_01.jpg",
+      "/projects/maschera/Ref_05.jpg",
+    ],
     concept: ["Il concept della maschera, battezzata \"The Star\", si sviluppa a partire dalla definizione steinberghiana di questo oggetto come strumento per difendersi dalla rivelazione, applicando la riflessione al contrasto che caratterizza la vita delle celebrità televisive e digitali contemporanee. Il sistema della fama impone la costante esibizione di una faccia perfetta, dietro la quale i vip nascondono una realtà drammatica fatta di stanchezza, alienazione e profonda sofferenza emotiva. Visivamente, la maschera dà forma a questa dicotomia: la struttura scarnita della mascella e i tratti scavati degli occhi evocano",
       "un volto logorato dal tempo e dalla pressione mediatica, mentre le guance vistosamente arrossate simulano il trucco di scena pesante, obbligatorio per nascondere i segni del crollo interiore. La bocca è bloccata in un’apertura innaturale che mette in mostra denti perfetti, una rappresentazione plastica del lavoro della star, costretta a cantare, sorridere o parlare a comando per il proprio pubblico. Infine, la stella posta sopra l'occhio diventa il simbolo ambiguo del successo: un elemento geometrico che da un lato incarna l'ambizione e la proiezione verso obiettivi futuri e dall'altro si configura come il marchio accecante che deforma e oscura la reale visione del mondo del protagonista."],
     processCaption: "Il processo esecutivo ha seguito un approccio volutamente analogico e \"low-tech\", in linea con la filosofia di Steinberg. Ho scelto come supporto un sacchetto di carta per il pane, proprio come l’artista. La prima fase ha previsto lo studio delle proporzioni definendo così la tridimensionalità e la reale usabilità dell'oggetto. Successivamente, ho lavorato sulla superficie combinando il tratto dell’inchiostro con una stella in sovrapposizione, quasi posta come una benda sul reale occhio disegnato al di sotto. La texture intrinseca della carta da pacchi ha reagito con i pigmenti creando sfumature imperfette e vibranti, che accentuano l'aspetto drammatico e artigianale dell'opera. ",
-    process: 5,
+    process: 3,
+    processImages: [
+      "/projects/maschera/Process-01.png",
+      "/projects/maschera/Process-02.png",
+      "/projects/maschera/Process-03.png",
+    ],
     outputCaption: "L’output finale si concretizza in una maschera tridimensionale indossabile realizzata in carta da pane, un pezzo unico che unisce l'illustrazione espressiva alla progettazione plastica dell'oggetto. \"The Star\" si presenta come un manifesto visivo contro l'alienazione della celebrità; una volta indossato, l'artefatto trasforma il corpo in una scultura vivente, catturando l'attenzione dello spettatore attraverso un forte impatto grafico e un'atmosfera sospesa l’arte e un tragico messaggio nascosto.",
-    output: 5,
+    output: 3,
+    outputImages: [
+      "/projects/maschera/SteinbergMask_01.jpg",
+      "/projects/maschera/SteinbergMask_02_Detail.jpg",
+      "/projects/maschera/SteinbergMask_OnPerson.jpg",
+    ],
     conclusion: ["Questo progetto mi ha insegnato a riscoprire il valore espressivo e concettuale dei materiali poveri e non convenzionali, dimostrando che il buon design e la potenza comunicativa non dipendono necessariamente da sofisticati strumenti digitali, ma dalla solidità dell'idea di partenza. Inoltre, misurarmi con la tridimensionalità della carta ha arricchito la mia percezione del supporto materico nel graphic design.",
       "Guardando il lavoro completato, l'area di miglioramento principale risiede nella fase di presentazione e documentazione fotografica del progetto. Se dovessi svilupparlo ulteriormente, progetterei uno shooting dedicato in cui la maschera venga indossata all'interno di un set fotografico con un'illuminazione drammatica in forte chiaroscuro, capace di esaltare le pieghe della carta da pane e creare ombre profonde in corrispondenza della bocca e degli occhi scavati."],
   },
+
+  // Recreos
   {
     slug: "recreos",
     name: "Recreos",
@@ -112,16 +215,39 @@ export const projects = [
     brief: ["Questo progetto è stato sviluppato in stretta collaborazione con l'associazione Recreos di Firenze. L'obiettivo principale del lavoro collettivo era la realizzazione di una mappa visiva di Via Palazzuolo, una strada storica e complessa della città, che non doveva limitarsi a restituire la mera topografia urbana, ma aveva il compito di documentare il paesaggio umano, i flussi, le memorie, i negozi e i rituali quotidiani che animano il quartiere.",
       "All'interno di questa ricerca corale, mi è stata affidata una task verticale focalizzata sullo storico laboratorio artigianale \"Pasta Fresca Morioni\", richiedendo l'ideazione di un sistema di comunicazione innovativo capace di connettere il prodotto gastronomico tradizionale a un'esperienza cross-mediale e sonora attraverso la creazione di una playlist dedicata."],
     researchCaption: "La fase di ricerca si è aperta sul campo attraverso un approccio immersivo nel tessuto sociale di Via Palazzuolo, conducendo interviste dirette, mappature ed indagini qualitative con i commercianti locali per raccogliere dati utili alla narrazione del quartiere. Successivamente, per la sotto-task dedicata al pastificio, l'indagine si è spostata sullo studio della sinestesia sensoriale tra gusto e udito e sull’importanza del tempo nella cucina tradizionale italiana. Ho approfondito la percezione psicologica del tempo di cottura e la storia della musica d'autore e popolare del nostro Paese, analizzando come determinate melodie vintage e ritmi tradizionali siano radicati nella memoria collettiva e associati istintivamente all'idea di convivialità, focolare domestico e identità territoriale.",
-    research: 5,
+    research: 4,
+    researchImages: [
+      "/projects/recreos/Ref_01.png",
+      "/projects/recreos/Ref_02.jpg",
+      "/projects/recreos/Ref_03.jpg",
+      "/projects/recreos/Ref_04.png",
+    ],
     concept: ["Il concept si fonda sulla volontà di trasformare il banale atto della cottura della pasta in un'esperienza d'ascolto funzionale, assegnando a ogni tipologia di pasta prodotta dal locale una specifica personalità emotiva e strutturale. L'idea centrale è quella di sostituire il classico e freddo timer da cucina con la durata e il ritmo di una canzone della tradizione italiana, selezionata accuratamente sia per la corrispondenza esatta",
       "con i minuti di cottura medi del prodotto, sia per le suggestioni che è in grado di evocare nel consumatore. Dalla morbidezza rilassante degli gnocchi associata a una calda ninna nanna, all'energia dei colli bolognesi evocata per i tortellini, fino al carattere intimo e raccolto dei fagottini che richiama la struttura di una stanza isolata dal mondo, ogni formato diventa il protagonista di un racconto sonoro."],
     processCaption: "Il processo progettuale si è concentrato sulla traduzione di questo palinsesto musicale in un manufatto editoriale digitale che rispettasse rigorosamente l'identità visiva dell'associazione Recreos, basata sull'uso identitario del bianco e di un rosso molto vibrante. Ho strutturato il layout come un ricettario contemporaneo e illustrato, dove ogni pagina è interamente dedicata a un singolo formato di pasta. La lavorazione ha richiesto una rigorosa micro-progettazione tipografica per equilibrare i blocchi di testo esplicativi e le illustrazioni al tratto dei prodotti. La fase più complessa ha riguardato l'architettura dell'interazione e l'inserimento dei collegamenti ipertestuali; per soddisfare elevati criteri di accessibilità universale, ho sdoppiato i link digitali per ciascun brano sia sulla piattaforma Spotify sia su YouTube, garantendo così la fruizione della playlist a qualsiasi tipologia di utente e su qualunque dispositivo mobile durante le attività in cucina.",
-    process: 5,
+    process: 4,
+    processImages: [
+      "/projects/recreos/Process-03.png",
+      "/projects/recreos/Process-04.png",
+      "/projects/recreos/Process-01.png",
+      "/projects/recreos/Process-02.png",
+    ],
     outputCaption: "L’output finale consiste in una guida editoriale interattiva in formato PDF, completamente illustrata e ottimizzata per la consultazione da smartphone e tablet. Il documento si presenta come un touchpoint cross-mediale perfettamente integrato nel progetto di branding territoriale di Via Palazzuolo. Attraverso un'impaginazione pulita, dinamica e di forte impatto visivo, il ricettario musicale permette ai clienti di Pasta Fresca Morioni di accedere istantaneamente alle tracce sonore durante la preparazione del piatto, trasformando un prodotto della tradizione artigianale in un'esperienza editoriale e digitale d'avanguardia, facilmente distribuibile tramite QR code.",
-    output: 5,
+    output: 6,
+    outputImages: [
+      "/projects/recreos/Output-01.png",
+      "/projects/recreos/Output-05.png",
+      "/projects/recreos/Output-06.png",
+      "/projects/recreos/Output-02.png",
+      "/projects/recreos/Output-03.png",
+      "/projects/recreos/Output-04.png",
+
+    ],
     conclusion: ["Sviluppare questo progetto in collaborazione con Recreos mi ha permesso di comprendere il ruolo sociale del graphic design come strumento di valorizzazione del territorio e di attivazione delle piccole comunità locali. Ho imparato a gestire un flusso di lavoro complesso che unisce la ricerca sul campo alla progettazione di interfacce interattive, affinando la mia capacità di creare connessioni sinestetiche tra ambiti apparentemente distanti come la gastronomia e la musica.",
       "Guardando l'output oggi, l'area di potenziamento principale risiede nell'evoluzione di questo PDF interattivo verso un ecosistema digitale ancora più integrato e autonomo. Se dovessi estendere il progetto, lavorerei allo sviluppo di una web-app dedicata o di un filtro in realtà aumentata che, inquadrando il packaging della pasta appena acquistata, attivi automaticamente la canzone corrispondente e un timer grafico animato a ritmo di musica."],
   },
+
+  // Booklet Recreos
   {
     slug: "booklet-recreos",
     name: "Booklet recreos",
@@ -131,16 +257,43 @@ export const projects = [
     brief: ["Il progetto ha previsto la progettazione e l’impaginazione di una micro-pubblicazione editoriale in formato A5, concepita come estensione cartacea della ricerca antropologica condotta in Via Palazzuolo a Firenze, in collaborazione con l’associazione Recreos. Il brief richiedeva di trasformare le trascrizioni delle interviste realizzate con i commercianti storici della zona in un prodotto editoriale autonomo e collezionabile.", 
       "La principale sfida progettuale consisteva nel mantenere una forte coerenza visiva con il linguaggio grafico sviluppato per la mappa del quartiere, attraverso uno stile estremamente pulito e una palette cromatica rigorosamente bicromatica basata sul bianco e sul rosso. All’interno di questo sistema visivo condiviso, il mio gruppo si è occupato della sezione \“Artigianato e Design\”, dedicata a tre storiche realtà della via: Il Bussetto, Studio Bojola e Decorestauro."],
     researchCaption: "La fase di ricerca si è focalizzata sullo studio della tradizione artigiana fiorentina, analizzando come il valore della manualità possa essere trasmesso attraverso la scomposizione geometrica e la scelta dei caratteri. Abbiamo esaminato diversi layout di fanzine e pubblicazioni varie per capire come gestire interviste testuali dense all'interno di un formato ridotto come l'A5, senza sacrificare la leggibilità o lo spazio bianco. Un'attenzione particolare è stata dedicata alla ricerca tipografica, cercando una combinazione di font che potesse dialogare in modo armonioso: un carattere capace di raccontare la storicità del \"fatto a mano\" accostato a un secondo font moderno, trasparente e funzionale per i blocchi di testo più lunghi.",
-    research: 5,
+    research: 4,
+    researchImages: [
+      "/projects/recreos/Ref_Booklet_01.png",
+      "/projects/recreos/Ref_Booklet_02.png",
+      "/projects/recreos/Ref_Booklet_03.png",
+      "/projects/recreos/Ref_Booklet_04.png",
+    ],
     concept: ["Il concept del booklet celebra la trasformazione della materia operata dall'artigiano, traducendo la fisicità della bottega in struttura grafica. Per riflettere l'anima umana e imperfetta dell'artigianato, la scelta tipografica principale è ricaduta su Lora, un font serif le cui grazie morbide ed eleganti richiamano la gestualità della scrittura e l'unicità del lavoro manuale. Come carattere secondario è stato selezionato Source Sans 3, un sans-serif geometrico che crea un pairing ottimale con il font primario, riprendendo sottilmente l'anatomia interna, in particolare la struttura della lettera g minuscola. ",
       "Il mio ruolo specifico all'interno del team si è concentrato sulla progettazione delle copertine di capitolo per le tre attività. L'idea centrale è stata quella di utilizzare il graphic design non come mera decorazione, ma come veicolo di immaginazione e astrazione: ogni copertina funge da soglia visiva concettuale che introduce il lettore all'universo dell'artigiano attraverso icone grafiche forti e campiture piene, trasformando gli strumenti di lavoro e i materiali in pura sintesi visiva."],
     processCaption: "Il processo esecutivo ha richiesto un delicato lavoro di bilanciamento tra la rigidità della griglia editoriale e l'espressività delle illustrazioni di copertina. Per i tre negozi assegnati, ho avviato una fase di scomposizione iconografica basata sulle rispettive identità artigianali: la modellazione del cuoio per Il Bussetto, le linee strutturali e l'eleganza dell'interior design per Studio Bojola e i segni del tempo combinati con il restauro del legno per Decorestauro. Queste suggestioni sono state tradotte in illustrazioni vettoriali piatte ad alto contrasto, sfruttando al massimo il dualismo cromatico bianco/rosso richiesto da Recreos. La disposizione dei testi ha seguito un ritmo perlopiù rigido e pulito, alternando le grandi illustrazioni e alcune citazioni a tutta pagina al resto dei testi, disposti in colonne pulite che valorizzano le parole dei commercianti. ",
-    process: 5,
+    process: 10,
+    processImages: [
+      "/projects/recreos/Process_01.jpg",
+      "/projects/recreos/Process_02.jpg",
+      "/projects/recreos/Process_03.jpg",
+      "/projects/recreos/Process_04.jpg",
+      "/projects/recreos/Process_Foto_01.jpg",
+      "/projects/recreos/Process_Foto_02.jpg",
+      "/projects/recreos/Process_Foto_03.jpeg",
+      "/projects/recreos/Process_Foto_04.jpg",
+      "/projects/recreos/Process_Foto_05.jpg",
+      "/projects/recreos/Process_Foto_06.jpeg",
+    ],
     outputCaption: "L'output finale si concretizza in un booklet editoriale in formato A5 che unisce rigore documentaristico e sperimentazione visiva. Il volume si presenta come un racconto fluido del saper fare italiano, dove il design delle copertine interne spezza la sequenza testuale offrendo momenti di pausa riflessiva e impatto visivo. Il contrasto netto del rosso sulle pagine bianche dona alla pubblicazione un carattere contemporaneo, editoriale e d'avanguardia, trasformando una raccolta di interviste locali in un oggetto di design editoriale maturo e coerente con la comunicazione globale dell’associazione Recreos.",
     output: 5,
+    outputImages: [
+      "/projects/recreos/Output_01.png",
+      "/projects/recreos/Output_02.png",
+      "/projects/recreos/Output_03.png",
+      "/projects/recreos/Book_Output_01.png",
+      "/projects/recreos/Book_Output_02.png",
+    ],
     conclusion: ["La progettazione di questo booklet mi ha permesso di comprendere l'importanza della pianificazione del ritmo all'interno di una pubblicazione multipagina, imparando a gestire lo spazio bianco come un vero e proprio elemento strutturale, ma soprattutto a lavorare con le linee guida di base e un layout da seguire. Inoltre, questo progetto mi ha permesso di affinare le mie conoscenze e abilità con l’utilizzo di software legati all’editoria.",
       "Rivedendo il layout finale del booklet, vedo un margine di miglioramento nella micro-progettazione delle gerarchie tipografiche per le note a margine e i dettagli secondari delle interviste, che avrei potuto differenziare ulteriormente per pesi visivi per rendere la lettura ancora più dinamica. Di sicuro l’output è funzionale, ma manca di quel tocco aggiuntivo di creatività in grado di far emergere, ancora di più, l’essenza della ricerca e del quartiere."],
   },
+
+  // Palazzo Strozzi
   {
     slug: "palazzo-strozzi",
     name: "Palazzo Strozzi",
@@ -150,13 +303,35 @@ export const projects = [
     brief: ["L’obiettivo di questo progetto, sviluppato in collaborazione con Palazzo Strozzi a Firenze, è stato la progettazione di un artwork visivo d'avanguardia destinato al catalogo annuale dell'istituzione intitolato \"Microcosmo\". La richiesta prevedeva la creazione di una grafica editoriale strutturata su due pagine affiancate, che offrisse un'interpretazione originale e autoriale del tema del \"Deep Listening\".",
       "Il lavoro doveva connettersi direttamente con la visione artistica della mostra temporanea in corso dedicata a Mark Rothko, traducendo gli stimoli culturali della retrospettiva in un layout d'impatto e coerente con gli elevati standard della linea editoriale della fondazione."],
     researchCaption: "La fase di ricerca si è basata su un’analisi interdisciplinare intorno all'atto dell'ascolto riflessivo, inteso nella sua dimensione più profonda, intima e contemplativa. Lo studio ha posto in dialogo la pittura astratta di Mark Rothko con le teorie della compositrice Pauline Oliveros, la quale identifica il deep listening come un atto del tutto volontario di apertura verso il mondo esterno e verso i propri pensieri, e con le riflessioni filosofiche contemporanee sulla necessità della contemplazione e dell'inattività come stimoli rigenerativi rispetto alla frenesia moderna. Il punto di convergenza fondamentale tra questi diversi approcci è stato rintracciato nel silenzio, inteso come strumento d'immersione interiore e auto-analisi. Questa esplorazione ha trovato la sua perfetta sintesi visiva nella rielaborazione della celebre concezione di Rothko sull'equilibrio latente delle sue opere, riassunta nell'idea di \"una serenità sul punto di esplodere\", concetto che è diventato la reference concettuale ed espressiva per l'intero impianto grafico.",
-    research: 5,
+    research: 6,
+    researchImages: [
+      "/projects/palazzo_strozzi/Research_01.jpg",
+      "/projects/palazzo_strozzi/Research_02.jpg",
+      "/projects/palazzo_strozzi/Research_03.jpg",
+      "/projects/palazzo_strozzi/Research_04.jpg",
+      "/projects/palazzo_strozzi/Research_05.jpg",  
+      "/projects/palazzo_strozzi/Research_06.jpg",
+    ],
     concept: ["Il progetto traduce in metafora visiva la catarsi emotiva del dare voce all'inconscio, trasformando lo spazio della pagina nel teatro di un flusso di coscienza. Tramite l’utilizzo della tipografia e l’elaborazione di essa, su una texture granulosa che evoca la fragilità della carta, i caratteri tipografici si accumulano decostruiti, accumulando una tensione latente. Questa compressione culmina in una lacerazione centrale da cui le lettere della parola \"ESPLODERE\" erompono",
       "ed esplodono, espandendosi nello spazio e rompendo la quiete geometrica. La palette asseconda questo viaggio psicologico. Il layout transita dai toni del blu profondo e cobalto, simboli di silenzio, raccoglimento e pensiero introspettivo, al rosso acceso e viscerale, che sancisce il momento esatto in cui l'io trattenuto si libera e si manifesta in modo autentico"],
     processCaption: "Lo sviluppo del processo creativo si è concretizzato nella progettazione digitale di una tavola editoriale di dimensioni complessive pari a 42 x 28 centimetri, concepita specificamente per una visualizzazione a doppia pagina aperta all'interno del book. La costruzione del layout è partita dalla manipolazione digitale dello sfondo, dove ho applicato una texture materica che simula la carta lavorata su una palette cromatica precisa, alternando tonalità di blu profondo e blu cobalto per evocare il silenzio e la dimensione più introspettiva del pensiero. Successivamente, ho inserito l'elemento di rottura geometrico e cromatico, ovvero una potente esplosione in rosso acceso che lacera la composizione ed esprime la carica della liberazione emotiva. La vera sfida progettuale ha riguardato la gestione della tipografia decostruita: ho frammentato le parole chiave e disseminato i singoli glifi nello spazio secondo un apparente caos calcolato, facendone variare la scala e l'orientamento lungo le linee di forza della frattura per amplificare la sensazione di un’esplosione visiva che rompe la superficie cartacea.",
     process: 5,
+    processImages: [
+      "/projects/palazzo_strozzi/Bozza_01.png",
+      "/projects/palazzo_strozzi/Draft1.png",
+      "/projects/palazzo_strozzi/Draft2.png",
+      "/projects/palazzo_strozzi/Bozza_02.png",
+      "/projects/palazzo_strozzi/Bozza_03.png",
+    ],
     outputCaption: "L’output finale consiste in un artwork editoriale d'avanguardia destinato alle pagine affiancate di una pubblicazione monografica ideale per Palazzo Strozzi. Il risultato è una composizione visiva potente e coerente, in cui i confini tra grafica editoriale pura, illustrazione astratta e sperimentazione tipografica di stampo futurista si azzerano completamente. La doppia pagina acquisisce un ritmo narrativo unico e sequenziale, che costringe l'osservatore a compiere un viaggio visivo che si muove dalla quiete profonda, dal silenzio e dal vuoto della pagina sinistra alla catarsi espressiva, cromatica e dinamica della pagina destra, inserendosi perfettamente all'interno del catalogo come un capitolo visivo autonomo e di forte impatto autoriale.",
     output: 5,
+    outputImages: [
+      "/projects/palazzo_strozzi/VitoGiacobelli_ProgettoStrozzi_Artwork_3.jpg",
+      "/projects/palazzo_strozzi/Bozza_Def_Mockup.png",
+      "/projects/palazzo_strozzi/Detail-01.png",
+      "/projects/palazzo_strozzi/Detail-02.png",
+      "/projects/palazzo_strozzi/Detail-03.png",
+    ],
     conclusion: ["Collaborare a stretto contatto con un'istituzione come Palazzo Strozzi e misurarsi con l'eredità artistica di Mark Rothko mi ha permesso di elevare la mia sensibilità concettuale, insegnandomi a trasformare riflessioni filosofiche e psicologiche complesse in una struttura visiva solida e comunicativa. Ho compreso le dinamiche e i limiti rigorosi della progettazione editoriale, imparando a gestire l'equilibrio compositivo di una doppia pagina e a considerare lo spazio vuoto non come una mancanza, ma come una componente attiva del racconto visivo. Dal punto di vista tecnico, questo progetto ha consolidato la mia capacità di usare la tipografia in chiave espressiva e non puramente funzionale, scoprendo il potenziale del testo.",
       "Analizzando criticamente l'artwork oggi, vedo l'opportunità di ottimizzare ulteriormente il legame tra le due metà della composizione, prestando ancora più attenzione alla zona della piega centrale del catalogo per garantire che nessun frammento tipografico cruciale subisca distorsioni o venga perso in fase di rilegatura. Inoltre, sebbene il caos controllato delle lettere sparse esprima efficacemente la tensione dell'interiorità, lavorerei su una micro-progettazione gerarchica ancora più fine, calibrando i pesi e i formati dei caratteri più piccoli per creare un secondo livello di lettura più intimo e sommesso, che inviti l'osservatore ad avvicinarsi fisicamente al foglio (come per i quadri di Rothko) per scoprire i dettagli più infimi dell’opera."],
   },

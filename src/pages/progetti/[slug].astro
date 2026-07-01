@@ -17,6 +17,7 @@ import Concept from "../../components/project/Concept.astro";
 import Process from "../../components/project/Process.astro";
 import Output from "../../components/project/Output.astro";
 import Conclusion from "../../components/project/Conclusion.astro";
+import Lightbox from "../../components/project/Lightbox.astro";
 import { projects } from "../../data/projects.js";
 import "../../styles/project/base.css";
 
@@ -50,4 +51,5 @@ const { project, index, prev, next } = Astro.props;
   </main>
 
   <Footer />
+  <Lightbox />
 </Base>

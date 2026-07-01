@@ -288,16 +288,18 @@ class Media {
 class App {
   isDown = false;
   start = 0;
+  moved = 0; // total pointer travel since the last touchdown (click vs drag)
   hover = 0; // smoothed hover amount (0..1) driving the wave
   hoverTarget = 0;
   rafId = null; // null when the render loop is parked (idle or off-screen)
   isVisible = false; // toggled by the IntersectionObserver in initCircularGallery
 
-  constructor(container, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase }) {
+  constructor(container, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onImageClick }) {
     this.container = container;
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0, position: 0 };
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
+    this.onImageClick = onImageClick;
     autoBind(this);
     this.createRenderer();
     this.createCamera();
@@ -332,6 +334,7 @@ class App {
 
   createMedias(items, bend, textColor, borderRadius, font) {
     const galleryItems = items && items.length > 0 ? items : [];
+    this.itemsLength = galleryItems.length; // original count, before the loop duplication below
     this.mediasImages = [...galleryItems, ...galleryItems]; // duplicate for seamless loop
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({
@@ -356,6 +359,7 @@ class App {
 
   onTouchDown(e) {
     this.isDown = true;
+    this.moved = 0;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
     this.wake();
@@ -364,6 +368,7 @@ class App {
   onTouchMove(e) {
     if (!this.isDown) return;
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.moved = Math.max(this.moved, Math.abs(x - this.start));
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = this.scroll.position + distance;
   }
@@ -371,6 +376,29 @@ class App {
   onTouchUp() {
     this.isDown = false;
     this.onCheck();
+    // A tap/click (negligible drag) opens the image under the pointer instead
+    // of just settling the scroll.
+    if (this.moved < 5) this.handleClick(this.start);
+  }
+
+  /** Hit-test the pointer's X position against the currently rendered media
+   *  planes and fire onImageClick with the tapped item's original index
+   *  (mediasImages is duplicated for the seamless loop, so wrap it back). */
+  handleClick(clientX) {
+    if (!this.onImageClick || !this.medias || !this.medias.length) return;
+    const rect = this.container.getBoundingClientRect();
+    const relX = clientX - rect.left;
+    const worldX = (relX - this.screen.width / 2) * (this.viewport.width / this.screen.width);
+    let nearest = this.medias[0];
+    let minDist = Infinity;
+    for (const media of this.medias) {
+      const dist = Math.abs(worldX - media.plane.position.x);
+      if (dist < minDist) {
+        minDist = dist;
+        nearest = media;
+      }
+    }
+    this.onImageClick(nearest.index % this.itemsLength);
   }
 
   onWheel(e) {
@@ -510,7 +538,7 @@ class App {
  * Reads the container's computed colour/font for the image labels.
  */
 export function initCircularGallery(container, options = {}) {
-  const { items = [], bend = 3, borderRadius = 0.05, scrollSpeed = 2, scrollEase = 0.05 } = options;
+  const { items = [], bend = 3, borderRadius = 0.05, scrollSpeed = 2, scrollEase = 0.05, onImageClick } = options;
   const cs = getComputedStyle(container);
   const font = `${cs.fontWeight || "bold"} ${cs.fontSize || "30px"} ${cs.fontFamily}`;
   const app = new App(container, {
@@ -521,6 +549,7 @@ export function initCircularGallery(container, options = {}) {
     font,
     scrollSpeed,
     scrollEase,
+    onImageClick,
   });
 
   // Only run the WebGL loop while the gallery is actually on-screen.

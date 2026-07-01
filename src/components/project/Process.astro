@@ -1,16 +1,19 @@
 ---
 /**
  * Process ("PROCESSO") — curved WebGL gallery (ogl). Drag or wheel-over to
- * scrub; it bends and loops seamlessly. Photo count is variable (`count`);
- * images are placeholders for now.
+ * scrub; it bends and loops seamlessly. Photo count is variable, driven by
+ * processImages (falling back to `count` placeholders). Tapping/clicking a
+ * (non-placeholder) photo opens it in the shared project lightbox.
  */
 import "../../styles/project/process.css";
 
 interface Props {
   count?: number;
-  project?: { processCaption?: string };
+  project?: { processCaption?: string; processImages?: string[] };
 }
 const { count = 5, project } = Astro.props;
+
+const images = project?.processImages || [];
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.";
@@ -22,7 +25,13 @@ const caption = project?.processCaption || ph;
   <div class="container psection_inner">
     <h2 class="section-title">Processo</h2>
 
-    <div class="pprocess_gallery" data-count={count} role="img" aria-label="Galleria del processo (placeholder)"></div>
+    <div
+      class="pprocess_gallery"
+      data-count={count}
+      data-images={JSON.stringify(images)}
+      role="img"
+      aria-label="Galleria del processo"
+    ></div>
 
     <p class="pcaption">{caption} <span class="pprocess_hint">— trascina o scorri per esplorare</span></p>
   </div>
@@ -33,7 +42,8 @@ const caption = project?.processCaption || ph;
 
   const el = document.querySelector<HTMLElement>(".pprocess_gallery");
   if (el) {
-    const count = parseInt(el.dataset.count || "5", 10);
+    const images: string[] = JSON.parse(el.dataset.images || "[]");
+    const count = images.length || parseInt(el.dataset.count || "5", 10);
 
     const placeholder = (n: number) =>
       "data:image/svg+xml;utf8," +
@@ -45,14 +55,27 @@ const caption = project?.processCaption || ph;
       );
 
     const items = Array.from({ length: count }, (_, i) => ({
-      image: placeholder(i + 1),
+      image: images[i] || placeholder(i + 1),
       text: `0${i + 1}`,
     }));
 
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          initCircularGallery(el, { items, bend: 3, borderRadius: 0.05, scrollEase: 0.05 });
+          initCircularGallery(el, {
+            items,
+            bend: 3,
+            borderRadius: 0.05,
+            scrollEase: 0.05,
+            onImageClick: (index: number) => {
+              const src = images[index]; // undefined for placeholder slots — no-op
+              if (src) {
+                document.dispatchEvent(
+                  new CustomEvent("project-lightbox:open", { detail: { src } }),
+                );
+              }
+            },
+          });
           io.disconnect();
         }
       },

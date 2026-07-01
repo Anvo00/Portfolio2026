@@ -10,18 +10,21 @@ import "../../styles/project/research.css";
 
 interface Props {
   count?: number;
-  project?: { researchCaption?: string | string[] };
+  project?: { researchCaption?: string | string[]; researchImages?: string[] };
 }
 const { count = 5, project } = Astro.props;
 
-const mid = (count - 1) / 2;
+const images = project?.researchImages || [];
+const total = images.length || count;
+
+const mid = (total - 1) / 2;
 const spacing = 150;
-const cards = Array.from({ length: count }, (_, i) => {
+const cards = Array.from({ length: total }, (_, i) => {
   const off = i - mid;
   const x = Math.round(off * spacing);
   const rot = (i % 2 === 0 ? -7 : 6) + Math.round(off * -1.2);
   const y = Math.round((i % 2 === 0 ? 1 : -1) * (8 + Math.abs(off) * 5));
-  return { x, y, rot };
+  return { x, y, rot, image: images[i] };
 });
 
 const ph =
@@ -45,7 +48,14 @@ const caption = project?.researchCaption || ph;
               data-dr={card.rot}
               style={`transform: translate(${card.x}px, ${card.y}px) rotate(${card.rot}deg)`}
             >
-              <div class="presearch_card-inner placeholder" />
+              {card.image
+                ? (
+                  <button type="button" class="presearch_card-inner" data-full={card.image}>
+                    <img src={card.image} alt="" loading="lazy" />
+                  </button>
+                )
+                : <div class="presearch_card-inner placeholder" />
+              }
             </div>
           ))
         }
@@ -63,6 +73,14 @@ const caption = project?.researchCaption || ph;
   if (section) {
     const cards = section.querySelectorAll<HTMLElement>(".presearch_card");
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    section.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>(".presearch_card-inner[data-full]");
+      if (!btn?.dataset.full) return;
+      document.dispatchEvent(
+        new CustomEvent("project-lightbox:open", { detail: { src: btn.dataset.full } }),
+      );
+    });
 
     if (!reduce && cards.length) {
       gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 0.85, opacity: 0 });

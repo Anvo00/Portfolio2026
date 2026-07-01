@@ -64,7 +64,8 @@
   align-self: end;
   width: clamp(180px, 22vw, 300px);
   z-index: 2;
-  margin-bottom: -80px;
+  margin-bottom: -55px;
+  scale: 1.4;
 }
 .footer_cat img {
   width: 100%;

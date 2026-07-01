@@ -1,0 +1,51 @@
+/* =========================================================
+   LIGHTBOX — shared full-view overlay for Research / Process / Output
+   photos. Single instance per page (see Lightbox.astro), opened via the
+   "project-lightbox:open" custom event.
+   ========================================================= */
+
+.plightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 14, 14, 0.92);
+  padding: 40px;
+}
+.plightbox[hidden] {
+  display: none;
+}
+
+.plightbox_img {
+  /* Percentage max-width/height wouldn't resolve here (the grid cell's
+     track is auto-sized, i.e. indefinite), so a tall photo would ignore
+     the constraint and overflow past the viewport. Size against the
+     viewport directly instead, minus the lightbox's own 40px padding. */
+  max-width: calc(100vw - 80px);
+  max-height: calc(100vh - 80px);
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.plightbox_close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.plightbox_close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

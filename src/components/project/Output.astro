@@ -1,19 +1,22 @@
 ---
 /**
- * Output — caption + a Bento grid of placeholder modules (24px gap).
- * Module count is variable (`count`); sizes cycle through a pattern so the
- * grid stays balanced for any number.
+ * Output — caption + a simple inline (single-row) carousel, scrollable
+ * horizontally. Each photo keeps its natural aspect ratio (fixed row
+ * height, width auto — no cropping); module count is variable (driven by
+ * outputImages, falling back to `count` placeholders). Clicking a photo
+ * opens it in the shared project lightbox (see Lightbox.astro).
  */
 import "../../styles/project/output.css";
 
 interface Props {
   count?: number;
-  project?: { outputCaption?: string };
+  project?: { outputCaption?: string; outputImages?: string[] };
 }
 const { count = 5, project } = Astro.props;
 
-const pattern = ["is-2x2", "is-1x2", "is-1x1", "is-2x1", "is-1x1", "is-1x1"];
-const modules = Array.from({ length: count }, (_, i) => pattern[i % pattern.length]);
+const images = project?.outputImages || [];
+const total = images.length || count;
+const modules = Array.from({ length: total }, (_, i) => images[i]);
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
@@ -27,7 +30,29 @@ const caption = project?.outputCaption || ph;
     <p class="pcaption">{caption}</p>
 
     <div class="poutput_grid">
-      {modules.map((size) => <div class={`poutput_mod placeholder ${size}`} />)}
+      {
+        modules.map((src) =>
+          src ? (
+            <button type="button" class="poutput_mod" data-full={src}>
+              <img src={src} alt="" loading="lazy" />
+            </button>
+          ) : (
+            <div class="poutput_mod placeholder" />
+          ),
+        )
+      }
     </div>
   </div>
 </section>
+
+<script>
+  const grid = document.querySelector<HTMLElement>(".poutput_grid");
+
+  grid?.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>(".poutput_mod[data-full]");
+    if (!btn?.dataset.full) return;
+    document.dispatchEvent(
+      new CustomEvent("project-lightbox:open", { detail: { src: btn.dataset.full } }),
+    );
+  });
+</script>
