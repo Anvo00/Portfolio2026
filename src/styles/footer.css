@@ -1,7 +1,7 @@
 .footer {
   /* Invert the palette: blue background, light text. */
   background-color: var(--accent);
-  background-image: url("/projects/monogram/Monogram_Pattern_LowOpacity.svg");
+  background-image: var(--pattern-low-opacity);
   background-size: cover;
   color: var(--white);
   position: relative;

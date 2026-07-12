@@ -5,42 +5,9 @@
    ========================================================= */
 
 /* ---------- FONT FACES ----------
-   Files live in /public/fonts (served from the site root). */
-@font-face {
-  font-family: "Gobold";
-  src: url("/fonts/Gobold.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Sora";
-  src: url("/fonts/Sora-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Sora";
-  src: url("/fonts/Sora-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Sora";
-  src: url("/fonts/Sora-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Sora";
-  src: url("/fonts/Sora-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+   @font-face rules are emitted from Base.astro instead of here — var()
+   custom properties aren't supported inside @font-face, so the base-prefixed
+   font URLs are inlined there as literal strings. */
 
 /* ---------- DESIGN TOKENS ---------- */
 :root {

@@ -14,7 +14,7 @@
   inset: 0;
   z-index: 0;
   background-color: var(--white);
-  background-image: url("/projects/monogram/Monogram_Pattern_Blue.svg");
+  background-image: var(--pattern-blue);
   background-size: cover;
   opacity: 0.1;
 }
