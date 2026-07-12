@@ -56,3 +56,26 @@
   background: rgba(14, 14, 14, 0.2);
   border-radius: 3px;
 }
+
+/* Recreos-only CTA (see Output.astro) */
+.poutput_cta {
+  display: inline-block;
+  margin-top: -80px;
+  margin-bottom: -40px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.2s ease;
+  rotate: 6deg;
+  transform: translateX(-92px);
+}
+
+.poutput_cta:hover {
+  filter: brightness(1.12);
+}

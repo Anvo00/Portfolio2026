@@ -10,7 +10,7 @@ import "../../styles/project/output.css";
 
 interface Props {
   count?: number;
-  project?: { outputCaption?: string; outputImages?: string[] };
+  project?: { slug?: string; outputCaption?: string; outputImages?: string[] };
 }
 const { count = 5, project } = Astro.props;
 
@@ -27,6 +27,18 @@ const caption = project?.outputCaption || ph;
 <section class="poutput psection section" id="output">
   <div class="container psection_inner">
     <h2 class="section-title">Output</h2>
+        {
+      project?.slug === "recreos" && (
+        <a
+          class="poutput_cta"
+          href="https://orientamento.accademiaitaliana.com/recreos-pasta-fresca-morioni?hs_preview=eMFfqwfW-212879341065"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          VEDI QUI
+        </a>
+      )
+    }
     <p class="pcaption">{caption}</p>
 
     <div class="poutput_grid">
@@ -42,6 +54,8 @@ const caption = project?.outputCaption || ph;
         )
       }
     </div>
+
+
   </div>
 </section>
 
