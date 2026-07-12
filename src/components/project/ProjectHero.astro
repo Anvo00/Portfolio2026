@@ -6,6 +6,7 @@
  * If project.heroImage is set, shows the cover image; otherwise shows a placeholder.
  */
 import "../../styles/project/hero.css";
+import { withBase } from "../../lib/base";
 
 interface Props {
   project: { slug: string; name: string; heroImage?: string };
@@ -17,16 +18,16 @@ const { project, index, prev, next } = Astro.props;
 ---
 
 <section class="phero">
-  <a class="phero_back" href="/">
+  <a class="phero_back" href={withBase("/")}>
     <span aria-hidden="true">✕</span> BACK
   </a>
 
-  <a class="phero_arrow phero_arrow--prev" href={`/progetti/${prev}`} aria-label="Progetto precedente">
+  <a class="phero_arrow phero_arrow--prev" href={withBase(`/progetti/${prev}`)} aria-label="Progetto precedente">
     <svg viewBox="0 0 24 24" width="40" height="40" fill="none" aria-hidden="true">
       <path d="M15 5L8 12l7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   </a>
-  <a class="phero_arrow phero_arrow--next" href={`/progetti/${next}`} aria-label="Progetto successivo">
+  <a class="phero_arrow phero_arrow--next" href={withBase(`/progetti/${next}`)} aria-label="Progetto successivo">
     <svg viewBox="0 0 24 24" width="40" height="40" fill="none" aria-hidden="true">
       <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
@@ -34,7 +35,7 @@ const { project, index, prev, next } = Astro.props;
 
   <div class="phero_card">
     {project.heroImage
-      ? <img class="phero_cover" src={project.heroImage} alt={project.name} />
+      ? <img class="phero_cover" src={withBase(project.heroImage)} alt={project.name} />
       : <div class="phero_cover placeholder" aria-hidden="true"></div>
     }
 

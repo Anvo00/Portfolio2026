@@ -5,6 +5,7 @@
  * blue CSS cards) overlapping the centre, a tagline and the CTA.
  */
 import "../../styles/about.css";
+import { withBase } from "../../lib/base";
 
 const taglineLines = [
   "Graphic Designer e Web Developer.",
@@ -27,7 +28,7 @@ const taglineLines = [
         <span class="about_card about_card--right"></span>
         <span class="about_mask">
           <img
-            src="/images/personal_photo.jpg"
+            src={withBase("/images/personal_photo.jpg")}
             alt="Ritratto di Vito Giacobelli"
             width="360"
             height="468"

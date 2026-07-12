@@ -5,6 +5,7 @@
  */
 import "../styles/global.css";
 import PageTransition from "../components/PageTransition.astro";
+import { withBase } from "../lib/base";
 
 interface Props {
   title?: string;
@@ -32,16 +33,24 @@ const {
         logo → navigated between pages (not project→project) → logo transition
         none → project→project, or a direct open/refresh of a non-home page
     -->
-    <script is:inline>
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL }}>
       (function () {
-        var path = location.pathname.replace(/\/+$/, "") || "/";
+        // Strip the site base ("/Portfolio2026") so the path checks below work
+        // the same whether the site is at the root or in a subfolder.
+        var BASE = base.replace(/\/+$/, "");
+        var strip = function (p) {
+          p = p.replace(/\/+$/, "") || "/";
+          if (BASE && p.indexOf(BASE) === 0) p = p.slice(BASE.length) || "/";
+          return p;
+        };
+        var path = strip(location.pathname);
         var navEntry = performance.getEntriesByType("navigation")[0];
         var navType = navEntry ? navEntry.type : "navigate";
         var ref = null;
         try {
           if (document.referrer) {
             var u = new URL(document.referrer);
-            if (u.origin === location.origin) ref = u.pathname.replace(/\/+$/, "") || "/";
+            if (u.origin === location.origin) ref = strip(u.pathname);
           }
         } catch (e) {}
 
@@ -72,19 +81,19 @@ const {
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
 
     <!-- Preload the two display fonts used above the fold -->
     <link
       rel="preload"
-      href="/fonts/Gobold.woff2"
+      href={withBase("/fonts/Gobold.woff2")}
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/fonts/Sora-SemiBold.woff2"
+      href={withBase("/fonts/Sora-SemiBold.woff2")}
       as="font"
       type="font/woff2"
       crossorigin

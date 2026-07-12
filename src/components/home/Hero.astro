@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import catJump from "../../assets/cat_jump.png";
 import mousePointer from "../../assets/mouse_pointer.png";
 import earphone from "../../assets/earphone.png";
+import { withBase } from "../../lib/base";
 ---
 
 <section class="hero section" id="home">
@@ -17,7 +18,7 @@ import earphone from "../../assets/earphone.png";
       <span class="hero_stage" aria-hidden="true">
         <img
           class="hero_title-img"
-          src="/images/portfolio_title.svg"
+          src={withBase("/images/portfolio_title.svg")}
           alt=""
           width="1288"
           height="473"

@@ -21,6 +21,7 @@
  */
 import "../../styles/projects.css";
 import { projects } from "../../data/projects.js";
+import { withBase } from "../../lib/base";
 
 /* Year is the single source of truth in projects.js — look it up by page URL so
    the badge never drifts if a project's year changes there. */
@@ -74,14 +75,14 @@ const count = steps.length;
 
         <!-- ============ CENTRE: turntable ============ -->
         <div class="proj_player">
-          <img class="proj_vinyl" src="/images/projects/vinyl_turntable.svg" alt="" aria-hidden="true" />
-          <img class="proj_arrow" src="/images/projects/arrow.svg" alt="" aria-hidden="true" />
-          <img class="proj_testina" src="/images/projects/testina.svg" alt="" aria-hidden="true" />
+          <img class="proj_vinyl" src={withBase("/images/projects/vinyl_turntable.svg")} alt="" aria-hidden="true" />
+          <img class="proj_arrow" src={withBase("/images/projects/arrow.svg")} alt="" aria-hidden="true" />
+          <img class="proj_testina" src={withBase("/images/projects/testina.svg")} alt="" aria-hidden="true" />
 
           <!-- Year badges; the active one is highlighted, the other dimmed. -->
           <div class="proj_years" aria-hidden="true">
-            <img class="proj_year" data-year="2025" src="/images/projects/button_2025.svg" alt="" />
-            <img class="proj_year" data-year="2026" src="/images/projects/button_2026.svg" alt="" />
+            <img class="proj_year" data-year="2025" src={withBase("/images/projects/button_2025.svg")} alt="" />
+            <img class="proj_year" data-year="2026" src={withBase("/images/projects/button_2026.svg")} alt="" />
           </div>
         </div>
 
@@ -92,8 +93,8 @@ const count = steps.length;
           <div class="proj_folder-track">
             {
               steps.map((s) => (
-                <a class="proj_card" href={s.url} data-year={s.year} aria-label={`Apri il progetto ${s.number}`}>
-                  <img class="proj_card-img" src={s.img} alt="" loading="eager" decoding="async" />
+                <a class="proj_card" href={withBase(s.url)} data-year={s.year} aria-label={`Apri il progetto ${s.number}`}>
+                  <img class="proj_card-img" src={withBase(s.img)} alt="" loading="eager" decoding="async" />
                 </a>
               ))
             }

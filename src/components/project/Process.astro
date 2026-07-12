@@ -6,6 +6,7 @@
  * (non-placeholder) photo opens it in the shared project lightbox.
  */
 import "../../styles/project/process.css";
+import { withBase } from "../../lib/base";
 
 interface Props {
   count?: number;
@@ -13,7 +14,7 @@ interface Props {
 }
 const { count = 5, project } = Astro.props;
 
-const images = project?.processImages || [];
+const images = (project?.processImages || []).map(withBase);
 
 const ph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.";

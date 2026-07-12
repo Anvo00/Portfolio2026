@@ -18,6 +18,7 @@
  * Reduced-motion users get the static resting composition (no pin/scrub).
  */
 import "../../styles/about-animated.css";
+import { withBase } from "../../lib/base";
 
 const taglineLines = [
   "Graphic Designer e Web Developer.",
@@ -47,7 +48,7 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
           <!-- eager + async decode so the large image is ready before the
                user scrolls here, keeping the scrubbed animation smooth. -->
           <img
-            src="/images/personal_photo_about.jpg"
+            src={withBase("/images/personal_photo_about.jpg")}
             alt="Ritratto di Vito Giacobelli"
             width="1200"
             height="1800"
@@ -78,7 +79,7 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
         }
       </p>
 
-      <a href="/info" class="abouta_cta">SCOPRI DI PIÚ</a>
+      <a href={withBase("/info")} class="abouta_cta">SCOPRI DI PIÚ</a>
     </div>
   </div>
 </section>

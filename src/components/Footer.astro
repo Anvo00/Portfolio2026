@@ -9,6 +9,7 @@
 import "../styles/footer.css";
 import { Image } from "astro:assets";
 import catLie from "../assets/cat_lie.png";
+import { withBase } from "../lib/base";
 
 const socials = [
   { label: "Instagram", href: "#", icon: "/images/instagram.svg" },
@@ -37,7 +38,7 @@ const socials = [
             socials.map((s) => (
               <li>
                 <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
-                  <img src={s.icon} alt="" width="32" height="32" />
+                  <img src={withBase(s.icon)} alt="" width="32" height="32" />
                 </a>
               </li>
             ))

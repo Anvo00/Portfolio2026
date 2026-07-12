@@ -7,6 +7,7 @@
  * opens it in the shared project lightbox (see Lightbox.astro).
  */
 import "../../styles/project/output.css";
+import { withBase } from "../../lib/base";
 
 interface Props {
   count?: number;
@@ -14,7 +15,7 @@ interface Props {
 }
 const { count = 5, project } = Astro.props;
 
-const images = project?.outputImages || [];
+const images = (project?.outputImages || []).map(withBase);
 const total = images.length || count;
 const modules = Array.from({ length: total }, (_, i) => images[i]);
 

@@ -9,6 +9,7 @@
  */
 import Base from "../layouts/Base.astro";
 import "../styles/info.css";
+import { withBase } from "../lib/base";
 
 // Placeholder skill groups — edit freely (titles + items).
 const skills = [
@@ -38,7 +39,7 @@ const skills = [
 
           <figure class="info_photo">
             <img class="img-default"
-              src="/images/personal_photo_about.jpg"
+              src={withBase("/images/personal_photo_about.jpg")}
               alt="Ritratto di Vito Giacobelli"
               width="1200"
               height="1800"
@@ -78,7 +79,7 @@ const skills = [
           <a class="info_back" href="/">Indietro</a>
           -->
 
-          <a class="phero_back" href="/">
+          <a class="phero_back" href={withBase("/")}>
             <span aria-hidden="true">✕</span> BACK
           </a>
 
