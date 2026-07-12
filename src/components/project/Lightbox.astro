@@ -1,10 +1,4 @@
 ---
-/**
- * Shared full-view lightbox for the Research / Process / Output photos.
- * Mounted once per project page. Other components open it by dispatching
- * a "project-lightbox:open" CustomEvent on document with { src } detail —
- * no direct references needed between components.
- */
 import "../../styles/project/lightbox.css";
 ---
 
@@ -12,25 +6,47 @@ import "../../styles/project/lightbox.css";
   <button type="button" class="plightbox_close" data-lightbox-close aria-label="Chiudi">
     <span aria-hidden="true">✕</span>
   </button>
+
+  <button type="button" class="plightbox_nav plightbox_prev" data-lightbox-prev aria-label="Foto precedente">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
   <img class="plightbox_img" data-lightbox-img src="" alt="" />
+
+  <button type="button" class="plightbox_nav plightbox_next" data-lightbox-next aria-label="Foto successiva">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
 </div>
 
 <script>
   const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
   const lightboxImg = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-img]");
   const closeBtn = lightbox?.querySelector<HTMLElement>("[data-lightbox-close]");
+  const prevBtn = lightbox?.querySelector<HTMLElement>("[data-lightbox-prev]");
+  const nextBtn = lightbox?.querySelector<HTMLElement>("[data-lightbox-next]");
 
-  // Move the lightbox to be a direct child of <body>. Keeping it nested
-  // inside a section risks an ancestor establishing a containing block
-  // (transform/filter/contain) that would break `position: fixed` and
-  // misplace it instead of centring it in the viewport.
   if (lightbox && lightbox.parentElement !== document.body) {
     document.body.appendChild(lightbox);
   }
 
-  function open(src: string) {
-    if (!lightbox || !lightboxImg) return;
-    lightboxImg.src = src;
+  let gallery: string[] = [];
+  let current = 0;
+
+  function show(index: number) {
+    if (!lightboxImg || !gallery.length) return;
+    current = (index + gallery.length) % gallery.length;
+    lightboxImg.src = gallery[current];
+  }
+
+  function open(images: string[], index: number) {
+    if (!lightbox || !lightboxImg || !images.length) return;
+    gallery = images;
+    lightbox.classList.toggle("is-gallery", images.length > 1);
+    show(index);
     lightbox.hidden = false;
     document.body.style.overflow = "hidden";
   }
@@ -39,18 +55,33 @@ import "../../styles/project/lightbox.css";
     if (!lightbox || !lightboxImg) return;
     lightbox.hidden = true;
     lightboxImg.src = "";
+    gallery = [];
     document.body.style.overflow = "";
   }
 
+  const next = () => show(current + 1);
+  const prev = () => show(current - 1);
+
   document.addEventListener("project-lightbox:open", (e) => {
-    const src = (e as CustomEvent<{ src: string }>).detail?.src;
-    if (src) open(src);
+    const detail = (e as CustomEvent<{ src?: string; images?: string[]; index?: number }>).detail;
+    if (!detail) return;
+    if (Array.isArray(detail.images) && detail.images.length) {
+      open(detail.images, detail.index ?? 0);
+    } else if (detail.src) {
+      open([detail.src], 0);
+    }
   });
+
   closeBtn?.addEventListener("click", close);
+  nextBtn?.addEventListener("click", next);
+  prevBtn?.addEventListener("click", prev);
   lightbox?.addEventListener("click", (e) => {
     if (e.target === lightbox) close();
   });
   document.addEventListener("keydown", (e) => {
+    if (!lightbox || lightbox.hidden) return;
     if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight" && gallery.length > 1) next();
+    else if (e.key === "ArrowLeft" && gallery.length > 1) prev();
   });
 </script>

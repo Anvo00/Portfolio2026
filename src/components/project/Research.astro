@@ -1,11 +1,4 @@
 ---
-/**
- * Research ("RICERCA") — oversized faded title with a row of cards over it.
- * Cards (variable `count`) start stacked at centre and spring out into a fan
- * when the section scrolls into view (GSAP + IntersectionObserver). Hovering
- * a card lifts it. Inline transforms = the fanned "rest" pose (no-js fallback);
- * GSAP takes over to animate from a stacked start.
- */
 import "../../styles/project/research.css";
 import { withBase } from "../../lib/base";
 
@@ -39,9 +32,9 @@ const caption = project?.researchCaption || ph;
     <div class="presearch_stage">
       <h2 class="presearch_title" aria-label="Ricerca">Ricerca</h2>
 
-      <div class="presearch_cards">
+      <div class="presearch_cards" data-images={JSON.stringify(images)}>
         {
-          cards.map((card) => (
+          cards.map((card, i) => (
             <div
               class="presearch_card"
               data-dx={card.x}
@@ -51,7 +44,7 @@ const caption = project?.researchCaption || ph;
             >
               {card.image
                 ? (
-                  <button type="button" class="presearch_card-inner" data-full={card.image}>
+                  <button type="button" class="presearch_card-inner" data-full={card.image} data-index={i}>
                     <img src={card.image} alt="" loading="lazy" />
                   </button>
                 )
@@ -74,12 +67,16 @@ const caption = project?.researchCaption || ph;
   if (section) {
     const cards = section.querySelectorAll<HTMLElement>(".presearch_card");
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cardsWrap = section.querySelector<HTMLElement>(".presearch_cards");
+    const images: string[] = JSON.parse(cardsWrap?.dataset.images || "[]");
 
     section.addEventListener("click", (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLElement>(".presearch_card-inner[data-full]");
       if (!btn?.dataset.full) return;
       document.dispatchEvent(
-        new CustomEvent("project-lightbox:open", { detail: { src: btn.dataset.full } }),
+        new CustomEvent("project-lightbox:open", {
+          detail: { images, index: Number(btn.dataset.index) || 0 },
+        }),
       );
     });
 

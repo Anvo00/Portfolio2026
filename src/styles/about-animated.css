@@ -1,29 +1,9 @@
-/* =========================================================
-   ABOUT (ANIMATED)  —  "HI, I'M VITO"
-   Scroll-pinned, scrub-driven build-up of the About composition.
-   The page locks full-frame (100svh) and, as you scroll, the scene
-   assembles itself:
-     1. the portrait rises up from the bottom, revealed through its frame
-     2. two blue cards slide out from behind the photo (a subtle fan) while
-        the "HI, I'M VITO" wordmark rises up from under a mask, small
-     3. that small label grows into the mega headline that wraps the photo
-        (the photo covers the "'M")
-     4. only once the headline is big, the tagline reveals word-by-word
-     5. the CTA fades in
-   This file describes the FINAL (resting) composition + the masks. The
-   intro states + motion live in the component's <script> (GSAP), so users
-   with `prefers-reduced-motion` simply get this static layout, no animation.
-   ========================================================= */
-
 .abouta {
   height: 100vh;
   height: 100svh;
   overflow: hidden;
 }
 
-/* Content fills the frame. The stage (photo + headline) is the only in-flow
-   child, so it centres in the viewport; the tagline + CTA are pinned to the
-   bottom (see .abouta_bottom) and therefore don't pull the stage upward. */
 .abouta_inner {
   position: relative;
   height: 100vh;
@@ -35,13 +15,11 @@
   padding-inline: var(--grid-margin);
 }
 
-/* Tagline + CTA, anchored to the lower third of the frame, centred. Sits just
-   below the (lifted) photo so the two read as one connected composition. */
 .abouta_bottom {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(40px, 12vh, 120px);
+  bottom: clamp(24px, 8vh, 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,11 +27,6 @@
   padding-inline: var(--grid-margin);
 }
 
-/* ---------- Stage: headline + overlapping photo ----------
-   Headline and photo are stacked in the SAME grid cell (both at 1/1), so they
-   overlap centred. The photo is a real grid item (not absolutely positioned),
-   so GSAP is free to scale the whole photo+cards group via transform, and the
-   cell naturally reserves the photo's height — keeping the tagline below it. */
 .abouta_stage {
   position: relative;
   width: 100%;
@@ -68,9 +41,6 @@
   text-align: center;
 }
 
-/* Mask wrapper: clips the wordmark so it can be revealed by sliding up from
-   underneath. GSAP scales THIS element for the grow — because the text fits
-   it exactly, the overflow:hidden never clips the glyphs while scaling. */
 .abouta_htext-mask {
   display: inline-block;
   overflow: hidden;
@@ -79,7 +49,6 @@
   will-change: transform;
 }
 
-/* Sized so "HI, I'M VITO" fits one line, edge to edge. */
 .abouta_htext {
   display: inline-block;
   font-family: var(--font-display);
@@ -91,14 +60,10 @@
   will-change: transform;
 }
 .abouta_pivot {
-  /* the "'M" — ends up hidden behind the photo in the final composition */
   font-style: normal;
 }
 
-/* ---------- Portrait + fanned blue cards ----------
-   Stacked in the stage's grid cell (1/1) and centred. position:relative makes
-   it the containing block for the mask + cards, and leaves `transform` free
-   for GSAP to scale the whole group. */
+
 .abouta_photo {
   grid-area: 1 / 1;
   position: relative;
@@ -112,8 +77,7 @@
   will-change: transform;
 }
 
-/* The frame that masks the portrait. overflow:hidden lets the image rise up
-   into view from below (revealed by the frame). */
+
 .abouta_mask {
   position: absolute;
   inset: 0;
@@ -131,9 +95,6 @@
   border-radius: 12px;
 }
 
-/* Two accent cards, a subtle fan behind the photo. GSAP slides them out from
-   a stacked position directly behind the photo; these transforms are the
-   resting/fanned state (kept deliberately tight, matching the reference). */
 .abouta_card {
   position: absolute;
   inset: 0;
@@ -151,7 +112,6 @@
   transform: rotate(5deg) translate(7%, 4%);
 }
 
-/* ---------- Tagline (word-by-word reveal) ---------- */
 .abouta_tagline {
   max-width: 60ch;
   text-align: center;
@@ -159,8 +119,7 @@
   font-weight: 500;
   line-height: 1.5;
 }
-/* Each word is its own inline-block so GSAP can fade it in individually.
-   Spaces between words are plain text nodes, so wrapping still works. */
+
 .abouta_word {
   display: inline-block;
 }

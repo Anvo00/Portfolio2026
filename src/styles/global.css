@@ -1,14 +1,3 @@
-/* =========================================================
-   GLOBAL STYLES
-   Design tokens, font faces, reset and layout primitives.
-   Imported once via Base.astro so every page shares it.
-   ========================================================= */
-
-/* ---------- FONT FACES ----------
-   @font-face rules are emitted from Base.astro instead of here — var()
-   custom properties aren't supported inside @font-face, so the base-prefixed
-   font URLs are inlined there as literal strings. */
-
 /* ---------- DESIGN TOKENS ---------- */
 :root {
   /* Palette */
@@ -69,10 +58,6 @@
   box-sizing: border-box;
 }
 
-/* NB: no CSS `scroll-behavior: smooth` here — it conflicts with GSAP
-   ScrollTrigger scrubbing (causes lag/jank). In-page anchor links are
-   smooth-scrolled via JS in Base.astro instead. */
-
 body {
   background: var(--bg);
   color: var(--fg);
@@ -84,15 +69,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* =========================================================
-   INTRO / PAGE-TRANSITION coordination
-   `data-transition` is set on <html> (inline head script in Base.astro):
-     full → homepage first-open / refresh  → run the full intro (#intro)
-     logo → page-to-page navigation        → run the logo transition (#page-transition)
-     none → project→project or direct open → no overlay
-   Lock scroll while an overlay is playing; show only the relevant overlay
-   (set from the head script before paint, so there's no flash).
-   ========================================================= */
 html[data-transition="full"],
 html[data-transition="logo"] {
   overflow: hidden;
@@ -139,7 +115,7 @@ ul {
 
 /* Centred page container capped at the 1440px design width. */
 .container {
-  width: 100%;
+  width: 100vw;
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: var(--grid-margin);

@@ -9,13 +9,6 @@
   color: var(--fg);
 }
 
-/*
- * The composition below is authored at one fixed, natural size (matching
- * the reference layout). info.astro measures it and sets --info-scale so
- * the whole thing scales down uniformly to fit any viewport, keeping every
- * proportion intact instead of reflowing. Starts hidden to avoid a flash of
- * unscaled content before the first measurement lands.
- */
 .info_stage {
   --info-scale: 1;
   transform: scale(var(--info-scale));
@@ -25,8 +18,7 @@
 .info_stage.is-ready {
   visibility: visible;
 }
-/* No-JS fallback (see Base.astro's html.no-js toggle): show it unscaled
-   rather than leaving the page permanently blank. */
+
 html.no-js .info_stage {
   visibility: visible;
   transform: none;
@@ -226,11 +218,6 @@ html.no-js .info_stage {
   font-size: 24px;
 }
 
-/* =========================================================
-   RESPONSIVE — stack the two columns on narrow screens.
-   Below this breakpoint the fixed-size/scale-to-fit composition above
-   is dropped in favour of a normal, scrollable stacked flow.
-   ========================================================= */
 @media (max-width: 900px) {
   .info {
     overflow: auto; /* allow scroll when it can't fit one screen */

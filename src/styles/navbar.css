@@ -7,8 +7,7 @@
   display: flex;
   justify-content: center;
 }
-/* While the index is open, lift the navbar above the overlay so the corner
-   button keeps working as the close (X) control. */
+
 html.menu-open .nav {
   z-index: 600;
 }
@@ -17,8 +16,6 @@ html.menu-open .nav {
   position: relative;
   width: 80%;
   height: 64px;
-  /* Concrete % values instead of `auto` so CSS can interpolate the transition.
-     (100% − 80%) / 2 = 10% → centred. `auto` is not interpolable in CSS. */
   margin-inline-start: 10%;
   margin-inline-end: 10%;
   background: var(--black);
@@ -141,8 +138,6 @@ html.menu-open .nav_menu-btn {
   pointer-events: auto;
 }
 
-/* When the index is open the corner button becomes the close control:
-   light-grey square + dark icon (per the reference). */
 html.menu-open .navbar {
   background: rgba(14, 14, 14, 0.08);
 }
@@ -228,9 +223,6 @@ html.menu-open .menu {
   transition: color 0.3s ease, font-weight 0.3s ease;
 }
 
-/* Hover (or keyboard focus) — fill the whole band blue + bold white label.
-   The key column sits ABOVE this fill (see below), so the black keys stay
-   black and only the cream gaps + the right side turn blue. */
 .menu_row:hover,
 .menu_row:focus-visible {
   background-color: var(--accent);

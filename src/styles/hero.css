@@ -40,9 +40,6 @@
   margin: 0;
 }
 
-/* The stage wraps the title; its size matches the reference (~69% of a
-   1440 canvas) and is also capped by viewport height so it never forces
-   the section past one screen. Illustrations are positioned against it. */
 .hero_stage {
   position: relative;
   display: block;
@@ -132,8 +129,6 @@
 
 /* =========================================================
    RESPONSIVE
-   Decoration offsets are in % of the stage, so they scale automatically.
-   On phones the stage widens to use the available space.
    ========================================================= */
 @media (max-width: 768px) {
   .hero_inner {

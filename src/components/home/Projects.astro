@@ -1,34 +1,7 @@
 ---
-/**
- * Projects — scroll-pinned "vinyl turntable" project browser.
- *
- * A self-contained block: drop it anywhere on a page. The STAGE pins itself
- * when it reaches the centre of the viewport (the "Progetti" title stays above,
- * outside the pinned frame) and the scroll scrubs the scene. Snapping makes it
- * settle on each project — scroll, it pauses, then advances to the next.
- * Every step advances one project:
- *
- *   • the LEFT slider handle drops one notch and its number counts up (01…N)
- *   • the CENTRE vinyl rotates a few degrees
- *   • the RIGHT folder slides up under a mask while the next folder rises from
- *     the bottom into its place
- *   • the active YEAR badge (2025 / 2026) follows the current project
- *
- * When the last project is reached the stage unpins and the page continues.
- * Order + links are defined below; the step count adapts to the list length.
- *
- * Reduced-motion users get the static resting composition (project 01, no pin).
- */
 import "../../styles/projects.css";
-import { projects } from "../../data/projects.js";
 import { withBase } from "../../lib/base";
 
-/* Year is the single source of truth in projects.js — look it up by page URL so
-   the badge never drifts if a project's year changes there. */
-const yearByUrl = Object.fromEntries(projects.map((p) => [p.url, p.year]));
-
-/* The folders on the right, in display order. Each folder PNG links to its
-   project page. (Folder art lives in /public/projects/…) */
 const folders = [
   { img: "/projects/icebreaker_brief/Icebreaker_Brief@2x.png", url: "/progetti/icebreaker" },
   { img: "/projects/maschera/Maschera_Steinberg@2x.png", url: "/progetti/maschera-di-steinberg" },
@@ -43,7 +16,6 @@ const steps = folders.map((f, i) => ({
   number: String(i + 1).padStart(2, "0"),
   url: f.url,
   img: f.img,
-  year: yearByUrl[f.url] ?? "2025",
 }));
 
 const first = steps[0];
@@ -78,22 +50,14 @@ const count = steps.length;
           <img class="proj_vinyl" src={withBase("/images/projects/vinyl_turntable.svg")} alt="" aria-hidden="true" />
           <img class="proj_arrow" src={withBase("/images/projects/arrow.svg")} alt="" aria-hidden="true" />
           <img class="proj_testina" src={withBase("/images/projects/testina.svg")} alt="" aria-hidden="true" />
-
-          <!-- Year badges; the active one is highlighted, the other dimmed. -->
-          <div class="proj_years" aria-hidden="true">
-            <img class="proj_year" data-year="2025" src={withBase("/images/projects/button_2025.svg")} alt="" />
-            <img class="proj_year" data-year="2026" src={withBase("/images/projects/button_2026.svg")} alt="" />
-          </div>
         </div>
 
-        <!-- ============ RIGHT: masked folder carousel ============
-             The window is the mask; the track holds one folder per project and
-             slides up a notch each step (current exits top, next enters bottom). -->
+        <!-- ============ RIGHT: masked folder carousel ============ -->
         <div class="proj_folder" aria-label="Progetti">
           <div class="proj_folder-track">
             {
               steps.map((s) => (
-                <a class="proj_card" href={withBase(s.url)} data-year={s.year} aria-label={`Apri il progetto ${s.number}`}>
+                <a class="proj_card" href={withBase(s.url)} aria-label={`Apri il progetto ${s.number}`}>
                   <img class="proj_card-img" src={withBase(s.img)} alt="" loading="eager" decoding="async" />
                 </a>
               ))
@@ -183,6 +147,7 @@ const count = steps.length;
             duration: { min: 0.2, max: 0.5 },
             delay: 0.06,
             ease: "power1.inOut",
+            directional: false,
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,

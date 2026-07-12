@@ -1,13 +1,3 @@
-/**
- * Circular (curved) WebGL gallery — vanilla port of the React/ogl component.
- * Drag or wheel (while hovering) to scrub; it curves and loops seamlessly.
- *
- * Ported faithfully from the provided component; the only behavioural change
- * is that wheel events are bound to the CONTAINER (not window) so scrolling
- * the page elsewhere doesn't move the gallery.
- *
- * Usage: initCircularGallery(container, { items, bend, borderRadius, ... })
- */
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from "ogl";
 
 function debounce(func, wait) {
@@ -374,6 +364,7 @@ class App {
   }
 
   onTouchUp() {
+    if (!this.isDown) return;
     this.isDown = false;
     this.onCheck();
     // A tap/click (negligible drag) opens the image under the pointer instead
@@ -414,6 +405,14 @@ class App {
     const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
     const item = width * itemIndex;
     this.scroll.target = this.scroll.target < 0 ? -item : item;
+  }
+
+  scrollByItems(dir) {
+    if (!this.medias || !this.medias[0]) return;
+    const width = this.medias[0].width;
+    const current = Math.round(this.scroll.target / width);
+    this.scroll.target = (current + dir) * width;
+    this.wake();
   }
 
   onResize() {

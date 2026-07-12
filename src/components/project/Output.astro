@@ -1,11 +1,4 @@
 ---
-/**
- * Output — caption + a simple inline (single-row) carousel, scrollable
- * horizontally. Each photo keeps its natural aspect ratio (fixed row
- * height, width auto — no cropping); module count is variable (driven by
- * outputImages, falling back to `count` placeholders). Clicking a photo
- * opens it in the shared project lightbox (see Lightbox.astro).
- */
 import "../../styles/project/output.css";
 import { withBase } from "../../lib/base";
 
@@ -42,11 +35,11 @@ const caption = project?.outputCaption || ph;
     }
     <p class="pcaption">{caption}</p>
 
-    <div class="poutput_grid">
+    <div class="poutput_grid" data-images={JSON.stringify(images)}>
       {
-        modules.map((src) =>
+        modules.map((src, i) =>
           src ? (
-            <button type="button" class="poutput_mod" data-full={src}>
+            <button type="button" class="poutput_mod" data-full={src} data-index={i}>
               <img src={src} alt="" loading="lazy" />
             </button>
           ) : (
@@ -62,12 +55,46 @@ const caption = project?.outputCaption || ph;
 
 <script>
   const grid = document.querySelector<HTMLElement>(".poutput_grid");
+  const images: string[] = JSON.parse(grid?.dataset.images || "[]");
+
+  let isDown = false;
+  let startX = 0;
+  let startLeft = 0;
+  let moved = 0;
+
+  grid?.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse") return;
+    isDown = true;
+    moved = 0;
+    startX = e.clientX;
+    startLeft = grid.scrollLeft;
+    grid.classList.add("is-dragging");
+  });
+
+  window.addEventListener("pointermove", (e) => {
+    if (!isDown || !grid) return;
+    const dx = e.clientX - startX;
+    moved = Math.max(moved, Math.abs(dx));
+    grid.scrollLeft = startLeft - dx;
+  });
+
+  window.addEventListener("pointerup", () => {
+    if (!isDown || !grid) return;
+    isDown = false;
+    grid.classList.remove("is-dragging");
+  });
 
   grid?.addEventListener("click", (e) => {
+    if (moved > 5) {
+      e.preventDefault();
+      return;
+    }
     const btn = (e.target as HTMLElement).closest<HTMLElement>(".poutput_mod[data-full]");
     if (!btn?.dataset.full) return;
     document.dispatchEvent(
-      new CustomEvent("project-lightbox:open", { detail: { src: btn.dataset.full } }),
+      new CustomEvent("project-lightbox:open", {
+        detail: { images, index: Number(btn.dataset.index) || 0 },
+      }),
     );
   });
 </script>

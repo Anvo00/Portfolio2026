@@ -1,10 +1,5 @@
 import gsap from "gsap";
 
-/*
- * Full intro (logo + "HI, I'm Vito"). Runs only on a fresh homepage
- * open/refresh — i.e. html[data-transition="full"]. Otherwise the overlay
- * is hidden (the page-transition overlay handles navigations instead).
- */
 const root = document.documentElement;
 
 if (root.dataset.transition !== "full") {
@@ -31,8 +26,6 @@ if (root.dataset.transition !== "full") {
 
   // === STEP 1 - HI ===
 
-  /* The start state (scale 0.6 / opacity 0) lives in intro.css so "HI" never
-     flashes before GSAP runs; here we just animate it to its natural state. */
   tl.to(
     ".phrase1 .mask_inner",
     {
@@ -59,7 +52,7 @@ if (root.dataset.transition !== "full") {
 
   tl.to(".guide", { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
 
-  tl.to(".intro_text", { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, "+=0.2");
+  tl.to(".intro_text", { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, "+=0.1");
 
   /* Misura la larghezza del contenuto restante */
   function getRestWidth() {
@@ -74,15 +67,15 @@ if (root.dataset.transition !== "full") {
   // === LOGO ANIMATION ===
 
   tl.set("#logo", { opacity: 1 });
-  tl.to(outline, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" });
-  tl.to("#logo-fill", { opacity: 1, duration: 0.6, ease: "power2.out" }, "+=0.1");
-  tl.to(outline, { opacity: 0, duration: 0.4, ease: "power2.out" }, "<0.5");
+  tl.to(outline, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut"});
+  tl.to("#logo-fill", { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.01");
+  tl.to(outline, { opacity: 0, duration: 0.5, ease: "power2.out" }, "<0.5");
 
   // === TRANSIZIONE ===
-  tl.addLabel("toHome", "+=0.15");
-  tl.to("#logo", { scale: 32, transformOrigin: "center center", duration: 0.65, ease: "power2.inOut" }, "toHome");
-  tl.to("#intro", { backgroundColor: "rgba(14,14,14,0)", duration: 0.6, ease: "power2.inOut" }, "toHome");
-  tl.to("#logo", { autoAlpha: 0, duration: 0.65, ease: "power2.inOut" }, "toHome");
+  tl.addLabel("toHome", "<0.03");
+  tl.to("#logo", { scale: 32, transformOrigin: "center center", duration: 0.55, ease: "power2.inOut" }, "toHome");
+  tl.to("#intro", { backgroundColor: "rgba(14,14,14,0)", duration: 0.55, ease: "power2.inOut" }, "toHome");
+  tl.to("#logo", { autoAlpha: 0, duration: 0.55, ease: "power2.inOut" }, "toHome");
   tl.set("#intro", { display: "none" }); // Per rimuovere l'overlay
   tl.call(() => {
     window.scrollTo(0, 0); // ensure scroll is at top before releasing overflow lock

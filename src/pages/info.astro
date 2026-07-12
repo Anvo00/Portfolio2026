@@ -1,12 +1,4 @@
 ---
-/**
- * Info — static, full-frame "about / info" page reached from the About
- * animation's "SCOPRI DI PIÚ" CTA. The LAYOUT mirrors the supplied reference;
- * the palette, fonts and photo are the portfolio's own.
- *
- * NOTE: the copy below (lead/body, status, and especially the skills lists)
- * is placeholder content — swap it for Vito's real details.
- */
 import Base from "../layouts/Base.astro";
 import "../styles/info.css";
 import { withBase } from "../lib/base";
@@ -119,11 +111,6 @@ const skills = [
   </main>
 
   <script>
-    // Desktop composition is authored at a fixed natural size (see info.css);
-    // this scales the whole thing uniformly to fit the viewport, so nothing
-    // is ever cropped and every proportion stays exactly as designed. Below
-    // the 900px breakpoint info.css switches to a normal scrolling layout
-    // and this script is a no-op (transform is reset there via CSS).
     const stage = document.getElementById("infoStage");
 
     function fitStage() {
@@ -138,8 +125,6 @@ const skills = [
 
     fitStage();
     window.addEventListener("resize", fitStage);
-    // Re-measure once webfonts swap in — their metrics can shift the
-    // stage's natural size slightly from the fallback-font measurement.
     if ("fonts" in document) document.fonts.ready.then(fitStage);
   </script>
 </Base>

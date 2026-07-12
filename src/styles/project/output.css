@@ -1,14 +1,5 @@
-/* =========================================================
-   OUTPUT — simple inline carousel (single row, horizontal scroll)
-   Each photo keeps its natural ratio (fixed row height, width auto)
-   instead of being cropped into a fixed cell.
-   ========================================================= */
-
 .poutput_grid {
   display: flex;
-  /* "safe" keeps normal left-aligned/scrollable behaviour once the row
-     overflows; when the photos don't fill the width, it centres the group
-     instead of leaving them stuck to the left. */
   justify-content: safe center;
   gap: 24px;
   width: 100%;
@@ -17,6 +8,12 @@
   padding-bottom: 8px; /* room for the scrollbar so it doesn't hug the photos */
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+
+.poutput_grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 
 .poutput_mod {
@@ -28,7 +25,7 @@
   background: none;
   border-radius: 8px;
   overflow: hidden;
-  cursor: zoom-in;
+  cursor: grabbing;
   scroll-snap-align: start;
 }
 
@@ -43,6 +40,8 @@
   width: auto;
   border-radius: inherit;
   transition: transform 0.3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .poutput_mod:hover img {

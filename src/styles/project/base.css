@@ -1,16 +1,10 @@
-/* =========================================================
-   PROJECT PAGE — shared styles
-   Layout follows the homepage: 12-col / 24px gutter / 24px margins,
-   1440 max width. Section rhythm scales toward the 128px reference.
-   ========================================================= */
-
 .project {
   background: var(--white);
   color: var(--black);
-  /* 128px between each section (single gap, not doubled padding). */
+  /* 72px between each section (single gap, not doubled padding). */
   display: flex;
   flex-direction: column;
-  gap: clamp(72px, 9vw, 128px);
+  gap: clamp(48px, 8vw, 72px);
 }
 
 .psection {
@@ -23,7 +17,7 @@
   flex-direction: column;
   align-items: center;
   /* gap between the section title and its content */
-  gap: clamp(40px, 5vw, 80px);
+  gap: clamp(32px, 4vw, 64px);
 }
 
 /* ---------- Media placeholders (stand in for images) ---------- */
@@ -44,7 +38,6 @@
 }
 
 /* ---------- Text blocks ---------- */
-/* Centred narrow column (Brief). */
 .ptext-narrow {
   max-width: 54ch;
   margin-inline: auto;
@@ -56,7 +49,6 @@
   line-height: 1.7;
 }
 
-/* Two columns (Concept / Conclusion). */
 .ptext-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -73,7 +65,6 @@
   gap: var(--space-4);
 }
 
-/* Caption beneath a media block. */
 .pcaption {
   max-width: 60ch;
   margin-inline: auto;

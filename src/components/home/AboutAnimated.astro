@@ -1,22 +1,4 @@
 ---
-/**
- * AboutAnimated — scroll-pinned "HI, I'M VITO" reveal.
- *
- * A self-contained block: drop it anywhere on a page and it pins itself
- * full-frame and scrubs the animation to the scroll position (stop
- * scrolling → animation stops). It builds up to the resting "HI, I'M VITO"
- * composition.
- *
- * Animation (GSAP + ScrollTrigger, see <script> below):
- *   1. the portrait rises up from the bottom, revealed through its frame
- *   2. two blue cards slide out from behind the photo (subtle fan) while the
- *      wordmark rises up from under a mask, small, below the photo
- *   3. that small label grows into the mega headline that wraps the photo
- *   4. only once the headline is big, the tagline reveals word-by-word
- *   5. the "SCOPRI DI PIÚ" CTA fades in
- *
- * Reduced-motion users get the static resting composition (no pin/scrub).
- */
 import "../../styles/about-animated.css";
 import { withBase } from "../../lib/base";
 
@@ -24,6 +6,7 @@ const taglineLines = [
   "Graphic Designer e Web Developer.",
   "Il mio sogno? Ridare al mondo i suoi colori",
 ];
+
 // Split each line into words so each can be revealed individually.
 const taglineWords = taglineLines.map((line) => line.split(" "));
 ---
@@ -31,8 +14,6 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
 <section class="abouta section" id="about" data-about-animated>
   <div class="abouta_inner">
     <div class="abouta_stage">
-      <!-- One continuous wordmark; the photo overlaps its centre ("'M").
-           Wrapped in a mask so it can be revealed sliding up from below. -->
       <p class="abouta_headline" aria-label="Hi, I'm Vito">
         <span class="abouta_htext-mask" aria-hidden="true">
           <span class="abouta_htext"
@@ -45,8 +26,6 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
         <span class="abouta_card abouta_card--left"></span>
         <span class="abouta_card abouta_card--right"></span>
         <span class="abouta_mask">
-          <!-- eager + async decode so the large image is ready before the
-               user scrolls here, keeping the scrubbed animation smooth. -->
           <img
             src={withBase("/images/personal_photo_about.jpg")}
             alt="Ritratto di Vito Giacobelli"
@@ -59,10 +38,7 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
       </figure>
     </div>
 
-    <!-- Tagline + CTA are anchored to the bottom of the frame so they don't
-         pull the stage (photo + headline) upward — the stage stays centred. -->
     <div class="abouta_bottom">
-      <!-- aria-label carries the full text; the per-word spans are decorative. -->
       <p class="abouta_tagline" aria-label={taglineLines.join(" ")}>
         {
           taglineWords.map((words, li) => (
@@ -90,12 +66,8 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Track contexts so we can tear everything down on hot reload — otherwise
-  // dev HMR stacks a fresh timeline on top of the old one and you see two
-  // animations running over each other.
   const contexts: ReturnType<typeof gsap.context>[] = [];
 
-  /** Build the pinned, scrubbed timeline for one AboutAnimated section. */
   function build(section: HTMLElement) {
     const ctx = gsap.context(() => {
       const photoImg = section.querySelector<HTMLElement>(".abouta_mask img");
@@ -111,9 +83,6 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
       if (!photoImg || !photo || !stage || !htextMask || !htext || !cardL || !cardR || !cta) {
         return;
       }
-
-      // matchMedia handles the reduced-motion fork: only the no-preference
-      // branch animates, so reduced-motion users keep the static CSS layout.
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -123,7 +92,7 @@ const taglineWords = taglineLines.map((line) => line.split(" "));
         gsap.set([cardL, cardR], { autoAlpha: 0, xPercent: 0, yPercent: 0, rotate: 0 });
         gsap.set(htextMask, {
           scale: 0.26, // small label…
-          y: () => photo.offsetHeight * 0.72, // …sitting well below the photo
+          y: () => photo.offsetHeight * 0.78, // …sitting well below the photo
           transformOrigin: "center center",
         });
         gsap.set(htext, { yPercent: 125 }); // below its mask, hidden

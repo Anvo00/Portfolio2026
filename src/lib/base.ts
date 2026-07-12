@@ -4,9 +4,7 @@
  * site is served from a subfolder on GitHub Pages (anvo00.github.io/<base>/).
  *
  * External URLs (http:, mailto:, tel:), protocol-relative URLs and bare in-page
- * anchors (#id) are returned untouched. Root-absolute CSS url() paths (e.g.
- * `url("/fonts/x.woff2")`) are NOT rewritten by Vite — those are exposed as
- * base-prefixed CSS custom properties in Base.astro instead (--font-*, --pattern-*).
+ * anchors (#id) are returned untouched.
  */
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, ""); // "" when base is "/"
 

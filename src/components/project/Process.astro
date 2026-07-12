@@ -1,10 +1,4 @@
 ---
-/**
- * Process ("PROCESSO") — curved WebGL gallery (ogl). Drag or wheel-over to
- * scrub; it bends and loops seamlessly. Photo count is variable, driven by
- * processImages (falling back to `count` placeholders). Tapping/clicking a
- * (non-placeholder) photo opens it in the shared project lightbox.
- */
 import "../../styles/project/process.css";
 import { withBase } from "../../lib/base";
 
@@ -26,13 +20,27 @@ const caption = project?.processCaption || ph;
   <div class="container psection_inner">
     <h2 class="section-title">Processo</h2>
 
-    <div
-      class="pprocess_gallery"
-      data-count={count}
-      data-images={JSON.stringify(images)}
-      role="img"
-      aria-label="Galleria del processo"
-    ></div>
+    <div class="pprocess_wrap">
+      <button type="button" class="pprocess_arrow pprocess_arrow--prev" data-gallery-prev aria-label="Immagine precedente">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+
+      <div
+        class="pprocess_gallery"
+        data-count={count}
+        data-images={JSON.stringify(images)}
+        role="img"
+        aria-label="Galleria del processo"
+      ></div>
+
+      <button type="button" class="pprocess_arrow pprocess_arrow--next" data-gallery-next aria-label="Immagine successiva">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
 
     <p class="pcaption">{caption} <span class="pprocess_hint">— trascina o scorri per esplorare</span></p>
   </div>
@@ -63,7 +71,7 @@ const caption = project?.processCaption || ph;
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          initCircularGallery(el, {
+          const app = initCircularGallery(el, {
             items,
             bend: 3,
             borderRadius: 0.05,
@@ -72,11 +80,16 @@ const caption = project?.processCaption || ph;
               const src = images[index]; // undefined for placeholder slots — no-op
               if (src) {
                 document.dispatchEvent(
-                  new CustomEvent("project-lightbox:open", { detail: { src } }),
+                  new CustomEvent("project-lightbox:open", { detail: { images, index } }),
                 );
               }
             },
           });
+
+          const wrap = el.closest(".pprocess_wrap");
+          wrap?.querySelector("[data-gallery-prev]")?.addEventListener("click", () => app.scrollByItems(-1));
+          wrap?.querySelector("[data-gallery-next]")?.addEventListener("click", () => app.scrollByItems(1));
+
           io.disconnect();
         }
       },

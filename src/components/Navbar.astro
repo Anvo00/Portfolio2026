@@ -2,9 +2,6 @@
 import "../styles/navbar.css";
 import { withBase } from "../lib/base";
 
-// Centre links shown in the full pill (top of page). Absolute targets so they
-// work from any page (in-page ones smooth-scroll on the homepage — see Base).
-// ABOUT points to the static /info page, not the homepage section.
 const links = [
   { label: "HOME", href: "/" },
   { label: "ABOUT", href: "/info" },
@@ -18,11 +15,6 @@ const menu = [
   { label: "ABOUT", href: "/info" },
 ];
 
-// Decorative piano-key bars (left column). One black key sits centred on each
-// line BETWEEN the white-key rows (plus a half-key on the top & bottom edges),
-// so the cream gaps land over the row labels. `b` = black key vs cream gap;
-// `f` = flex ratio (share of the column height). Generated from the row count so
-// it always stays aligned if rows are added/removed.
 const ROW_F = 30; // one white-key row's height
 const KEY_F = 15; // a full black key's thickness (≈ half a row)
 const keys = [];
@@ -118,9 +110,7 @@ for (let i = 0; i <= menu.length; i++) {
   const btn = document.querySelector<HTMLButtonElement>(".nav_menu-btn");
   const overlay = document.getElementById("menu-index");
 
-  /* ---- Collapse the pill into the corner button on scroll ----
-     State lives on <html> (`nav-compact`) so the button — which sits outside
-     the navbar's stacking context — can react to it too. */
+  /* ---- Collapse the pill into the corner button on scroll ---- */
   let compact = false;
   const onScroll = () => {
     if (root.dataset.transition === "full") return; // intro playing — stay expanded

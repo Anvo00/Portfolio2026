@@ -1,10 +1,7 @@
 .intro {
   position: fixed;
   inset: 0;
-  /* Above the navbar (z-index 100) so the navbar stays hidden during the
-     intro and only appears once the overlay clears. */
   z-index: 1000;
-  /* Dark intro (this project's root --bg is light, so pin it explicitly). */
   background: var(--black);
   display: grid;
   place-items: center;
@@ -54,8 +51,6 @@
   display: inline-block;
 }
 
-/* Start "HI" hidden (matches intro.js's reveal) so it doesn't flash full-size
-   for a frame before GSAP initialises. */
 .phrase1 .mask_inner {
   opacity: 0;
   transform: scale(0.6);

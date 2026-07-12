@@ -17,12 +17,6 @@ const {
   description = "Portfolio di Vito Giacobelli — Graphic Designer e Web Developer, MA Graphic Design, Accademia Italiana (Firenze).",
 } = Astro.props;
 
-// CSS url() with a root-absolute path (e.g. "/fonts/x.woff2") is left
-// untouched by Vite, so it never picks up the site's base ("/Portfolio2026").
-// Background-image url()s are fixed with base-prefixed CSS custom properties
-// (var() works fine there, it's tied to an element). @font-face is different:
-// it isn't tied to an element, so var() is not supported inside it per spec —
-// those rules are emitted here as literal, already-prefixed strings instead.
 const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const assetVarsCss = `:root {
   --pattern-blue: url(${base}/projects/monogram/Monogram_Pattern_Blue.svg);
@@ -69,21 +63,12 @@ const assetVarsCss = `:root {
 <html lang="it" class="no-js">
   <head>
     <meta charset="UTF-8" />
-    <!-- Flip off the no-js fallback ASAP so JS-driven animations can init. -->
     <script is:inline>
       document.documentElement.classList.remove("no-js");
     </script>
 
-    <!--
-      Decide which intro/transition to play, BEFORE first paint (no flash):
-        full → homepage opened fresh or refreshed  → full intro
-        logo → navigated between pages (not project→project) → logo transition
-        none → project→project, or a direct open/refresh of a non-home page
-    -->
     <script is:inline define:vars={{ base: import.meta.env.BASE_URL }}>
       (function () {
-        // Strip the site base ("/Portfolio2026") so the path checks below work
-        // the same whether the site is at the root or in a subfolder.
         var BASE = base.replace(/\/+$/, "");
         var strip = function (p) {
           p = p.replace(/\/+$/, "") || "/";
@@ -117,9 +102,6 @@ const assetVarsCss = `:root {
         }
         document.documentElement.dataset.transition = mode;
 
-        // Browsers auto-restore the previous scroll position on reload (and on
-        // fresh loads of a URL visited before). Disable that except on real
-        // back/forward navigation, where restoring scroll is expected.
         if (history.scrollRestoration) {
           history.scrollRestoration = navType === "back_forward" ? "auto" : "manual";
         }
@@ -157,11 +139,6 @@ const assetVarsCss = `:root {
     <slot />
 
     <script>
-      // Smooth-scroll for in-page anchors. Done in JS (not CSS scroll-behavior)
-      // so it doesn't interfere with ScrollTrigger scrubbing. Handles both bare
-      // "#id" and absolute "/#id" / "/" links: if they resolve to the CURRENT
-      // page we scroll smoothly; links to a different page navigate normally
-      // (so nav links work from project pages too).
       document.addEventListener("click", (e) => {
         const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
         if (!link || link.target === "_blank") return;

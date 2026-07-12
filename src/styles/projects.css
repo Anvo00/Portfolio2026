@@ -1,23 +1,11 @@
-/* =========================================================
-   PROJECTS — scroll-pinned turntable browser
-   The section pins full-frame (100vh) while the scroll scrubs the
-   animation; see src/components/home/Projects.astro for the script.
-   ========================================================= */
-
 .projects {
   position: relative;
 }
 
-/* The stage itself is pinned (see the component script), so this wrapper just
-   gives the section breathing room; the title flows above the pinned stage. */
 .projects_pin {
   padding-block: var(--section-gap);
 }
 
-/* NB: block (not flex). ScrollTrigger pins .projects_stage, and pinSpacing
-   fails to reserve the pin distance when the pinned element is a flex/grid
-   child — so the container after it (the footer) would overlap. Block layout
-   keeps the pin-spacer honest. */
 .projects_inner {
   width: 100%;
   text-align: center; /* centres the title */
@@ -26,8 +14,6 @@
   margin-bottom: var(--space-8); /* title -> stage */
 }
 
-/* The stage lays the three groups across a 12-col-ish flow and acts as
-   the positioning context for the overlapping turntable parts. */
 .projects_stage {
   position: relative;
   width: 100%;
@@ -38,7 +24,7 @@
 .proj_slider {
   position: absolute;
   left: 0%;
-  top: 60%;
+  top: 63%;
   transform: translateY(-50%);
   width: clamp(70px, 8%, 110px);
   z-index: 4;
@@ -70,8 +56,8 @@
 /* ---------- CENTRE: turntable player ---------- */
 .proj_player {
   position: absolute;
-  left: 10%;
-  top: 50%;
+  left: 18%;
+  top: 53%;
   transform: translateY(-50%);
   width: clamp(320px, 42%, 520px);
   aspect-ratio: 1;
@@ -123,15 +109,10 @@
   opacity: 0.35;
 }
 
-/* ---------- RIGHT: masked folder carousel ----------
-   The folder box is the MASK (overflow:hidden). Inside, a track holds one
-   full-folder image per project; the script slides it up a notch each step so
-   the current folder exits the top while the next rises in from the bottom.
-   Aspect ratio matches the folder PNGs (1337 × 1603). */
 .proj_folder {
   position: absolute;
   right: 0;
-  top: 50%;
+  top: 53%;
   transform: translateY(-50%);
   width: clamp(260px, 30%, 400px);
   aspect-ratio: 1337 / 1603;
@@ -139,8 +120,6 @@
   z-index: 2;
 }
 
-/* The track box is one card tall (cards overflow below it); the script slides
-   it with yPercent, where -100% moves up exactly one folder. */
 .proj_folder-track {
   position: absolute;
   inset: 0;
@@ -161,9 +140,6 @@
 
 /* =========================================================
    RESPONSIVE
-   At narrow widths the composition stacks: player + slider on top,
-   folder below, so nothing collapses into an unreadable overlap.
-   The pin still works; the section just grows taller than one screen.
    ========================================================= */
 @media (max-width: 1024px) {
   .proj_player {
@@ -187,15 +163,12 @@
     gap: var(--space-8);
   }
 
-  /* Unset absolute positioning — flow the three groups vertically.
-     (The arrow + year flips stay absolute, anchored to the player.) */
   .proj_slider,
   .proj_player {
     position: static;
     transform: none;
   }
-  /* Keep the folder a positioned containing block so its masked window still
-     nests inside it (otherwise the window resolves against the stage). */
+  
   .proj_folder {
     position: relative;
     right: auto;

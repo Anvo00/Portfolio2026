@@ -48,8 +48,6 @@
   grid-area: 1 / 1; /* all start centred; inline transform fans them out */
   width: clamp(110px, 11vw, 160px);
   aspect-ratio: 3 / 4; /* rectangular, portrait (per mockup) */
-  /* will-change is applied by JS only for the duration of the reveal tween,
-     then cleared — keeping it on permanently pins a GPU layer per card. */
 }
 .presearch_card:hover {
   z-index: 50;
