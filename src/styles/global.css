@@ -58,6 +58,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--bg);
   color: var(--fg);
@@ -115,7 +119,7 @@ ul {
 
 /* Centred page container capped at the 1440px design width. */
 .container {
-  width: 100vw;
+  width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: var(--grid-margin);
